@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build-data": "node scripts/build-data.js",
+    "build-data": "mkdir -p ./public/cities && node scripts/build-data.js",
     "build": "npm run build-data && tsc && vite build",
     "preview": "npm run build && vite preview"
   },
