@@ -1,0 +1,23 @@
+.SearchCity form {
+    display: flex;
+    flex-direction: column;
+}
+
+.SearchCity label,
+.SearchCity .submit {
+    display: inline-flex;
+    margin: .5em 0;
+}
+
+.SearchCity .submit {
+    flex-direction: column;
+    align-items: center;
+}
+
+.SearchCity input[type=submit] {
+    width: 200px;
+}
+
+.SearchCity select {
+    flex-grow: 1;
+}
