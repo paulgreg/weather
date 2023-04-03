@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import request from './request'
+import request from './utils/request'
 import './SearchCity.css'
 
 type SearchCityType = {
@@ -14,7 +14,10 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
 
     useEffect(() => {
         ;(async () => {
-            const countries = await request<Countries>(`/cities/countries.json`)
+            const countries = await request<Countries>(
+                `/cities/countries.json`,
+                { public: true }
+            )
             setCountries(countries)
         })()
     }, [])
@@ -25,7 +28,8 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
             const [countryCode, country] = countryValue.split('-')
             ;(async () => {
                 const cities = await request<LightCity[]>(
-                    `/cities/${countryCode}.json`
+                    `/cities/${countryCode}.json`,
+                    { public: true }
                 )
                 setCities(cities)
                 setCountry({ code: countryCode, country })
@@ -92,7 +96,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                 <div className="submit">
                     <input
                         type="submit"
-                        value="add"
+                        value="➕ add"
                         disabled={!Boolean(city)}
                     />
                 </div>

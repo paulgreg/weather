@@ -14,10 +14,6 @@
     align-items: center;
 }
 
-.SearchCity input[type=submit] {
-    width: 200px;
-}
-
 .SearchCity select {
     flex-grow: 1;
 }

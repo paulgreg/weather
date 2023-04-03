@@ -1,0 +1,63 @@
+.CitiesListItem {
+    margin: auto auto 1em auto;
+    border-bottom: 1px dashed black;
+}
+
+.CitiesListItemHeader {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.CitiesListItemHeaderDetails {
+    display: flex;
+    text-align: right;
+}
+
+.CitiesListItemHeader div {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.CitiesListItemHeader h1 {
+    flex: 1;
+}
+
+.CitiesListItemCurrent {
+    display: flex;
+}
+
+.CitiesListItemHourlyList {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5em;
+}
+
+.CitiesListItemHourlyListItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.CitiesListItemDailyList {
+    display: flex;
+    overflow-x: auto;
+    gap: 1em;
+}
+
+.CitiesListItemDailyListItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.CitiesListItemAlert {
+    margin: 1em auto;
+}
+
+.CitiesListItemAlertListItemHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CitiesListItemAlertListItemHeader h3 {}
