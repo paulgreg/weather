@@ -1,7 +1,5 @@
-import { alert, OpenWeatherResponse } from './types/OpenWeatherTypes'
 import { useEffect, useState } from 'react'
 import { formatDate, formatTime } from './utils/Date'
-import { oneCallMock } from './utils/OpenWeatherMock'
 import './CitiesListItem.css'
 import {
     AnimatedWeatherIcon,
@@ -9,6 +7,8 @@ import {
     ThermometerIcon,
     WeatherIconSize,
 } from './components/WeatherIcon'
+import { alert, OpenWeatherResponse } from './types/OpenWeatherTypes'
+import request from './utils/request'
 
 type CitiesListItemType = {
     city: City
@@ -37,17 +37,16 @@ const CitiesListItem: React.FC<CitiesListItemType> = ({
             const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
             console.log('request url', url)
 
-            //request<OpenWeatherResponse>(url).then((data) => {
-            const data = oneCallMock
-            setWeather(data)
-            setAlerts(
-                (data?.alerts ?? []).filter(
-                    (alert) =>
-                        data.current.dt > alert.start &&
-                        data.current.dt < alert.end
+            request<OpenWeatherResponse>(url).then((data) => {
+                setWeather(data)
+                setAlerts(
+                    (data?.alerts ?? []).filter(
+                        (alert) =>
+                            data.current.dt > alert.start &&
+                            data.current.dt < alert.end
+                    )
                 )
-            )
-            //})
+            })
         }
     }, [city, apiKey, refreshKey, setWeather, setAlerts])
 
