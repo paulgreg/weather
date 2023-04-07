@@ -81,6 +81,10 @@ input:disabled {
   cursor: not-allowed;
 }
 
+p {
+  margin: .25em auto;
+}
+
 summary {
   font-size: 1.2em;
 }

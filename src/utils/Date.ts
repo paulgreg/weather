@@ -5,9 +5,11 @@ export const formatTime = (dt: number) => {
     return `${padTime(d.getHours())}:${padTime(d.getMinutes())}`
 }
 
+const pad = (n: number) => n.toString().padStart(2, '0')
+
 export const formatDate = (dt: number, idx: number) => {
     if (idx === 0) return 'today'
     if (idx === 1) return 'tomorrow'
     const d = new Date(dt * 1000)
-    return `${d.getDate()}/${d.getMonth()}`
+    return `${pad(d.getDate())}/${pad(d.getMonth())}`
 }

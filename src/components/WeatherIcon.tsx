@@ -27,7 +27,8 @@ import ThermometerHigh from '../assets/thermometer-high.svg'
 
 export const enum WeatherIconSize {
     XS = '20px',
-    S = '50px',
+    S = '30px',
+    M = '50px',
     L = '200px',
 }
 
@@ -103,7 +104,7 @@ const WeatherIcon: React.FC<{
     icon: OpenWeatherIcon
     animated: boolean
     size: WeatherIconSize
-}> = ({ icon, animated, size = WeatherIconSize.S }) => (
+}> = ({ icon, animated, size = WeatherIconSize.M }) => (
     <img
         src={animated ? getAnimatedIcon(icon) : getStaticdIcon(icon)}
         style={{
@@ -118,14 +119,14 @@ const WeatherIcon: React.FC<{
 export const AnimatedWeatherIcon: React.FC<{
     icon: OpenWeatherIcon
     size?: WeatherIconSize
-}> = ({ icon, size = WeatherIconSize.S }) => (
+}> = ({ icon, size = WeatherIconSize.M }) => (
     <WeatherIcon icon={icon} animated={true} size={size} />
 )
 
 export const StaticWeatherIcon: React.FC<{
     icon: OpenWeatherIcon
     size?: WeatherIconSize
-}> = ({ icon, size = WeatherIconSize.S }) => (
+}> = ({ icon, size = WeatherIconSize.M }) => (
     <WeatherIcon icon={icon} animated={false} size={size} />
 )
 

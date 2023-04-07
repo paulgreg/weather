@@ -72,18 +72,23 @@ const CitiesListItem: React.FC<CitiesListItemType> = ({
             {weather && (
                 <>
                     <div>
-                        <div className="CitiesListItemCurrent ">
-                            <div>
-                                <h2>Now</h2>
+                        <div className="CitiesListItemCurrent">
+                            <div className="CitiesListItemCurrentDesc">
+                                <div>
+                                    <div className="CitiesListItemCurrentDescTemp">
+                                        <ThermometerIcon
+                                            size={WeatherIconSize.S}
+                                        />
+                                        {Math.round(weather.current.temp)}°
+                                    </div>
+                                    <span>
+                                        feels like{' '}
+                                        {Math.round(weather.current.feels_like)}
+                                        °
+                                    </span>
+                                </div>
                                 <h3>{weather.current.weather[0].main}</h3>
                                 <p>{weather.current.weather[0].description}</p>
-                                <div>
-                                    <ThermometerIcon />
-                                    Temperature:{' '}
-                                    {Math.round(weather.current.temp)}° feels
-                                    like{' '}
-                                    {Math.round(weather.current.feels_like)}°
-                                </div>
                             </div>
                             <AnimatedWeatherIcon
                                 icon={weather.current.weather[0].icon}
@@ -91,20 +96,15 @@ const CitiesListItem: React.FC<CitiesListItemType> = ({
                             />
                         </div>
                         <h2>Next hours</h2>
-                        <div className="CitiesListItemHourlyList ">
+                        <div className="CitiesListItemList">
                             {weather.hourly.map((hourly) => (
                                 <div
-                                    className="CitiesListItemHourlyListItem"
+                                    className="CitiesListItemListItem CitiesListItemHourListItem"
                                     key={hourly.dt}
                                 >
                                     <span>{formatTime(hourly.dt)}</span>
-                                    <span
-                                        title={`feels like ${Math.round(
-                                            hourly.feels_like
-                                        )}°`}
-                                        tabIndex={0}
-                                    >
-                                        {Math.round(hourly.temp)}°
+                                    <span>
+                                        {Math.round(hourly.feels_like)}°
                                     </span>
                                     <StaticWeatherIcon
                                         icon={hourly.weather[0].icon}
@@ -113,20 +113,22 @@ const CitiesListItem: React.FC<CitiesListItemType> = ({
                             ))}
                         </div>
                         <h2>Next days</h2>
-                        <div className="CitiesListItemDailyList ">
+                        <div className="CitiesListItemList CitiesListDayItemList">
                             {weather.daily.map((daily, idx) => (
                                 <div
-                                    className="CitiesListItemDailyListItem"
+                                    className="CitiesListItemListItem CitiesListItemDayListItem"
                                     key={daily.dt}
                                 >
-                                    <span>{formatDate(daily.dt, idx)}</span>
-                                    <span>
-                                        <ThermometerIcon high={true} />
-                                        day: {Math.round(daily.temp.day)}°
+                                    <span className="CitiesListItemListItemDay">
+                                        {formatDate(daily.dt, idx)}
                                     </span>
-                                    <span>
+                                    <span className="CitiesListItemDayTemp CitiesListItemDayMaxTemp">
+                                        <ThermometerIcon high />
+                                        {Math.round(daily.temp.day)}°
+                                    </span>
+                                    <span className="CitiesListItemDayTemp">
                                         <ThermometerIcon />
-                                        night: {Math.round(daily.temp.night)}°
+                                        {Math.round(daily.temp.night)}°
                                     </span>
                                     <StaticWeatherIcon
                                         icon={daily.weather[0].icon}
