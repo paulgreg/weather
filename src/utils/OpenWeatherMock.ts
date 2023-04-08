@@ -1,5 +1,13 @@
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 
+type options = {
+    public?: boolean
+}
+export const requestMock = async (
+    url: string,
+    options?: options
+): Promise<OpenWeatherResponse> => Promise.resolve(oneCallMock)
+
 export const oneCallMock = {
     lat: 48.8534,
     lon: 2.3488,
