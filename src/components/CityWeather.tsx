@@ -30,7 +30,6 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     onDeleteCity,
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
-    const [alerts, setAlerts] = useState<alert[]>([])
 
     useEffect(() => {
         ;(async () => {
@@ -42,11 +41,6 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                     // const data = await request<OpenWeatherResponse>(url)
                     const data = await requestMock(url)
                     setWeather(data)
-                    setAlerts(
-                        (data?.alerts ?? []).filter(
-                            (alert) => data.current.dt < alert.end
-                        )
-                    )
                     onCityRefreshed(true)
                 } catch (e) {
                     console.error(e)
@@ -54,7 +48,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 }
             }
         })()
-    }, [refreshKey, city, apiKey, setWeather, setAlerts])
+    }, [refreshKey, city, apiKey, setWeather])
 
     return (
         <div className="CityWeatherItem">
@@ -87,7 +81,10 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                         listClassName="CityWeatherItemList"
                         itemClassName="CityWeatherItemItem"
                     />
-                    <WeatherAlerts alerts={alerts} />
+                    <WeatherAlerts
+                        dt={weather.current.dt}
+                        alerts={weather.alerts}
+                    />
                 </div>
             )}
         </div>

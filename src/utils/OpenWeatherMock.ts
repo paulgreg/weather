@@ -1487,8 +1487,8 @@ export const buildOneCallMock = () =>
             {
                 sender_name: 'METEO-FRANCE',
                 event: 'Moderate thunderstorm warning',
-                start: 1680336337,
-                end: 1680386400,
+                start: Math.floor(Date.now()) - 3600_000,
+                end: Math.floor(Date.now()) + 3600_000,
                 description:
                     'Moderate damages may occur, especially in vulnerable or in exposed areas and to people who carry out weather-related activities.',
                 tags: ['Thunderstorm'],
