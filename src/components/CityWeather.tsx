@@ -6,6 +6,7 @@ import HourlyWeather from './HourlyWeather'
 import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
+import { requestMock } from '../utils/OpenWeatherMock'
 
 type CityWeatherItemType = {
     city: City
@@ -32,13 +33,14 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     const [alerts, setAlerts] = useState<alert[]>([])
 
     useEffect(() => {
-        if (apiKey) {
-            const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
-            console.log('request url', url)
+        ;(async () => {
+            if (apiKey) {
+                const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
+                console.log('request url', url)
 
-            request<OpenWeatherResponse>(url)
-                //requestMock(url)
-                .then((data) => {
+                try {
+                    // const data = await request<OpenWeatherResponse>(url)
+                    const data = await requestMock(url)
                     setWeather(data)
                     setAlerts(
                         (data?.alerts ?? []).filter(
@@ -46,12 +48,12 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                         )
                     )
                     onCityRefreshed(true)
-                })
-                .catch((e) => {
+                } catch (e) {
                     console.error(e)
                     onCityRefreshed(false)
-                })
-        }
+                }
+            }
+        })()
     }, [refreshKey, city, apiKey, setWeather, setAlerts])
 
     return (
