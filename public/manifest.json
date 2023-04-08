@@ -9,11 +9,13 @@
     "icons": [
         {
             "src": "./cloud.png",
-            "sizes": "512x512"
+            "sizes": " 512x512",
+            "type": "image/png"
         },
         {
             "src": "./cloud.svg",
-            "sizes": "any"
+            "sizes": "any",
+            "type": "image/svg"
         }
     ]
 }
