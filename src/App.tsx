@@ -18,8 +18,9 @@ type Config = {
 
 const App = () => {
     const [config, setConfig] = useState<Config>({})
-    const [refreshKey, setRefreshKey] = useState<number>(Date.now())
     const [cities, setCities] = useState<City[]>(getCitiesFromLocalStore)
+    const [refreshKey, setRefreshKey] = useState<number>(Date.now())
+    const [refreshing, setRefreshing] = useState<boolean>(false)
 
     useEffect(() => {
         ;(async () => {
@@ -70,10 +71,14 @@ const App = () => {
         },
         [cities, setCities]
     )
-    const onRefresh = useCallback(
-        () => setRefreshKey(Date.now()),
-        [setRefreshKey]
-    )
+    const onRefresh = useCallback(() => {
+        setRefreshKey(Date.now())
+        setRefreshing(true)
+    }, [])
+
+    const onCitiesRefreshed = useCallback(() => {
+        setRefreshing(false)
+    }, [])
 
     return (
         <div className="App">
@@ -81,7 +86,9 @@ const App = () => {
                 <CloudLogo className="AppLogo" />
                 <h1>Weather</h1>
                 {cities.length > 0 && (
-                    <button onClick={onRefresh}>🔄 refresh data</button>
+                    <button onClick={onRefresh} disabled={refreshing}>
+                        🔄 refresh data
+                    </button>
                 )}
             </header>
             <CitiesList
@@ -89,6 +96,7 @@ const App = () => {
                 onDeleteCity={onDeleteCity}
                 apiKey={config.apiKey}
                 refreshKey={refreshKey}
+                onCitiesRefreshed={onCitiesRefreshed}
             />
             <details className="AddCity" open={cities.length === 0}>
                 <summary>Add a city</summary>

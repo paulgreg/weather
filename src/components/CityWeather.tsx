@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import './CityWeather.css'
 import { alert, OpenWeatherResponse } from '../types/OpenWeatherTypes'
-import { requestMock } from '../utils/OpenWeatherMock'
 import CurrentWeather from './CurrentWeather'
 import HourlyWeather from './HourlyWeather'
 import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
+import request from '../utils/request'
 
 type CityWeatherItemType = {
     city: City
     apiKey?: string
     refreshKey: number
+    onCityRefreshed: (success: boolean) => void
     onDeleteCity: () => void
 }
 
@@ -22,9 +23,10 @@ const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => (
 
 const CityWeather: React.FC<CityWeatherItemType> = ({
     city,
-    onDeleteCity,
     apiKey,
     refreshKey,
+    onCityRefreshed,
+    onDeleteCity,
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [alerts, setAlerts] = useState<alert[]>([])
@@ -34,19 +36,23 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
             const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
             console.log('request url', url)
 
-            //request<OpenWeatherResponse>(url).then((data) => {
-            requestMock(url).then((data) => {
-                setWeather(data)
-                setAlerts(
-                    (data?.alerts ?? []).filter(
-                        (alert) =>
-                            data.current.dt > alert.start &&
-                            data.current.dt < alert.end
+            request<OpenWeatherResponse>(url)
+                //requestMock(url)
+                .then((data) => {
+                    setWeather(data)
+                    setAlerts(
+                        (data?.alerts ?? []).filter(
+                            (alert) => data.current.dt < alert.end
+                        )
                     )
-                )
-            })
+                    onCityRefreshed(true)
+                })
+                .catch((e) => {
+                    console.error(e)
+                    onCityRefreshed(false)
+                })
         }
-    }, [city, apiKey, refreshKey, setWeather, setAlerts])
+    }, [refreshKey, city, apiKey, setWeather, setAlerts])
 
     return (
         <div className="CityWeatherItem">
@@ -79,7 +85,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                         listClassName="CityWeatherItemList"
                         itemClassName="CityWeatherItemItem"
                     />
-                    <WeatherAlerts alerts={weather.alerts} />
+                    <WeatherAlerts alerts={alerts} />
                 </div>
             )}
         </div>
