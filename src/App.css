@@ -14,10 +14,6 @@ header h1 {
     height: 64px;
 }
 
-.AppApiKeyLink {
-    cursor: pointer;
-}
-
 @media (max-width: 600px) {
     header {
         gap: 0.5em;

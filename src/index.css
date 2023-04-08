@@ -26,6 +26,7 @@ a {
   font-weight: 500;
   color: #747bff;
   text-decoration: inherit;
+  cursor: pointer;
 }
 
 a:hover {
@@ -55,7 +56,6 @@ h4 {
 button,
 select,
 input[type='submit'] {
-  cursor: pointer;
   font-size: 1em;
   border: 1px solid lightgray;
   transition: border-color 0.25s;
@@ -76,6 +76,7 @@ input {
   padding: 0.25em;
 }
 
+select:disabled,
 input:disabled {
   cursor: not-allowed;
 }
