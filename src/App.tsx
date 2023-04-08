@@ -98,7 +98,8 @@ const App = () => {
                 <summary>Set API key</summary>
                 <p>
                     {!config.apiKey && '⚠ ️'}
-                    An <a href="https://openweathermap.org/">
+                    An{' '}
+                    <a href="https://openweathermap.org/" target="_blank">
                         OpenWeatherMap
                     </a>{' '}
                     api key is needed to request weather.
@@ -106,7 +107,9 @@ const App = () => {
                 <p>
                     {config.apiKey &&
                         'An API key is already set but you can define another one. '}
-                    <a onClick={setApiKey}>Click here to define an API key</a>
+                    <a className="AppApiKeyLink" onClick={setApiKey}>
+                        Click here to define an API key
+                    </a>
                 </p>
             </details>
         </div>
