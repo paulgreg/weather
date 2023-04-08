@@ -1,0 +1,14 @@
+{
+    "name": "Weather",
+    "short_name": "Weather",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "A simple weather app",
+    "icons": [
+        {
+            "src": "./cloud.svg",
+            "sizes": "any"
+        }
+    ]
+}
