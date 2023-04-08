@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import request from './utils/request'
+import request from '../utils/request'
 import './SearchCity.css'
 
 type SearchCityType = {

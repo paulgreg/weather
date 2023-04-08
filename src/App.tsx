@@ -6,8 +6,8 @@ import {
     saveApiKeyInLocalStore,
     saveCitiesInLocalStore,
 } from './utils/LocalStore'
-import SearchCity from './SearchCity'
-import CitiesList from './CitiesList'
+import SearchCity from './components/SearchCity'
+import CitiesList from './components/CitiesList'
 import request from './utils/request'
 
 import './App.css'

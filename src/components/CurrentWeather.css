@@ -1,0 +1,13 @@
+.CurrentWeather {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.CurrentWeatherDesc {
+    font-size: 1.2em;
+}
+
+.CurrentWeatherTemp {
+    font-size: 2em;
+}

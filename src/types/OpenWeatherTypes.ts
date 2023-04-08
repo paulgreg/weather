@@ -17,7 +17,7 @@ type OpenWeatherCommonPart = {
     weather: OpenWeatherWeather[]
 }
 
-type OpenWeatherCurrentPart = OpenWeatherCommonPart & {
+export type OpenWeatherCurrentPart = OpenWeatherCommonPart & {
     sunrise: number
     sunset: number
     temp: number
@@ -25,7 +25,7 @@ type OpenWeatherCurrentPart = OpenWeatherCommonPart & {
     visibility: number
 }
 
-type OpenWeatherHourlyPart = OpenWeatherCommonPart & {
+export type OpenWeatherHourlyPart = OpenWeatherCommonPart & {
     temp: number
     feels_like: number
     visibility: number
@@ -34,7 +34,7 @@ type OpenWeatherHourlyPart = OpenWeatherCommonPart & {
     rain?: Record<string, number>
 }
 
-type OpenWeatherDailyPart = OpenWeatherCommonPart & {
+export type OpenWeatherDailyPart = OpenWeatherCommonPart & {
     sunrise: number
     sunset: number
     moonrise: number

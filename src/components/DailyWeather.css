@@ -1,0 +1,23 @@
+@media (min-width: 601px) {
+    .DailyWeatherList {
+        justify-content: space-between;
+    }
+}
+
+.DailyWeatherItem {
+    min-width: 90px;
+}
+
+.DailyWeathertItemDay {
+    font-weight: 600;
+    margin: .25em auto .5em;
+}
+
+.DailyWeatherTemp {
+    display: flex;
+    align-items: center;
+}
+
+.DailyWeatherMaxTemp {
+    font-weight: 600;
+}

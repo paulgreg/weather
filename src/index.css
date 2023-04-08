@@ -19,8 +19,7 @@
 }
 
 section {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding: .6em auto;
 }
 
 a {
@@ -35,27 +34,27 @@ a:hover {
 
 h1 {
   font-size: 2.8em;
-  margin: .4em 0 .25em 0;
+  margin: 0.4em 0 0.25em 0;
 }
 
 h2 {
   font-size: 2em;
-  margin: .3em 0 .15em 0;
+  margin: 0.3em 0 0.15em 0;
 }
 
 h3 {
   font-size: 1.6em;
-  margin: .2em 0 .1em 0;
+  margin: 0.2em 0 0.1em 0;
 }
 
 h4 {
   font-size: 1.4em;
-  margin: .1em 0 .1em 0;
+  margin: 0.1em 0 0.1em 0;
 }
 
 button,
 select,
-input[type=submit] {
+input[type='submit'] {
   cursor: pointer;
   font-size: 1em;
   border: 1px solid lightgray;
@@ -65,16 +64,16 @@ input[type=submit] {
 
 button:hover,
 select:hover,
-input[type=submit]:hover {
+input[type='submit']:hover {
   border-color: var(--main-fg-color);
 }
 
 button,
 select,
 input {
-  margin: auto .25em;
+  margin: auto 0.25em;
   min-height: 1.6em;
-  padding: .25em;
+  padding: 0.25em;
 }
 
 input:disabled {
@@ -82,7 +81,11 @@ input:disabled {
 }
 
 p {
-  margin: .25em auto;
+  margin: 0.25em auto;
+}
+
+details {
+  margin-bottom: .4em;
 }
 
 summary {
@@ -113,15 +116,15 @@ summary {
 
   select,
   button,
-  input[type=submit] {
+  input[type='submit'] {
     color: var(--main-bg-color);
     background-color: var(--main-fg-color);
-    padding: .25em;
+    padding: 0.25em;
   }
 
   button:hover,
   select:hover,
-  input[type=submit]:hover {
+  input[type='submit']:hover {
     border-color: var(--main-bg-color);
   }
 
@@ -151,7 +154,6 @@ summary {
 }
 
 @media (max-width: 600px) {
-
   h1 {
     font-size: 2em;
   }
@@ -167,5 +169,4 @@ summary {
   h4 {
     font-size: 1.2em;
   }
-
 }

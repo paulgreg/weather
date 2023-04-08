@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import CitiesListItem from './CitiesListItem'
+import CityWeather from './CityWeather'
 
 type CitiesListType = {
     cities: City[]
@@ -17,7 +17,7 @@ const CitiesList: React.FC<CitiesListType> = ({
     return (
         <section>
             {cities.map((city, idx) => (
-                <CitiesListItem
+                <CityWeather
                     key={`${city.city}-${city.lat}-${city.lng}-${idx}`}
                     city={city}
                     onDeleteCity={onDeleteCity(idx)}
