@@ -54,7 +54,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
         <div className="CityWeatherItem">
             <div className="CityWeatherItemHeader">
                 <h1>
-                    {city.city}{' '}
+                    {city.label}{' '}
                     <small title={city.country} tabIndex={0}>
                         ({city.code})
                     </small>

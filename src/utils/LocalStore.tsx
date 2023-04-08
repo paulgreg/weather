@@ -5,7 +5,7 @@ export const LOCALSTORAGE_APIKEY_KEY = 'WEATHER_CITIES_API_KEY'
 export const getCitiesFromLocalStore: City[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY) || '[]'
 ).sort((cityA: City, cityB: City) => {
-    if (cityA.code === cityB.code) return cityA.city.localeCompare(cityB.city)
+    if (cityA.code === cityB.code) return cityA.label.localeCompare(cityB.label)
     return cityA.country.localeCompare(cityB.country)
 })
 

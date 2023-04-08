@@ -6,7 +6,7 @@ type Country = {
 }
 
 type LightCity = {
-    city: string
+    label: string
     lat: number
     lng: number
 }

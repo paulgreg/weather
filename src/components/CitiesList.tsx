@@ -46,7 +46,7 @@ const CitiesList: React.FC<CitiesListType> = ({
         <section>
             {cities.map((city, idx) => (
                 <CityWeather
-                    key={`${city.city}-${city.lat}-${city.lng}-${idx}`}
+                    key={`${city.label}-${city.lat}-${city.lng}-${idx}`}
                     apiKey={apiKey}
                     city={city}
                     refreshKey={refreshCityKey}

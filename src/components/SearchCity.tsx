@@ -85,10 +85,10 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                         <option>---</option>
                         {cities.map((city, idx) => (
                             <option
-                                key={`${city.city}-${city.lat}-${city.lng}`}
+                                key={`${city.label}-${city.lat}-${city.lng}`}
                                 value={idx}
                             >
-                                {city.city}
+                                {city.label}
                             </option>
                         ))}
                     </select>

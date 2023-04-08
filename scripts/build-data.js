@@ -35,7 +35,7 @@ const citiesGroupByCountryCode = cities.reduce((acc, city) => {
     const country = city.country
     if (acc[country]) {
         const { name, lat, lng } = city
-        acc[country] = acc[country].concat({ city: name, lat, lng })
+        acc[country] = acc[country].concat({ label: name, lat, lng })
     } else {
         acc[country] = []
     }
@@ -44,7 +44,7 @@ const citiesGroupByCountryCode = cities.reduce((acc, city) => {
 
 Object.keys(citiesGroupByCountryCode).forEach((countryCode) => {
     const citiesSorted = citiesGroupByCountryCode[countryCode].sort(
-        (cityA, cityB) => cityA.city.localeCompare(cityB.city)
+        (cityA, cityB) => cityA.label.localeCompare(cityB.label)
     )
     writeFile(`${dataPath}/${countryCode}.json`, citiesSorted)
 })

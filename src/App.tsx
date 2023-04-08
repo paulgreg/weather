@@ -63,7 +63,7 @@ const App = () => {
     )
     const onDeleteCity = useCallback(
         (idx: number) => () => {
-            if (confirm(`Delete ${cities[idx].city} ?`)) {
+            if (confirm(`Delete ${cities[idx].label} ?`)) {
                 const newCities = [...cities]
                 newCities.splice(idx, 1)
                 setCities(newCities)
