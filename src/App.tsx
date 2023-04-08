@@ -20,6 +20,7 @@ const App = () => {
     const [config, setConfig] = useState<Config>({})
     const [cities, setCities] = useState<City[]>(getCitiesFromLocalStore)
     const [refreshKey, setRefreshKey] = useState<number>(Date.now())
+    const [allowRefresh, setAllowRefresh] = useState<boolean>(false)
     const [refreshing, setRefreshing] = useState<boolean>(false)
 
     useEffect(() => {
@@ -74,22 +75,42 @@ const App = () => {
     const onRefresh = useCallback(() => {
         setRefreshKey(Date.now())
         setRefreshing(true)
+    }, [refreshKey])
+
+    const onCitiesRefreshed = useCallback((success: boolean) => {
+        setRefreshing(false)
+        if (success) {
+            setAllowRefresh(false)
+        }
     }, [])
 
-    const onCitiesRefreshed = useCallback(() => {
-        setRefreshing(false)
-    }, [])
+    useEffect(() => {
+        const allowTimeout = setTimeout(() => {
+            setAllowRefresh(true)
+        }, 60 * 1000) // allow refresh button after one minute
+
+        const autoRefreshTimeout = setTimeout(() => {
+            setRefreshKey(Date.now())
+        }, 60 * 60 * 1000) // refresh data each hour
+
+        return () => {
+            clearTimeout(allowTimeout)
+            clearTimeout(autoRefreshTimeout)
+        }
+    }, [refreshKey, setAllowRefresh])
 
     return (
         <div className="App">
             <header>
                 <CloudLogo className="AppLogo" />
                 <h1>Weather</h1>
-                {cities.length > 0 && (
-                    <button onClick={onRefresh} disabled={refreshing}>
-                        🔄 refresh data
-                    </button>
-                )}
+                <span>
+                    {cities.length > 0 && allowRefresh && (
+                        <button onClick={onRefresh} disabled={refreshing}>
+                            🔄 refresh data
+                        </button>
+                    )}
+                </span>
             </header>
             <CitiesList
                 cities={cities}

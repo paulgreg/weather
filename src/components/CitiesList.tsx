@@ -9,7 +9,7 @@ type CitiesListType = {
     apiKey?: string
     refreshKey: number
     onDeleteCity: (idx: number) => () => void
-    onCitiesRefreshed: () => void
+    onCitiesRefreshed: (success: boolean) => void
 }
 
 const CitiesList: React.FC<CitiesListType> = ({
@@ -20,24 +20,25 @@ const CitiesList: React.FC<CitiesListType> = ({
     onDeleteCity,
 }) => {
     const [refreshCityKey, setRefreshCityKey] = useState<number>(Date.now())
-    const [cityResfreshNb, setCityRefreshNb] = useState<number>(0)
+    const [cityResfreshNb, setCityRefreshNb] = useState<boolean[]>([])
 
     const onRefreshedCallback = useCallback(
         (success: boolean) => {
             console.log('child refreshed, succes:', success)
-            setCityRefreshNb((nb) => nb + 1)
+            setCityRefreshNb((state) => state.concat(success))
         },
         [setCityRefreshNb]
     )
 
     useEffect(() => {
-        setCityRefreshNb(0)
+        setCityRefreshNb([])
         setRefreshCityKey(Date.now())
     }, [refreshKey])
 
     useEffect(() => {
-        if (cityResfreshNb === cities.length) {
-            onCitiesRefreshed()
+        if (cityResfreshNb.length === cities.length) {
+            const atLeastOneFailure = cityResfreshNb.find((success) => !success)
+            onCitiesRefreshed(!atLeastOneFailure)
         }
     }, [cityResfreshNb])
 
