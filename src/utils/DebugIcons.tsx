@@ -27,11 +27,13 @@ export const DebugIcons = () => (
             OpenWeatherIcon.Mist,
             OpenWeatherIcon.MistNight,
         ].map((i) => (
-            <div>
+            <div key={i}>
                 {i}
                 <img src={`https://openweathermap.org/img/wn/${i}@4x.png`} />
                 <AnimatedWeatherIcon icon={i} size={WeatherIconSize.L} />
                 <StaticWeatherIcon icon={i} size={WeatherIconSize.L} />
+                <StaticWeatherIcon icon={i} size={WeatherIconSize.M} />
+                <StaticWeatherIcon icon={i} size={WeatherIconSize.S} />
             </div>
         ))}
     </>
