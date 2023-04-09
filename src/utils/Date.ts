@@ -5,6 +5,11 @@ export const formatTime = (dt: number) => {
     return `${padTime(d.getHours())}:${padTime(d.getMinutes())}`
 }
 
+export const getHour = (dt: number) => {
+    const d = new Date(dt * 1000)
+    return d.getHours()
+}
+
 const pad = (n: number) => n.toString().padStart(2, '0')
 
 export const formatDate = (dt: number, idx: number) => {

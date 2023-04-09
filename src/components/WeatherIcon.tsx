@@ -32,6 +32,7 @@ import Sun from '../assets/sun.svg'
 import Gear from '../assets/gear-wide.svg'
 
 export const enum WeatherIconSize {
+    XXS = '10px',
     XS = '20px',
     S = '30px',
     M = '50px',

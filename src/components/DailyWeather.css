@@ -6,6 +6,7 @@
 
 .DailyWeatherItem {
     min-width: 90px;
+    gap: .2em;
 }
 
 .DailyWeathertItemDay {
@@ -18,6 +19,24 @@
     align-items: center;
 }
 
-.DailyWeatherMaxTemp {
-    font-weight: 600;
+.DailyWeatherTempDay {
+    color: var(--temp-day-light)
+}
+
+.DailyWeatherTempNight {
+    color: var(--temp-night-light)
+}
+
+@media (prefers-color-scheme: dark) {
+    .DailyWeatherTempDay {
+        color: var(--temp-day-dark)
+    }
+
+    .DailyWeatherTempNight {
+        color: var(--temp-night-dark)
+    }
+}
+
+.DailyWeatherRainIcon {
+    margin-right: .25em;
 }

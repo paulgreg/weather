@@ -1,3 +1,30 @@
 .HourlyWeatherItem {
-    min-width: 45px;
+    min-width: 60px;
+}
+
+.HourlyWeatherRain {
+    font-size: .9em;
+}
+
+.HourlyWeatherRainIcon {
+    margin-right: .25em;
+}
+
+
+.HourlyWeatherTempDay {
+    color: var(--temp-day-light)
+}
+
+.HourlyWeatherTempNight {
+    color: var(--temp-night-light)
+}
+
+@media (prefers-color-scheme: dark) {
+    .HourlyWeatherTempDay {
+        color: var(--temp-day-dark)
+    }
+
+    .HourlyWeatherTempNight {
+        color: var(--temp-night-dark)
+    }
 }

@@ -32,7 +32,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string>()
+    const [error, setError] = useState<any>()
 
     useEffect(() => {
         ;(async () => {
@@ -41,11 +41,12 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 console.log('request url', url)
 
                 try {
-                    // const data = await request<OpenWeatherResponse>(url)
+                    setError(undefined)
+                    //const data = await request<OpenWeatherResponse>(url)
                     const data = await requestMock(url)
                     setWeather(data)
                     onCityRefreshed(true)
-                } catch (e) {
+                } catch (e: unknown) {
                     console.error(e)
                     setError(e)
                     onCityRefreshed(false)
@@ -79,18 +80,25 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                     <GearIcon className="CityWeatherGear" />
                 </div>
             )}
+            {error && (
+                <p>
+                    🔥 <strong>{error.message}</strong>
+                </p>
+            )}
             {weather && (
                 <div>
                     <CurrentWeather current={weather.current} />
                     <HourlyWeather
                         hourly={weather.hourly}
+                        sunrise={weather.current.sunrise}
+                        sunset={weather.current.sunset}
                         listClassName="CityWeatherItemList"
-                        itemClassName="CityWeatherItemItem"
+                        itemClassName="CityWeatherListItem"
                     />
                     <DailyWeather
                         daily={weather.daily}
                         listClassName="CityWeatherItemList"
-                        itemClassName="CityWeatherItemItem"
+                        itemClassName="CityWeatherListItem"
                     />
                     <WeatherAlerts
                         dt={weather.current.dt}

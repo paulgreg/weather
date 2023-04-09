@@ -25,13 +25,23 @@ export type OpenWeatherCurrentPart = OpenWeatherCommonPart & {
     visibility: number
 }
 
+export type OpenWeatherRain = Record<string, number>
 export type OpenWeatherHourlyPart = OpenWeatherCommonPart & {
     temp: number
     feels_like: number
     visibility: number
     wind_gust: number
     pop: number
-    rain?: Record<string, number>
+    rain?: OpenWeatherRain
+}
+
+export type OpenWeatherDailyTemp = {
+    day: number
+    min: number
+    max: number
+    night: number
+    eve: number
+    morn: number
 }
 
 export type OpenWeatherDailyPart = OpenWeatherCommonPart & {
@@ -40,14 +50,7 @@ export type OpenWeatherDailyPart = OpenWeatherCommonPart & {
     moonrise: number
     moonset: number
     moon_phase: number
-    temp: {
-        day: number
-        min: number
-        max: number
-        night: number
-        eve: number
-        morn: number
-    }
+    temp: OpenWeatherDailyTemp
     feels_like: {
         day: number
         night: number

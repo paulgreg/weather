@@ -65,7 +65,7 @@
 }
 
 
-.CityWeatherItemItem {
+.CityWeatherListItem {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -74,12 +74,12 @@
     margin-bottom: 10px;
 }
 
-.CityWeatherItemItem:not(:first-child) {
+.CityWeatherListItem:not(:first-child) {
     border-left: 1px solid var(--main-fg-color);
 }
 
 @media (prefers-color-scheme: dark) {
-    .CityWeatherItemItem:not(:first-child) {
+    .CityWeatherListItem:not(:first-child) {
         border-color: var(--main-bg-color);
     }
 }

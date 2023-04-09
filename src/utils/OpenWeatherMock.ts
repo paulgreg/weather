@@ -64,7 +64,7 @@ export const buildOneCallMock = () =>
                 ],
                 pop: 0.9,
                 rain: {
-                    '1h': 0.13,
+                    '1h': 1.13,
                 },
             },
             {

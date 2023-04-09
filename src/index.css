@@ -6,8 +6,12 @@
   color-scheme: light dark;
 
   --main-fg-color: #1a1a1a;
-  /* 213547;*/
   --main-bg-color: #f9f9f9;
+
+  --temp-day-light: darkred;
+  --temp-night-light: darkblue;
+  --temp-day-dark: coral;
+  --temp-night-dark: lightblue;
 
   color: var(--main-fg-color);
   background-color: #ffffff;
