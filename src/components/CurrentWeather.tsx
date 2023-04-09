@@ -60,11 +60,15 @@ const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart }> = ({
                 </div>
                 <span>feels like {Math.round(current.feels_like)}°</span>
             </div>
-            <Humidity humidity={current.humidity} />
-            <UVIndex uvi={current.uvi} />
-            <Wind wind_speed={current.wind_speed} />
-            <h3>{current.weather[0].main}</h3>
-            <p>{current.weather[0].description}</p>
+            <div>
+                <Humidity humidity={current.humidity} />
+                <UVIndex uvi={current.uvi} />
+                <Wind wind_speed={current.wind_speed} />
+            </div>
+            <div>
+                <h3>{current.weather[0].main}</h3>
+                <p>{current.weather[0].description}</p>
+            </div>
         </div>
         <AnimatedWeatherIcon
             icon={current.weather[0].icon}
