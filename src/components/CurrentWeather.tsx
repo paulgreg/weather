@@ -29,17 +29,23 @@ const uvIndexToClassName = (uvi: number) => {
 const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => (
     <div className="CurrentWeatherUV">
         <SunIcon className="CurrentWeatherIcon" />
-        UV index:{' '}
-        <span className={uvIndexToClassName(uvi)}>{uvIndexToLabel(uvi)}</span>
+        UV:{' '}
+        <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>
+            {uvIndexToLabel(uvi)}
+        </span>
     </div>
 )
 
-const Wind: React.FC<{ wind_speed: number }> = ({ wind_speed }) => (
-    <div className="CurrentWeatherWind">
-        <WindIcon className="CurrentWeatherIcon" />
-        wind: {Math.round(wind_speed / 1000)} km/h
-    </div>
-)
+const Wind: React.FC<{ wind_speed: number }> = ({ wind_speed }) => {
+    const wind = Math.round(wind_speed / 1000)
+    if (wind === 0) return <></>
+    return (
+        <div className="CurrentWeatherWind">
+            <WindIcon className="CurrentWeatherIcon" />
+            wind: {wind} km/h
+        </div>
+    )
+}
 
 const Humidity: React.FC<{ humidity: number }> = ({ humidity }) => (
     <div className="CurrentWeatherHumidity">

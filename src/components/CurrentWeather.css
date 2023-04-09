@@ -39,6 +39,10 @@
     margin: 0.2em auto;
 }
 
+.CurrentWeatherUVValue {
+    margin-left: .2em;
+}
+
 .CurrentWeatherUV-low {
     color: green;
 }
