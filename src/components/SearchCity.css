@@ -6,7 +6,9 @@
 .SearchCity label,
 .SearchCity .submit {
     display: inline-flex;
+    align-items: center;
     margin: .5em 0;
+    gap: .5em;
 }
 
 .SearchCity .submit {
@@ -14,6 +16,6 @@
     align-items: center;
 }
 
-.SearchCity select {
+.SearchCityReactSelect {
     flex-grow: 1;
 }

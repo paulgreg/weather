@@ -1,51 +1,102 @@
 import { useState, useCallback, useEffect } from 'react'
 import request from '../utils/request'
+import Select, { SingleValue } from 'react-select'
+import AsyncSelect from 'react-select/async'
+
 import './SearchCity.css'
+import reactSelect from 'react-select'
 
 type SearchCityType = {
     onAddCity: (cityWithCountry: City) => void
 }
 
+type CountryOption = {
+    readonly label: string
+    readonly value: string
+}
+
+type GroupCountryOption = {
+    readonly label: string
+    readonly options: CountryOption[]
+}
+
+type CityOption = {
+    readonly label: string
+    readonly value: LightCity
+}
+
 const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
+    const [isLoadingCountries, setLoadingCountries] = useState<boolean>(false)
     const [countries, setCountries] = useState<Countries>({})
+    const [isLoadingCities, setLoadingCities] = useState<boolean>(false)
     const [cities, setCities] = useState<LightCity[]>([])
     const [country, setCountry] = useState<Country>()
     const [city, setCity] = useState<LightCity>()
 
     useEffect(() => {
         ;(async () => {
+            setLoadingCountries(true)
             const countries = await request<Countries>(
                 `/cities/countries.json`,
                 { public: true }
             )
             setCountries(countries)
+            setLoadingCountries(false)
         })()
     }, [])
 
-    const onCountryChange = useCallback(
-        (e: React.ChangeEvent<HTMLSelectElement>) => {
-            const countryValue = e.currentTarget.value
-            const [countryCode, country] = countryValue.split('-')
+    const groupedCountriesOptions = Object.keys(countries).map(
+        (continent) =>
+            ({
+                label: continent,
+                options: Object.keys(countries[continent]).map(
+                    (countryCode) =>
+                        ({
+                            label: countries[continent][countryCode],
+                            value: countryCode,
+                        } as CountryOption)
+                ),
+            } as GroupCountryOption)
+    )
+
+    const onCountryChange = useCallback((newValue: SingleValue<any>) => {
+        if (newValue) {
             ;(async () => {
+                setLoadingCities(true)
+                const { label: country, value: countryCode } = newValue
                 const cities = await request<LightCity[]>(
                     `/cities/${countryCode}.json`,
                     { public: true }
                 )
                 setCities(cities)
-                setCountry({ code: countryCode, country })
+                setCountry({ code: countryCode, country: country })
+                setLoadingCities(false)
             })()
-        },
-        [setCities]
-    )
+        }
+    }, [])
+
     const onCityChange = useCallback(
-        (e: React.ChangeEvent<HTMLSelectElement>) => {
-            const idx = parseInt(e.currentTarget.value, 10)
-            setCity(cities[idx])
+        (newValue: SingleValue<any>) => {
+            const { value } = newValue
+            if (value) {
+                setCity(value)
+            }
         },
-        [cities, setCity]
+        [cities]
     )
 
-    const onCitySelect = useCallback(
+    const loadCitiesOptions = (inputValue: string) =>
+        Promise.resolve().then(() => {
+            if (inputValue?.length < 2) return []
+            const query = inputValue.toLocaleLowerCase()
+            return (cities ?? [])
+                .filter(({ label }) => label.toLowerCase().startsWith(query))
+                .map(
+                    (city) => ({ label: city.label, value: city } as CityOption)
+                )
+        })
+
+    const onSubmitCity = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault()
             if (country && city) {
@@ -58,40 +109,27 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
 
     return (
         <section className="SearchCity">
-            <form onSubmit={onCitySelect}>
+            <form onSubmit={onSubmitCity}>
                 <label>
-                    Country:
-                    <select onChange={onCountryChange}>
-                        <option key="---">---</option>
-                        {Object.keys(countries).map((continent) => (
-                            <optgroup label={continent} key={continent}>
-                                {Object.keys(countries[continent]).map(
-                                    (countryCode) => (
-                                        <option
-                                            value={`${countryCode}-${countries[continent][countryCode]}`}
-                                            key={countryCode}
-                                        >
-                                            {countries[continent][countryCode]}
-                                        </option>
-                                    )
-                                )}
-                            </optgroup>
-                        ))}
-                    </select>
+                    <span>Country:</span>
+                    <Select
+                        className="SearchCityReactSelect"
+                        isLoading={isLoadingCountries}
+                        placeholder="Select a country"
+                        options={groupedCountriesOptions}
+                        onChange={onCountryChange}
+                    />
                 </label>
                 <label>
-                    City:
-                    <select onChange={onCityChange}>
-                        <option>---</option>
-                        {cities.map((city, idx) => (
-                            <option
-                                key={`${city.label}-${city.lat}-${city.lng}`}
-                                value={idx}
-                            >
-                                {city.label}
-                            </option>
-                        ))}
-                    </select>
+                    <span>City:</span>
+                    <AsyncSelect
+                        className="SearchCityReactSelect"
+                        isDisabled={!country}
+                        isLoading={isLoadingCities}
+                        placeholder="Start typing a city"
+                        loadOptions={loadCitiesOptions}
+                        onChange={onCityChange}
+                    />
                 </label>
                 <div className="submit">
                     <input
