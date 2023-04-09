@@ -16,6 +16,10 @@ type Config = {
     apiKey?: string
 }
 
+const MINUTE = 60_000
+const AUTO_REFRESH_DELAY = 60 * MINUTE // 1 hour
+const DELAY_HIDE_REFRESH_BUTTON = MINUTE
+
 const App = () => {
     const [config, setConfig] = useState<Config>({})
     const [cities, setCities] = useState<City[]>(getCitiesFromLocalStore)
@@ -87,17 +91,26 @@ const App = () => {
     useEffect(() => {
         const allowTimeout = setTimeout(() => {
             setAllowRefresh(true)
-        }, 60 * 1000) // allow refresh button after one minute
-
-        const autoRefreshTimeout = setTimeout(() => {
-            setRefreshKey(Date.now())
-        }, 60 * 60 * 1000) // refresh data each hour
-
+        }, DELAY_HIDE_REFRESH_BUTTON)
         return () => {
             clearTimeout(allowTimeout)
-            clearTimeout(autoRefreshTimeout)
         }
     }, [refreshKey, setAllowRefresh])
+
+    const autoRefresh = useCallback(() => {
+        const now = Date.now()
+        const delta = now - refreshKey
+        if (delta > AUTO_REFRESH_DELAY) {
+            setRefreshKey(now)
+        }
+    }, [refreshKey, setRefreshKey])
+
+    useEffect(() => {
+        document.addEventListener('visibilitychange', autoRefresh, false)
+        return () => {
+            document.removeEventListener('visibilitychange', autoRefresh)
+        }
+    }, [autoRefresh])
 
     return (
         <div className="App">
