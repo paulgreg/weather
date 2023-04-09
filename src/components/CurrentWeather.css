@@ -8,6 +8,59 @@
     font-size: 1.2em;
 }
 
-.CurrentWeatherTemp {
+.CurrentWeatherTempAndFeelsLike {
+    margin-bottom: .6em;
+}
+
+.CurrentWeatherRealTemp {
     font-size: 2em;
+}
+
+.CurrentWeatherIcon {
+    margin-right: .5em;
+}
+
+.CurrentWeatherHumidity,
+.CurrentWeatherWind,
+.CurrentWeatherUV {
+    display: flex;
+    font-size: .8em;
+}
+
+.CurrentWeatherUV-low {
+    color: green;
+}
+
+.CurrentWeatherUV-moderate {
+    color: brown;
+}
+
+.CurrentWeatherUV-high {
+    color: darkorange;
+    font-weight: bold;
+}
+
+.CurrentWeatherUV-very-high {
+    color: red;
+    font-weight: bold;
+}
+
+.CurrentWeatherUV-extreme {
+    color: purple;
+    font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+    .CurrentWeatherUV-low {
+        color: lightgreen;
+    }
+
+    .CurrentWeatherUV-moderate {
+        color: orange;
+    }
+
+    .CurrentWeatherUV-extreme {
+        color: deeppink;
+    }
+
 }

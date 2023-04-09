@@ -25,6 +25,10 @@ import StaticSnow from '../assets/weather/static/snow.svg'
 import ThermometerHalf from '../assets/thermometer-half.svg'
 import ThermometerHigh from '../assets/thermometer-high.svg'
 
+import Wind from '../assets/wind.svg'
+import Droplet from '../assets/droplet.svg'
+import Sun from '../assets/sun.svg'
+
 export const enum WeatherIconSize {
     XS = '20px',
     S = '30px',
@@ -142,4 +146,40 @@ export const ThermometerIcon: React.FC<{
         }}
         className="invertable"
     />
+)
+
+const SvgIcon: React.FC<{
+    icon: string
+    className?: string
+    size?: WeatherIconSize
+}> = ({ icon, className = '', size = WeatherIconSize.XS }) => (
+    <img
+        src={icon}
+        style={{
+            width: size,
+            height: size,
+        }}
+        className={`invertable ${className}`}
+    />
+)
+
+export const WindIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size, className }) => (
+    <SvgIcon icon={Wind} size={size} className={className} />
+)
+
+export const DropletIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size, className }) => (
+    <SvgIcon icon={Droplet} size={size} className={className} />
+)
+
+export const SunIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size, className }) => (
+    <SvgIcon icon={Sun} size={size} className={className} />
 )

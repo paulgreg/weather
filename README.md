@@ -4,5 +4,5 @@ A PWA weather app using OpenWeatherMap API.
 
 
 Icons are from :
- - https://github.com/Makin-Things/weather-icons
- - https://www.svgrepo.com/collection/bootstrap-ui-icons/ (thermometer)
+ - [Makin-Thinkgs/weather-icons](https://github.com/Makin-Things/weather-icons)
+ - [bootstrap icons](https://github.com/twbs/icons)
