@@ -29,6 +29,8 @@ import Wind from '../assets/wind.svg'
 import Droplet from '../assets/droplet.svg'
 import Sun from '../assets/sun.svg'
 
+import Gear from '../assets/gear-wide.svg'
+
 export const enum WeatherIconSize {
     XS = '20px',
     S = '30px',
@@ -182,4 +184,10 @@ export const SunIcon: React.FC<{
     className?: string
 }> = ({ size, className }) => (
     <SvgIcon icon={Sun} size={size} className={className} />
+)
+
+export const GearIcon: React.FC<{
+    className?: string
+}> = ({ className }) => (
+    <SvgIcon icon={Gear} size={WeatherIconSize.L} className={className} />
 )

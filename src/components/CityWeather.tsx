@@ -7,6 +7,7 @@ import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { requestMock } from '../utils/OpenWeatherMock'
+import { GearIcon } from './WeatherIcon'
 
 type CityWeatherItemType = {
     city: City
@@ -30,6 +31,8 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     onDeleteCity,
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string>()
 
     useEffect(() => {
         ;(async () => {
@@ -44,7 +47,10 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                     onCityRefreshed(true)
                 } catch (e) {
                     console.error(e)
+                    setError(e)
                     onCityRefreshed(false)
+                } finally {
+                    setLoading(false)
                 }
             }
         })()
@@ -68,6 +74,11 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                     {weather && <RefreshedAt dt={weather.current.dt} />}
                 </div>
             </div>
+            {loading && (
+                <div className="CityWeatherLoading">
+                    <GearIcon className="CityWeatherGear" />
+                </div>
+            )}
             {weather && (
                 <div>
                     <CurrentWeather current={weather.current} />
