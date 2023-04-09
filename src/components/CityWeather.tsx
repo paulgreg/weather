@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
-import './CityWeather.css'
-import { alert, OpenWeatherResponse } from '../types/OpenWeatherTypes'
+import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import CurrentWeather from './CurrentWeather'
 import HourlyWeather from './HourlyWeather'
 import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
-import { requestMock } from '../utils/OpenWeatherMock'
 import { GearIcon } from './WeatherIcon'
+import './CityWeather.css'
 
 type CityWeatherItemType = {
     city: City
@@ -42,8 +41,8 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
 
                 try {
                     setError(undefined)
-                    //const data = await request<OpenWeatherResponse>(url)
-                    const data = await requestMock(url)
+                    const data = await request<OpenWeatherResponse>(url)
+                    //const data = await requestMock(url)
                     setWeather(data)
                     onCityRefreshed(true)
                 } catch (e: unknown) {
