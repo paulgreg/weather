@@ -59,6 +59,10 @@
     flex: 1;
 }
 
+.DailyWeathertItemDay {
+    display: flex;
+    text-align: center;
+}
 
 .CityWeatherItemList {
     display: flex;

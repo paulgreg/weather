@@ -11,7 +11,7 @@ import {
 } from './WeatherIcon'
 import './DailyWeather.css'
 
-const Time: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => (
+const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => (
     <span className="DailyWeathertItemDay">{formatDate(dt, idx)}</span>
 )
 const Temp: React.FC<{ temp: OpenWeatherDailyTemp }> = ({ temp }) => (
@@ -56,7 +56,7 @@ const DailyWeather: React.FC<{
                     className={`${itemClassName} DailyWeatherItem`}
                     key={daily.dt}
                 >
-                    <Time dt={daily.dt} idx={idx} />
+                    <Day dt={daily.dt} idx={idx} />
                     <Temp temp={daily.temp} />
                     <StaticWeatherIcon icon={daily.weather[0].icon} />
                     <Rain rain={daily.rain} />
