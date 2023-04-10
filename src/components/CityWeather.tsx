@@ -7,7 +7,6 @@ import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
 import './CityWeather.css'
-import { requestMock } from '../utils/OpenWeatherMock'
 
 type CityWeatherItemType = {
     city: City | MyPosition
@@ -73,8 +72,8 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                     const { lat, lng } = await getCityOrMyPositionLatLng(city)
                     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
                     console.log('request url', url)
-                    //const data = await request<OpenWeatherResponse>(url)
-                    const data = await requestMock(url)
+                    const data = await request<OpenWeatherResponse>(url)
+                    // const data = await requestMock(url)
 
                     setWeather(data)
                     onCityRefreshed(true)
