@@ -35,7 +35,9 @@ const pad = (n: number) => n.toString().padStart(2, '0')
 
 export const formatDate = (dt: number, idx: number) => {
     const d = new Date(dt * 1000)
-    return `${getDayName(d.getDay(), idx)} ${pad(d.getDate())}/${pad(
-        d.getMonth()
-    )}`
+    return {
+        day: getDayName(d.getDay(), idx),
+        date: pad(d.getDate()),
+        month: pad(d.getMonth()),
+    }
 }

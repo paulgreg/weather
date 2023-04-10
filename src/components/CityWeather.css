@@ -62,6 +62,7 @@
 .DailyWeathertItemDay {
     display: flex;
     text-align: center;
+    flex-direction: column;
 }
 
 .CityWeatherItemList {
