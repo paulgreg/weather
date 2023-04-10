@@ -4,10 +4,9 @@ import Select, { SingleValue } from 'react-select'
 import AsyncSelect from 'react-select/async'
 
 import './SearchCity.css'
-import reactSelect from 'react-select'
 
 type SearchCityType = {
-    onAddCity: (cityWithCountry: City) => void
+    onAddCity: (cityWithCountry: City | MyPosition) => void
 }
 
 type CountryOption = {
@@ -107,41 +106,57 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
         [country, city]
     )
 
+    const onSubmitMyPosition = useCallback(
+        (e: React.FormEvent) => {
+            e.preventDefault()
+            onAddCity({ myposition: true, label: 'My position' } as MyPosition)
+        },
+        [country, city]
+    )
+
     return (
-        <section className="SearchCity">
-            <form onSubmit={onSubmitCity}>
-                <label>
-                    <span>Country:</span>
-                    <Select
-                        classNamePrefix="react-select"
-                        className="SearchCityReactSelect"
-                        isLoading={isLoadingCountries}
-                        placeholder="Select a country"
-                        options={groupedCountriesOptions}
-                        onChange={onCountryChange}
-                    />
-                </label>
-                <label>
-                    <span>City:</span>
-                    <AsyncSelect
-                        classNamePrefix="react-select"
-                        className="SearchCityReactSelect"
-                        isDisabled={!country}
-                        isLoading={isLoadingCities}
-                        placeholder="Start typing a city"
-                        loadOptions={loadCitiesOptions}
-                        onChange={onCityChange}
-                    />
-                </label>
-                <div className="submit">
-                    <input
-                        type="submit"
-                        value="➕ add"
-                        disabled={!Boolean(city)}
-                    />
-                </div>
-            </form>
-        </section>
+        <>
+            <section className="SearchCity">
+                <input
+                    type="submit"
+                    value="📍 add my position"
+                    onClick={onSubmitMyPosition}
+                />
+                <p>or</p>
+                <form onSubmit={onSubmitCity}>
+                    <label>
+                        <span>Country:</span>
+                        <Select
+                            classNamePrefix="react-select"
+                            className="SearchCityReactSelect"
+                            isLoading={isLoadingCountries}
+                            placeholder="Select a country"
+                            options={groupedCountriesOptions}
+                            onChange={onCountryChange}
+                        />
+                    </label>
+                    <label>
+                        <span>City:</span>
+                        <AsyncSelect
+                            classNamePrefix="react-select"
+                            className="SearchCityReactSelect"
+                            isDisabled={!country}
+                            isLoading={isLoadingCities}
+                            placeholder="Start typing a city"
+                            loadOptions={loadCitiesOptions}
+                            onChange={onCityChange}
+                        />
+                    </label>
+                    <div className="submit">
+                        <input
+                            type="submit"
+                            value="➕ add"
+                            disabled={!Boolean(city)}
+                        />
+                    </div>
+                </form>
+            </section>
+        </>
     )
 }
 

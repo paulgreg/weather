@@ -5,7 +5,7 @@ const RESET = 'RESET'
 const CHILD_RESPONSE = 'RESP'
 
 type CitiesListType = {
-    cities: City[]
+    cities: (City | MyPosition)[]
     apiKey?: string
     refreshKey: number
     onDeleteCity: (idx: number) => () => void
@@ -24,7 +24,6 @@ const CitiesList: React.FC<CitiesListType> = ({
 
     const onRefreshedCallback = useCallback(
         (success: boolean) => {
-            console.log('child refreshed, succes:', success)
             setCityRefreshNb((state) => state.concat(success))
         },
         [setCityRefreshNb]
@@ -42,11 +41,16 @@ const CitiesList: React.FC<CitiesListType> = ({
         }
     }, [cityResfreshNb])
 
+    const buildKey = (city: City | MyPosition) =>
+        'myposition' in city
+            ? 'myposition'
+            : `${city.label}-${city.lat}-${city.lng}`
+
     return (
         <section>
             {cities.map((city, idx) => (
                 <CityWeather
-                    key={`${city.label}-${city.lat}-${city.lng}-${idx}`}
+                    key={buildKey(city)}
                     apiKey={apiKey}
                     city={city}
                     refreshKey={refreshCityKey}

@@ -11,4 +11,9 @@ type LightCity = {
     lng: number
 }
 
+type MyPosition = {
+    myposition: true
+    label: 'My position'
+}
+
 type City = LightCity & Country

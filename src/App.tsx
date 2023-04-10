@@ -22,7 +22,9 @@ const DELAY_HIDE_REFRESH_BUTTON = MINUTE
 
 const App = () => {
     const [config, setConfig] = useState<Config>({})
-    const [cities, setCities] = useState<City[]>(getCitiesFromLocalStore)
+    const [cities, setCities] = useState<(City | MyPosition)[]>(
+        getCitiesFromLocalStore
+    )
     const [refreshKey, setRefreshKey] = useState<number>(Date.now())
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false)
     const [refreshing, setRefreshing] = useState<boolean>(false)
@@ -58,7 +60,7 @@ const App = () => {
     }, [setConfig])
 
     const onAddCity = useCallback(
-        (citywithCountry: City) => {
+        (citywithCountry: City | MyPosition) => {
             const newCities = cities.concat(citywithCountry)
             setCities(newCities)
             saveCitiesInLocalStore(newCities)
