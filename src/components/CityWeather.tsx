@@ -24,7 +24,7 @@ const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => (
 const getCurrentPosition = () =>
     new Promise<GeolocationPosition>((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject, {
-            timeout: 1000,
+            timeout: 10_000,
         })
     )
 
