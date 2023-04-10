@@ -113,6 +113,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                 <label>
                     <span>Country:</span>
                     <Select
+                        classNamePrefix="react-select"
                         className="SearchCityReactSelect"
                         isLoading={isLoadingCountries}
                         placeholder="Select a country"
@@ -123,6 +124,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                 <label>
                     <span>City:</span>
                     <AsyncSelect
+                        classNamePrefix="react-select"
                         className="SearchCityReactSelect"
                         isDisabled={!country}
                         isLoading={isLoadingCities}

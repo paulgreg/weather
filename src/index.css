@@ -101,6 +101,24 @@ summary {
   border-bottom: 1px dashed var(--main-fg-color);
 }
 
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  h2 {
+    font-size: 1.6em;
+  }
+
+  h3 {
+    font-size: 1.4em;
+  }
+
+  h4 {
+    font-size: 1.2em;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: rgba(255, 255, 255, 0.87);
@@ -155,23 +173,5 @@ summary {
     border: 1px solid;
     width: fit-content;
     padding: 3px;
-  }
-}
-
-@media (max-width: 600px) {
-  h1 {
-    font-size: 2em;
-  }
-
-  h2 {
-    font-size: 1.6em;
-  }
-
-  h3 {
-    font-size: 1.4em;
-  }
-
-  h4 {
-    font-size: 1.2em;
   }
 }

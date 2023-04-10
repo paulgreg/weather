@@ -19,3 +19,35 @@
 .SearchCityReactSelect {
     flex-grow: 1;
 }
+
+.SearchCityReactSelect .react-select__control {
+    border: 1px solid lightgray;
+    box-shadow: 0 0 0 1px lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+    .SearchCityReactSelect .react-select__control {
+        color: var(--main-bg-color);
+        background-color: var(--main-fg-color);
+    }
+
+    .SearchCityReactSelect .react-select__input-container {
+        color: var(--main-bg-color);
+        background-color: transparent
+    }
+
+    .SearchCityReactSelect .react-select__menu {
+        color: var(--main-bg-color);
+        background-color: var(--main-fg-color);
+    }
+
+    .SearchCityReactSelect .react-select__option {
+        color: var(--main-bg-color);
+        background-color: var(--main-fg-color);
+    }
+
+    .SearchCityReactSelect .react-select__placeholder,
+    .SearchCityReactSelect .react-select__single-value {
+        color: var(--main-bg-color);
+    }
+}
