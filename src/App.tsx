@@ -22,7 +22,7 @@ const DELAY_HIDE_REFRESH_BUTTON = MINUTE
 
 const App = () => {
     const [config, setConfig] = useState<Config>({})
-    const [cities, setCities] = useState<(City | MyPosition)[]>(
+    const [cities, setCities] = useState<CityOrPosition[]>(
         getCitiesFromLocalStore
     )
     const [refreshKey, setRefreshKey] = useState<number>(Date.now())
@@ -60,8 +60,10 @@ const App = () => {
     }, [setConfig])
 
     const onAddCity = useCallback(
-        (citywithCountry: City | MyPosition) => {
-            const newCities = cities.concat(citywithCountry)
+        (citywithCountry: CityOrPosition) => {
+            const newCities = cities.concat({
+                ...citywithCountry,
+            })
             setCities(newCities)
             saveCitiesInLocalStore(newCities)
         },
@@ -89,6 +91,18 @@ const App = () => {
             setAllowRefresh(false)
         }
     }, [])
+
+    const onToggleCity = useCallback(
+        (idx: number) => () => {
+            const newCities = cities.map((city, index) => ({
+                ...city,
+                opened: idx === index ? !city.opened : city.opened,
+            }))
+            setCities(newCities)
+            saveCitiesInLocalStore(newCities)
+        },
+        [cities, setCities]
+    )
 
     useEffect(() => {
         const allowTimeout = setTimeout(() => {
@@ -132,6 +146,7 @@ const App = () => {
                 onDeleteCity={onDeleteCity}
                 apiKey={config.apiKey}
                 refreshKey={refreshKey}
+                onToggleCity={onToggleCity}
                 onCitiesRefreshed={onCitiesRefreshed}
             />
             <details className="AddCity" open={cities.length === 0}>

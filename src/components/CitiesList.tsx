@@ -5,10 +5,11 @@ const RESET = 'RESET'
 const CHILD_RESPONSE = 'RESP'
 
 type CitiesListType = {
-    cities: (City | MyPosition)[]
+    cities: CityOrPosition[]
     apiKey?: string
     refreshKey: number
     onDeleteCity: (idx: number) => () => void
+    onToggleCity: (idx: number) => () => void
     onCitiesRefreshed: (success: boolean) => void
 }
 
@@ -18,6 +19,7 @@ const CitiesList: React.FC<CitiesListType> = ({
     refreshKey,
     onCitiesRefreshed,
     onDeleteCity,
+    onToggleCity,
 }) => {
     const [refreshCityKey, setRefreshCityKey] = useState<number>(Date.now())
     const [cityResfreshNb, setCityRefreshNb] = useState<boolean[]>([])
@@ -41,7 +43,7 @@ const CitiesList: React.FC<CitiesListType> = ({
         }
     }, [cityResfreshNb])
 
-    const buildKey = (city: City | MyPosition) =>
+    const buildKey = (city: CityOrPosition) =>
         'myposition' in city
             ? 'myposition'
             : `${city.label}-${city.lat}-${city.lng}`
@@ -55,6 +57,7 @@ const CitiesList: React.FC<CitiesListType> = ({
                     city={city}
                     refreshKey={refreshCityKey}
                     onDeleteCity={onDeleteCity(idx)}
+                    onToggleCity={onToggleCity(idx)}
                     onCityRefreshed={onRefreshedCallback}
                 />
             ))}

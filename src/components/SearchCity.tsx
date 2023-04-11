@@ -6,7 +6,7 @@ import AsyncSelect from 'react-select/async'
 import './SearchCity.css'
 
 type SearchCityType = {
-    onAddCity: (cityWithCountry: City | MyPosition) => void
+    onAddCity: (cityWithCountry: CityOrPosition) => void
 }
 
 type CountryOption = {
@@ -99,8 +99,11 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
         (e: React.FormEvent) => {
             e.preventDefault()
             if (country && city) {
-                const countryWithCity: City = { ...country, ...city }
-                onAddCity(countryWithCity)
+                onAddCity({
+                    ...country,
+                    ...city,
+                    opened: true,
+                })
             }
         },
         [country, city]
@@ -109,7 +112,11 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
     const onSubmitMyPosition = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault()
-            onAddCity({ myposition: true, label: 'My position' } as MyPosition)
+            onAddCity({
+                myposition: true,
+                label: 'My position',
+                opened: true,
+            })
         },
         [country, city]
     )

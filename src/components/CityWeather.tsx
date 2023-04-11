@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import CurrentWeather from './CurrentWeather'
 import HourlyWeather from './HourlyWeather'
@@ -9,11 +9,12 @@ import { GearIcon } from './WeatherIcon'
 import './CityWeather.css'
 
 type CityWeatherItemType = {
-    city: City | MyPosition
+    city: CityOrPosition
     apiKey?: string
     refreshKey: number
-    onCityRefreshed: (success: boolean) => void
     onDeleteCity: () => void
+    onToggleCity: () => void
+    onCityRefreshed: (success: boolean) => void
 }
 
 const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => (
@@ -28,7 +29,7 @@ const getCurrentPosition = () =>
         })
     )
 
-const getCityOrMyPositionLatLng = async (city: City | MyPosition) => {
+const getCityOrMyPositionLatLng = async (city: CityOrPosition) => {
     if ('myposition' in city) {
         const position = await getCurrentPosition()
         const lat = position.coords.latitude
@@ -39,7 +40,7 @@ const getCityOrMyPositionLatLng = async (city: City | MyPosition) => {
     return Promise.resolve({ lat, lng })
 }
 
-const CityTitle: React.FC<{ city: City | MyPosition }> = ({ city }) => {
+const CityTitle: React.FC<{ city: CityOrPosition }> = ({ city }) => {
     if ('myposition' in city) {
         return <h1>My position</h1>
     }
@@ -59,6 +60,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     refreshKey,
     onCityRefreshed,
     onDeleteCity,
+    onToggleCity,
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [loading, setLoading] = useState<boolean>(true)
@@ -66,12 +68,13 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
 
     useEffect(() => {
         ;(async () => {
-            if (apiKey) {
+            if (apiKey && city.opened) {
                 try {
                     setError(undefined)
                     const { lat, lng } = await getCityOrMyPositionLatLng(city)
                     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
                     console.log('request url', url)
+
                     const data = await request<OpenWeatherResponse>(url)
                     // const data = await requestMock(url)
 
@@ -98,20 +101,27 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                             ❌ delete
                         </button>
                     </span>
-                    {weather && <RefreshedAt dt={weather.current.dt} />}
+                    <span>
+                        <button className="" onClick={onToggleCity}>
+                            {city.opened ? 'hide' : 'unhide'}
+                        </button>
+                    </span>
+                    {city.opened && weather && (
+                        <RefreshedAt dt={weather.current.dt} />
+                    )}
                 </div>
             </div>
-            {loading && (
+            {city.opened && loading && (
                 <div className="CityWeatherLoading">
                     <GearIcon className="CityWeatherGear" />
                 </div>
             )}
-            {error && (
+            {city.opened && error && (
                 <p>
                     🔥 <strong>{error.message}</strong>
                 </p>
             )}
-            {weather && (
+            {city.opened && weather && (
                 <div>
                     <CurrentWeather current={weather.current} />
                     <HourlyWeather
