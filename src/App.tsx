@@ -61,25 +61,54 @@ const App = () => {
 
     const onAddCity = useCallback(
         (citywithCountry: CityOrPosition) => {
-            const newCities = cities.concat({
-                ...citywithCountry,
-            })
+            const cityAlreadyInList = cities.find(
+                (city) => city.label === citywithCountry.label
+            )
+            if (cityAlreadyInList) {
+                return alert('City is already in your list')
+            }
+            const newCities = cities.concat(citywithCountry)
             setCities(newCities)
             saveCitiesInLocalStore(newCities)
         },
         [cities, setCities]
     )
+
     const onDeleteCity = useCallback(
         (idx: number) => () => {
             if (confirm(`Delete ${cities[idx].label} ?`)) {
-                const newCities = [...cities]
-                newCities.splice(idx, 1)
-                setCities(newCities)
-                saveCitiesInLocalStore(newCities)
+                const updatedCities = [...cities]
+                updatedCities.splice(idx, 1)
+                setCities(updatedCities)
+                saveCitiesInLocalStore(updatedCities)
             }
         },
         [cities, setCities]
     )
+
+    const onToggleCity = useCallback(
+        (idx: number) => () => {
+            const updatedCities = cities.map((city, index) => ({
+                ...city,
+                opened: idx === index ? !city.opened : city.opened,
+            }))
+            setCities(updatedCities)
+            saveCitiesInLocalStore(updatedCities)
+        },
+        [cities, setCities]
+    )
+
+    const onTopCity = useCallback(
+        (idx: number) => () => {
+            const wipCities = [...cities]
+            const cityToPutOnTop = wipCities.splice(idx, 1)
+            const updatedCities = cityToPutOnTop.concat(wipCities)
+            setCities(updatedCities)
+            saveCitiesInLocalStore(updatedCities)
+        },
+        [cities, setCities]
+    )
+
     const onRefresh = useCallback(() => {
         setRefreshKey(Date.now())
         setRefreshing(true)
@@ -91,18 +120,6 @@ const App = () => {
             setAllowRefresh(false)
         }
     }, [])
-
-    const onToggleCity = useCallback(
-        (idx: number) => () => {
-            const newCities = cities.map((city, index) => ({
-                ...city,
-                opened: idx === index ? !city.opened : city.opened,
-            }))
-            setCities(newCities)
-            saveCitiesInLocalStore(newCities)
-        },
-        [cities, setCities]
-    )
 
     useEffect(() => {
         const allowTimeout = setTimeout(() => {
@@ -147,6 +164,7 @@ const App = () => {
                 apiKey={config.apiKey}
                 refreshKey={refreshKey}
                 onToggleCity={onToggleCity}
+                onTopCity={onTopCity}
                 onCitiesRefreshed={onCitiesRefreshed}
             />
             <details className="AddCity" open={cities.length === 0}>

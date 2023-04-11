@@ -106,7 +106,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                 })
             }
         },
-        [country, city]
+        [country, city, onAddCity]
     )
 
     const onSubmitMyPosition = useCallback(

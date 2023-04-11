@@ -10,6 +10,7 @@ type CitiesListType = {
     refreshKey: number
     onDeleteCity: (idx: number) => () => void
     onToggleCity: (idx: number) => () => void
+    onTopCity: (idx: number) => () => void
     onCitiesRefreshed: (success: boolean) => void
 }
 
@@ -20,6 +21,7 @@ const CitiesList: React.FC<CitiesListType> = ({
     onCitiesRefreshed,
     onDeleteCity,
     onToggleCity,
+    onTopCity,
 }) => {
     const [refreshCityKey, setRefreshCityKey] = useState<number>(Date.now())
     const [cityResfreshNb, setCityRefreshNb] = useState<boolean[]>([])
@@ -58,6 +60,7 @@ const CitiesList: React.FC<CitiesListType> = ({
                     refreshKey={refreshCityKey}
                     onDeleteCity={onDeleteCity(idx)}
                     onToggleCity={onToggleCity(idx)}
+                    onTopCity={idx > 0 ? onTopCity(idx) : undefined}
                     onCityRefreshed={onRefreshedCallback}
                 />
             ))}

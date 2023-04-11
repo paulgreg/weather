@@ -14,6 +14,7 @@ type CityWeatherItemType = {
     refreshKey: number
     onDeleteCity: () => void
     onToggleCity: () => void
+    onTopCity?: () => void
     onCityRefreshed: (success: boolean) => void
 }
 
@@ -61,6 +62,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     onCityRefreshed,
     onDeleteCity,
     onToggleCity,
+    onTopCity,
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [loading, setLoading] = useState<boolean>(true)
@@ -97,15 +99,18 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 <CityTitle city={city} />
                 <div className="CityWeatherItemHeaderDetails">
                     <span>
-                        <button className="delete" onClick={onDeleteCity}>
-                            ❌ delete
-                        </button>
+                        <button onClick={onDeleteCity}>❌ delete</button>
                     </span>
                     <span>
-                        <button className="" onClick={onToggleCity}>
-                            {city.opened ? 'hide' : 'unhide'}
+                        <button onClick={onToggleCity}>
+                            {city.opened ? '👻 hide' : '🔍 unhide'}
                         </button>
                     </span>
+                    {onTopCity && (
+                        <span>
+                            <button onClick={onTopCity}>⬆️ top</button>
+                        </span>
+                    )}
                     {city.opened && weather && (
                         <RefreshedAt dt={weather.current.dt} />
                     )}
