@@ -41,7 +41,7 @@
 .CityWeatherItemHeader {
     display: flex;
     align-items: center;
-    gap: 1em;
+    gap: .25em;
 }
 
 .CityWeatherItemHeaderDetails {
