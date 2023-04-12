@@ -1,3 +1,5 @@
+export const MINUTE = 60_000
+
 export const padTime = (n: number) => `${n < 10 ? '0' : ''}${n}`
 
 export const formatTime = (dt: number) => {

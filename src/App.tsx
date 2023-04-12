@@ -11,14 +11,12 @@ import CitiesList from './components/CitiesList'
 import request from './utils/request'
 
 import './App.css'
+import { MINUTE } from './utils/Date'
+import { AUTO_REFRESH_DELAY, DELAY_HIDE_REFRESH_BUTTON } from './constants'
 
 type Config = {
     apiKey?: string
 }
-
-const MINUTE = 60_000
-const AUTO_REFRESH_DELAY = 60 * MINUTE // 1 hour
-const DELAY_HIDE_REFRESH_BUTTON = MINUTE
 
 const App = () => {
     const [config, setConfig] = useState<Config>({})

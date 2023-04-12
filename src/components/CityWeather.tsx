@@ -7,6 +7,7 @@ import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
 import './CityWeather.css'
+import { DELAY_HIDE_REFRESH_BUTTON } from '../constants'
 
 type CityWeatherItemType = {
     city: CityOrPosition
@@ -70,25 +71,28 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
 
     useEffect(() => {
         ;(async () => {
-            if (apiKey && city.opened) {
-                try {
-                    setError(undefined)
-                    const { lat, lng } = await getCityOrMyPositionLatLng(city)
-                    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
-                    console.log('request url', url)
+            if (!apiKey) return
+            if (!city.opened) return
+            if (weather && Date.now() - refreshKey < DELAY_HIDE_REFRESH_BUTTON)
+                return
 
-                    const data = await request<OpenWeatherResponse>(url)
-                    // const data = await requestMock(url)
+            try {
+                setError(undefined)
+                const { lat, lng } = await getCityOrMyPositionLatLng(city)
+                const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
+                console.log('request url', url)
 
-                    setWeather(data)
-                    onCityRefreshed(true)
-                } catch (e: unknown) {
-                    console.error(e)
-                    setError(e)
-                    onCityRefreshed(false)
-                } finally {
-                    setLoading(false)
-                }
+                const data = await request<OpenWeatherResponse>(url)
+                // const data = await requestMock(url)
+
+                setWeather(data)
+                onCityRefreshed(true)
+            } catch (e: unknown) {
+                console.error(e)
+                setError(e)
+                onCityRefreshed(false)
+            } finally {
+                setLoading(false)
             }
         })()
     }, [refreshKey, city, apiKey, setWeather])
