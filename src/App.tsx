@@ -129,6 +129,7 @@ const App = () => {
     }, [refreshKey, setAllowRefresh])
 
     const autoRefresh = useCallback(() => {
+        if (document.hidden) return
         const now = Date.now()
         const delta = now - refreshKey
         if (delta > AUTO_REFRESH_DELAY) {
@@ -138,8 +139,10 @@ const App = () => {
 
     useEffect(() => {
         document.addEventListener('visibilitychange', autoRefresh, false)
+        window.addEventListener('focus', autoRefresh, false)
         return () => {
             document.removeEventListener('visibilitychange', autoRefresh)
+            window.removeEventListener('focus', autoRefresh)
         }
     }, [autoRefresh])
 
