@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import CurrentWeather from './CurrentWeather'
 import HourlyWeather from './HourlyWeather'
@@ -6,8 +6,8 @@ import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
-import './CityWeather.css'
 import { DELAY_HIDE_REFRESH_BUTTON } from '../constants'
+import './CityWeather.css'
 
 type CityWeatherItemType = {
     city: CityOrPosition
@@ -71,10 +71,13 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
 
     useEffect(() => {
         ;(async () => {
-            if (!apiKey) return
-            if (!city.opened) return
-            if (weather && Date.now() - refreshKey < DELAY_HIDE_REFRESH_BUTTON)
+            const refreshedLately =
+                Date.now() - refreshKey < DELAY_HIDE_REFRESH_BUTTON
+            const noNeedToRefresh = weather && refreshedLately
+            if (!apiKey || !city.opened || noNeedToRefresh) {
+                onCityRefreshed(true)
                 return
+            }
 
             try {
                 setError(undefined)
