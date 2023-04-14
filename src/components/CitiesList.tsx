@@ -26,12 +26,9 @@ const CitiesList: React.FC<CitiesListType> = ({
     const [refreshCityKey, setRefreshCityKey] = useState<number>(Date.now())
     const [cityResfreshNb, setCityRefreshNb] = useState<boolean[]>([])
 
-    const onRefreshedCallback = useCallback(
-        (success: boolean) => {
-            setCityRefreshNb((state) => state.concat(success))
-        },
-        [setCityRefreshNb]
-    )
+    const onRefreshedCallback = useCallback((success: boolean) => {
+        setCityRefreshNb((state) => state.concat(success))
+    }, [])
 
     useEffect(() => {
         setCityRefreshNb([])

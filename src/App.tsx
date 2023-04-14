@@ -45,7 +45,7 @@ const App = () => {
                 }
             }
         })()
-    }, [setConfig])
+    }, [])
 
     const setApiKey = useCallback(() => {
         const apiKey = prompt('Please enter OpenWeatherMap API key')
@@ -55,7 +55,7 @@ const App = () => {
         } else {
             alert('API key seems not valid (must be 32 characters long)')
         }
-    }, [setConfig])
+    }, [])
 
     const onAddCity = useCallback(
         (citywithCountry: CityOrPosition) => {
@@ -69,7 +69,7 @@ const App = () => {
             setCities(newCities)
             saveCitiesInLocalStore(newCities)
         },
-        [cities, setCities]
+        [cities]
     )
 
     const onDeleteCity = useCallback(
@@ -81,7 +81,7 @@ const App = () => {
                 saveCitiesInLocalStore(updatedCities)
             }
         },
-        [cities, setCities]
+        [cities]
     )
 
     const onToggleCity = useCallback(
@@ -93,7 +93,7 @@ const App = () => {
             setCities(updatedCities)
             saveCitiesInLocalStore(updatedCities)
         },
-        [cities, setCities]
+        [cities]
     )
 
     const onTopCity = useCallback(
@@ -104,7 +104,7 @@ const App = () => {
             setCities(updatedCities)
             saveCitiesInLocalStore(updatedCities)
         },
-        [cities, setCities]
+        [cities]
     )
 
     const onRefresh = useCallback(() => {
@@ -135,7 +135,7 @@ const App = () => {
         if (delta > AUTO_REFRESH_DELAY) {
             setRefreshKey(now)
         }
-    }, [refreshKey, setRefreshKey])
+    }, [refreshKey])
 
     useEffect(() => {
         document.addEventListener('visibilitychange', autoRefresh, false)
@@ -154,8 +154,11 @@ const App = () => {
                 <CloudLogo className="AppLogo" />
                 <h1>Weather</h1>
                 <span>
-                    {cities.length > 0 && allowRefresh && (
-                        <button onClick={onRefresh} disabled={refreshing}>
+                    {cities.length > 0 && (
+                        <button
+                            onClick={onRefresh}
+                            disabled={refreshing || !allowRefresh}
+                        >
                             🔄 refresh data
                         </button>
                     )}

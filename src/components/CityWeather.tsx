@@ -95,7 +95,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 setLoading(false)
             }
         })()
-    }, [refreshKey, city, apiKey, setWeather])
+    }, [refreshKey, city, apiKey])
 
     return (
         <div className="CityWeatherItem">
