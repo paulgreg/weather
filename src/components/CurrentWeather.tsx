@@ -37,7 +37,7 @@ const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => (
 )
 
 const Wind: React.FC<{ wind_speed: number }> = ({ wind_speed }) => {
-    const wind = Math.round(wind_speed / 1000)
+    const wind = Math.round(wind_speed * (3600 / 1000))
     if (wind === 0) return <></>
     return (
         <div className="CurrentWeatherWind">
