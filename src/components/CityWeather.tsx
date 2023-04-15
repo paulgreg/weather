@@ -6,7 +6,7 @@ import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
-import { DELAY_HIDE_REFRESH_BUTTON } from '../constants'
+import { DELAY_DISABLE_REFRESH_BUTTON } from '../constants'
 import './CityWeather.css'
 
 type CityWeatherItemType = {
@@ -72,7 +72,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     useEffect(() => {
         ;(async () => {
             const refreshedLately =
-                Date.now() - refreshKey < DELAY_HIDE_REFRESH_BUTTON
+                Date.now() - refreshKey < DELAY_DISABLE_REFRESH_BUTTON
             const noNeedToRefresh = weather && refreshedLately
             if (!apiKey || !city.opened || noNeedToRefresh) {
                 onCityRefreshed(true)

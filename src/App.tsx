@@ -12,7 +12,7 @@ import request from './utils/request'
 
 import './App.css'
 import { MINUTE } from './utils/Date'
-import { AUTO_REFRESH_DELAY, DELAY_HIDE_REFRESH_BUTTON } from './constants'
+import { AUTO_REFRESH_DELAY, DELAY_DISABLE_REFRESH_BUTTON } from './constants'
 
 type Config = {
     apiKey?: string
@@ -122,28 +122,36 @@ const App = () => {
     useEffect(() => {
         const allowTimeout = setTimeout(() => {
             setAllowRefresh(true)
-        }, DELAY_HIDE_REFRESH_BUTTON)
+        }, DELAY_DISABLE_REFRESH_BUTTON)
         return () => {
             clearTimeout(allowTimeout)
         }
     }, [refreshKey, setAllowRefresh])
 
-    const autoRefresh = useCallback(() => {
-        if (!navigator.onLine || document.hidden) return
-        const now = Date.now()
-        const delta = now - refreshKey
-        if (delta > AUTO_REFRESH_DELAY) {
-            setRefreshKey(now)
-        }
-    }, [refreshKey])
+    const autoRefresh = useCallback(
+        (e: Event) => {
+            console.log('autoRefresh triggered by ', e.type)
+            if (!navigator.onLine) {
+                console.log('navigator is offline, returning')
+                return
+            }
+            const now = Date.now()
+            const delta = now - refreshKey
+            if (delta > AUTO_REFRESH_DELAY) {
+                console.log('refreshing')
+                setRefreshKey(now)
+            } else {
+                console.log('NOT refreshing')
+            }
+        },
+        [refreshKey]
+    )
 
     useEffect(() => {
         document.addEventListener('visibilitychange', autoRefresh, false)
-        document.addEventListener('resume', autoRefresh, false)
         window.addEventListener('focus', autoRefresh, false)
         return () => {
             document.removeEventListener('visibilitychange', autoRefresh)
-            document.removeEventListener('resume', autoRefresh)
             window.removeEventListener('focus', autoRefresh)
         }
     }, [autoRefresh])
