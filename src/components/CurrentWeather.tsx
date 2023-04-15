@@ -1,6 +1,7 @@
 import { OpenWeatherCurrentPart } from '../types/OpenWeatherTypes'
 import {
     AnimatedWeatherIcon,
+    CursorIcon,
     DropletIcon,
     SunIcon,
     ThermometerIcon,
@@ -36,13 +37,20 @@ const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => (
     </div>
 )
 
-const Wind: React.FC<{ wind_speed: number }> = ({ wind_speed }) => {
-    const wind = Math.round(wind_speed * (3600 / 1000))
-    if (wind === 0) return <></>
+const Wind: React.FC<{ wind_speed: number; wind_deg: number }> = ({
+    wind_speed,
+    wind_deg,
+}) => {
+    const windInKmH = Math.round(wind_speed * (3600 / 1000))
+    if (windInKmH === 0) return <></>
     return (
         <div className="CurrentWeatherWind">
             <WindIcon className="CurrentWeatherIcon" />
-            wind: {wind} km/h
+            wind: {windInKmH} km/h
+            <CursorIcon
+                rotation={wind_deg + 180}
+                className="CurrentWeatherWindCursor"
+            />
         </div>
     )
 }
@@ -69,7 +77,10 @@ const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart }> = ({
             <div>
                 <Humidity humidity={current.humidity} />
                 <UVIndex uvi={current.uvi} />
-                <Wind wind_speed={current.wind_speed} />
+                <Wind
+                    wind_speed={current.wind_speed}
+                    wind_deg={current.wind_deg}
+                />
             </div>
             <div>
                 <h3>{current.weather[0].main}</h3>

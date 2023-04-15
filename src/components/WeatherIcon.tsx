@@ -28,6 +28,7 @@ import ThermometerHigh from '../assets/thermometer-high.svg'
 import Wind from '../assets/wind.svg'
 import Droplet from '../assets/droplet.svg'
 import Sun from '../assets/sun.svg'
+import Cursor from '../assets/cursor.svg'
 
 import Gear from '../assets/gear-wide.svg'
 
@@ -155,12 +156,14 @@ const SvgIcon: React.FC<{
     icon: string
     className?: string
     size?: WeatherIconSize
-}> = ({ icon, className = '', size = WeatherIconSize.XS }) => (
+    style?: Record<string, string>
+}> = ({ icon, className = '', size = WeatherIconSize.XS, style = {} }) => (
     <img
         src={icon}
         style={{
             width: size,
             height: size,
+            ...style,
         }}
         className={`invertable ${className}`}
     />
@@ -191,4 +194,18 @@ export const GearIcon: React.FC<{
     className?: string
 }> = ({ className }) => (
     <SvgIcon icon={Gear} size={WeatherIconSize.L} className={className} />
+)
+
+export const CursorIcon: React.FC<{
+    rotation?: number
+    className?: string
+}> = ({ rotation = 0, className }) => (
+    <SvgIcon
+        icon={Cursor}
+        size={WeatherIconSize.XS}
+        className={className}
+        style={{
+            transform: `rotate(${rotation}deg)`,
+        }}
+    />
 )

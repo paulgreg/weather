@@ -39,6 +39,10 @@
     margin: 0.2em auto;
 }
 
+.CurrentWeatherWindCursor {
+    margin-left: .25em;
+}
+
 .CurrentWeatherUVValue {
     margin-left: .2em;
 }

@@ -130,7 +130,7 @@ const App = () => {
 
     const autoRefresh = useCallback(
         (e: Event) => {
-            console.log('autoRefresh triggered by ', e.type)
+            console.log('autoRefresh triggered by', e.type)
             if (!navigator.onLine) {
                 console.log('navigator is offline, returning')
                 return
