@@ -137,6 +137,7 @@ const App = () => {
             }
             const now = Date.now()
             const delta = now - refreshKey
+            console.log('delta', delta, ' - limit', AUTO_REFRESH_DELAY)
             if (delta > AUTO_REFRESH_DELAY) {
                 console.log('refreshing')
                 setRefreshKey(now)
