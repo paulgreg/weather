@@ -1,4 +1,5 @@
 export const MINUTE = 60_000
+export const HOUR = 60 * MINUTE
 
 export const padTime = (n: number) => `${n < 10 ? '0' : ''}${n}`
 

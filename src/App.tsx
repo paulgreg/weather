@@ -10,6 +10,7 @@ import SearchCity from './components/SearchCity'
 import CitiesList from './components/CitiesList'
 import request from './utils/request'
 import './App.css'
+import { HOUR } from './utils/Date'
 
 type Config = {
     apiKey?: string
@@ -112,6 +113,23 @@ const App = () => {
         console.log('onCitiesRefreshed', success)
         setRefreshing(false)
     }, [])
+
+    const autoRefresh = useCallback(() => {
+        const delta = Date.now() - refreshKey
+        if (delta > HOUR) {
+            alert(`should refresh ${delta}`)
+            setRefreshKey(Date.now())
+        }
+    }, [refreshKey])
+
+    useEffect(() => {
+        document.addEventListener('visibilitychange', autoRefresh, false)
+        window.addEventListener('focus', autoRefresh, false)
+        return () => {
+            document.removeEventListener('visibilitychange', autoRefresh)
+            window.removeEventListener('focus', autoRefresh)
+        }
+    }, [autoRefresh])
 
     return (
         <div className="App">
