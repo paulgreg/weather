@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { ReactComponent as CloudLogo } from './assets/cloud.svg'
+import { AUTO_REFRESH_DELAY, DELAY_DISABLE_REFRESH_BUTTON } from './constants'
 import {
     getApiKeyFromLocalStore,
     getCitiesFromLocalStore,
@@ -9,10 +10,8 @@ import {
 import SearchCity from './components/SearchCity'
 import CitiesList from './components/CitiesList'
 import request from './utils/request'
-
 import './App.css'
-import { MINUTE } from './utils/Date'
-import { AUTO_REFRESH_DELAY, DELAY_DISABLE_REFRESH_BUTTON } from './constants'
+import useRefreshKey from './utils/useRefreshKey'
 
 type Config = {
     apiKey?: string
@@ -23,9 +22,9 @@ const App = () => {
     const [cities, setCities] = useState<CityOrPosition[]>(
         getCitiesFromLocalStore
     )
-    const [refreshKey, setRefreshKey] = useState<number>(Date.now())
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false)
     const [refreshing, setRefreshing] = useState<boolean>(false)
+    const { refreshKey, updateRefreshKey } = useRefreshKey()
 
     useEffect(() => {
         ;(async () => {
@@ -108,7 +107,7 @@ const App = () => {
     )
 
     const onRefresh = useCallback(() => {
-        setRefreshKey(Date.now())
+        updateRefreshKey()
         setRefreshing(true)
     }, [refreshKey])
 
@@ -130,19 +129,18 @@ const App = () => {
 
     const autoRefresh = useCallback(
         (e: Event) => {
-            console.log('autoRefresh triggered by', e.type)
+            const delta = Date.now() - refreshKey
             if (!navigator.onLine) {
-                console.log('navigator is offline, returning')
-                return
-            }
-            const now = Date.now()
-            const delta = now - refreshKey
-            console.log('delta', delta, ' - limit', AUTO_REFRESH_DELAY)
-            if (delta > AUTO_REFRESH_DELAY) {
-                console.log('refreshing')
-                setRefreshKey(now)
+                console.log('X navigator is offline, STOP')
+            } else if (document.hidden) {
+                console.log('X document is hidden, STOP')
+            } else if (delta < AUTO_REFRESH_DELAY) {
+                console.log(
+                    `X delta too low: ${delta}<${AUTO_REFRESH_DELAY}, STOP`
+                )
             } else {
-                console.log('NOT refreshing')
+                console.log('>>> refreshing - autoRefresh triggered by', e.type)
+                updateRefreshKey()
             }
         },
         [refreshKey]
