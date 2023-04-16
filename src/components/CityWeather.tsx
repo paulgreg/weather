@@ -6,6 +6,7 @@ import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
+import { wait } from '../utils/Date'
 import './CityWeather.css'
 
 type CityWeatherItemType = {
@@ -81,8 +82,11 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
                 console.log('request url', url)
 
-                const data = await request<OpenWeatherResponse>(url)
-                // const data = await requestMock(url)
+                const [data] = [
+                    await request<OpenWeatherResponse>(url),
+                    //await requestMock(url),
+                    await wait(500), // make request a little longer to display reloading
+                ]
 
                 setWeather(data)
                 onCityRefreshed(true)

@@ -6,10 +6,7 @@ type options = {
 export const requestMock = async (
     url: string,
     options?: options
-): Promise<OpenWeatherResponse> =>
-    new Promise((resolve) => {
-        setTimeout(() => resolve(buildOneCallMock()), Math.random() * 1000)
-    })
+): Promise<OpenWeatherResponse> => Promise.resolve(buildOneCallMock())
 
 export const buildOneCallMock = () =>
     ({

@@ -43,3 +43,8 @@ export const formatDate = (dt: number, idx: number) => {
         month: pad(d.getMonth()),
     }
 }
+
+export const wait = (time: number) =>
+    new Promise((resolve) => {
+        setTimeout(() => resolve(resolve), time)
+    })
