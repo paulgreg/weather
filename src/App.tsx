@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
 import { ReactComponent as CloudLogo } from './assets/cloud.svg'
-import { AUTO_REFRESH_DELAY, DELAY_DISABLE_REFRESH_BUTTON } from './constants'
 import {
     getApiKeyFromLocalStore,
     getCitiesFromLocalStore,
@@ -11,7 +10,6 @@ import SearchCity from './components/SearchCity'
 import CitiesList from './components/CitiesList'
 import request from './utils/request'
 import './App.css'
-import useRefreshKey from './utils/useRefreshKey'
 
 type Config = {
     apiKey?: string
@@ -22,9 +20,8 @@ const App = () => {
     const [cities, setCities] = useState<CityOrPosition[]>(
         getCitiesFromLocalStore
     )
-    const [allowRefresh, setAllowRefresh] = useState<boolean>(false)
     const [refreshing, setRefreshing] = useState<boolean>(false)
-    const { refreshKey, updateRefreshKey } = useRefreshKey()
+    const [refreshKey, setRefreshKey] = useState<number>(Date.now())
 
     useEffect(() => {
         ;(async () => {
@@ -107,53 +104,14 @@ const App = () => {
     )
 
     const onRefresh = useCallback(() => {
-        updateRefreshKey()
+        setRefreshKey(Date.now())
         setRefreshing(true)
     }, [refreshKey])
 
     const onCitiesRefreshed = useCallback((success: boolean) => {
+        console.log('onCitiesRefreshed', success)
         setRefreshing(false)
-        if (success) {
-            setAllowRefresh(false)
-        }
     }, [])
-
-    useEffect(() => {
-        const allowTimeout = setTimeout(() => {
-            setAllowRefresh(true)
-        }, DELAY_DISABLE_REFRESH_BUTTON)
-        return () => {
-            clearTimeout(allowTimeout)
-        }
-    }, [refreshKey, setAllowRefresh])
-
-    const autoRefresh = useCallback(
-        (e: Event) => {
-            const delta = Date.now() - refreshKey
-            if (!navigator.onLine) {
-                console.log('X navigator is offline, STOP')
-            } else if (document.hidden) {
-                console.log('X document is hidden, STOP')
-            } else if (delta < AUTO_REFRESH_DELAY) {
-                console.log(
-                    `X delta too low: ${delta}<${AUTO_REFRESH_DELAY}, STOP`
-                )
-            } else {
-                console.log('>>> refreshing - autoRefresh triggered by', e.type)
-                updateRefreshKey()
-            }
-        },
-        [refreshKey]
-    )
-
-    useEffect(() => {
-        document.addEventListener('visibilitychange', autoRefresh, false)
-        window.addEventListener('focus', autoRefresh, false)
-        return () => {
-            document.removeEventListener('visibilitychange', autoRefresh)
-            window.removeEventListener('focus', autoRefresh)
-        }
-    }, [autoRefresh])
 
     return (
         <div className="App">
@@ -162,10 +120,7 @@ const App = () => {
                 <h1>Weather</h1>
                 <span>
                     {cities.length > 0 && (
-                        <button
-                            onClick={onRefresh}
-                            disabled={refreshing || !allowRefresh}
-                        >
+                        <button onClick={onRefresh} disabled={refreshing}>
                             🔄 refresh data
                         </button>
                     )}
