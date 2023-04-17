@@ -49,3 +49,7 @@ export const wait = (time: number) =>
     new Promise((resolve) => {
         setTimeout(() => resolve(resolve), time)
     })
+
+const roundToMinute = (time: number) => Math.round(time / 1000 / 60)
+
+export const getTimeRoundedToMinute = () => roundToMinute(Date.now())

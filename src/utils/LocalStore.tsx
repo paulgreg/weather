@@ -4,9 +4,8 @@ export const LOCALSTORAGE_API_KEY = 'WEATHER_CITIES_API_KEY'
 
 export const LOCALSTORAGE_REFRESH_KEY = 'WEATHER_CITIES_REFRESH_KEY'
 
-export const getCitiesFromLocalStore: CityOrPosition[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || '[]'
-)
+export const getCitiesFromLocalStore: () => CityOrPosition[] = () =>
+    JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY) || '[]')
 
 export const saveCitiesInLocalStore = (newCities: CityOrPosition[]) =>
     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(newCities))

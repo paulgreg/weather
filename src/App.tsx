@@ -9,8 +9,8 @@ import {
 import SearchCity from './components/SearchCity'
 import CitiesList from './components/CitiesList'
 import request from './utils/request'
+import { getTimeRoundedToMinute } from './utils/Date'
 import './App.css'
-import { HOUR } from './utils/Date'
 
 type Config = {
     apiKey?: string
@@ -19,10 +19,12 @@ type Config = {
 const App = () => {
     const [config, setConfig] = useState<Config>({})
     const [cities, setCities] = useState<CityOrPosition[]>(
-        getCitiesFromLocalStore
+        getCitiesFromLocalStore()
     )
-    const [refreshing, setRefreshing] = useState<boolean>(false)
-    const [refreshKey, setRefreshKey] = useState<number>(Date.now())
+    const [disableRefresh, setDisableRefresh] = useState<boolean>(true)
+    const [refreshKey, setRefreshKey] = useState<number>(
+        getTimeRoundedToMinute()
+    )
 
     useEffect(() => {
         ;(async () => {
@@ -105,21 +107,23 @@ const App = () => {
     )
 
     const onRefresh = useCallback(() => {
-        setRefreshKey(Date.now())
-        setRefreshing(true)
+        setRefreshKey(getTimeRoundedToMinute())
+        setDisableRefresh(true)
     }, [refreshKey])
 
     const onCitiesRefreshed = useCallback((success: boolean) => {
         console.log('onCitiesRefreshed', success)
-        setRefreshing(false)
+        if (!success) setDisableRefresh(false)
     }, [])
 
     const autoRefresh = useCallback(
         (e: Event) => {
-            const delta = Date.now() - refreshKey
-            if (delta > HOUR) {
-                alert(`should refresh ${e.type} ${delta}`)
-                setRefreshKey(Date.now())
+            const delta = getTimeRoundedToMinute() - refreshKey
+            console.log(`autoRefresh from ${e.type} - delta: ${delta}`)
+            if (delta >= 1) {
+                setDisableRefresh(false)
+            } else if (delta >= 60) {
+                setRefreshKey(getTimeRoundedToMinute())
             }
         },
         [refreshKey]
@@ -141,7 +145,7 @@ const App = () => {
                 <h1>Weather</h1>
                 <span>
                     {cities.length > 0 && (
-                        <button onClick={onRefresh} disabled={refreshing}>
+                        <button onClick={onRefresh} disabled={disableRefresh}>
                             🔄 refresh data
                         </button>
                     )}
