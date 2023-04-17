@@ -114,13 +114,16 @@ const App = () => {
         setRefreshing(false)
     }, [])
 
-    const autoRefresh = useCallback(() => {
-        const delta = Date.now() - refreshKey
-        if (delta > HOUR) {
-            alert(`should refresh ${delta}`)
-            setRefreshKey(Date.now())
-        }
-    }, [refreshKey])
+    const autoRefresh = useCallback(
+        (e: Event) => {
+            const delta = Date.now() - refreshKey
+            if (delta > HOUR) {
+                alert(`should refresh ${e.type} ${delta}`)
+                setRefreshKey(Date.now())
+            }
+        },
+        [refreshKey]
+    )
 
     useEffect(() => {
         document.addEventListener('visibilitychange', autoRefresh, false)
