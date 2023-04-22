@@ -24,13 +24,13 @@ const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
 }
 const Temp: React.FC<{ temp: OpenWeatherDailyTemp }> = ({ temp }) => (
     <>
-        <span className="DailyWeatherTemp DailyWeatherTempDay">
-            <ThermometerIcon high />
-            {Math.round(temp.day)}°
-        </span>
         <span className="DailyWeatherTemp DailyWeatherTempNight">
             <ThermometerIcon />
             {Math.round(temp.night)}°
+        </span>
+        <span className="DailyWeatherTemp DailyWeatherTempDay">
+            <ThermometerIcon high />
+            {Math.round(temp.day)}°
         </span>
     </>
 )
