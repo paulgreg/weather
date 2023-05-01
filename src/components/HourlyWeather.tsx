@@ -36,7 +36,7 @@ const Rain: React.FC<{ rain?: OpenWeatherRain }> = ({ rain }) => {
             <span className="HourlyWeatherRain">
                 <DropletIcon
                     className="HourlyWeatherRainIcon"
-                    size={WeatherIconSize.XXS}
+                    size={WeatherIconSize.XXXS}
                 />
                 {mm}mm
             </span>

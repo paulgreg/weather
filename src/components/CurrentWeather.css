@@ -70,6 +70,18 @@
     font-weight: bold;
 }
 
+.CurrentWeatherSunRiseAndSet {
+    font-size: .8em;
+}
+
+.CurrentWeatherSunRiseIcon {
+    margin-right: 4px;
+}
+
+.CurrentWeatherSunsetIcon {
+    margin: auto 4px auto 8px;
+}
+
 @media (prefers-color-scheme: dark) {
     .CurrentWeatherUV-low {
         color: lightgreen;

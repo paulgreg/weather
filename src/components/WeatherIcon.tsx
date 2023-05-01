@@ -28,12 +28,14 @@ import ThermometerHigh from '../assets/thermometer-high.svg'
 import Wind from '../assets/wind.svg'
 import Droplet from '../assets/droplet.svg'
 import Sun from '../assets/sun.svg'
+import Moon from '../assets/moon.svg'
 import Cursor from '../assets/cursor.svg'
 
 import Gear from '../assets/gear-wide.svg'
 
 export const enum WeatherIconSize {
-    XXS = '10px',
+    XXXS = '10px',
+    XXS = '14px',
     XS = '20px',
     S = '30px',
     M = '50px',
@@ -188,6 +190,13 @@ export const SunIcon: React.FC<{
     className?: string
 }> = ({ size, className }) => (
     <SvgIcon icon={Sun} size={size} className={className} />
+)
+
+export const MoonIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size, className }) => (
+    <SvgIcon icon={Moon} size={size} className={className} />
 )
 
 export const GearIcon: React.FC<{

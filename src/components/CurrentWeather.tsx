@@ -3,11 +3,13 @@ import {
     AnimatedWeatherIcon,
     CursorIcon,
     DropletIcon,
+    MoonIcon,
     SunIcon,
     ThermometerIcon,
     WeatherIconSize,
     WindIcon,
 } from './WeatherIcon'
+import { formatDate } from '../utils/Date'
 import './CurrentWeather.css'
 
 const uvIndexToLabel = (uvi: number) => {
@@ -62,6 +64,28 @@ const Humidity: React.FC<{ humidity: number }> = ({ humidity }) => (
     </div>
 )
 
+const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({
+    sunrise,
+    sunset,
+}) => {
+    const sunriseDate = formatDate(sunrise)
+    const sunsetDate = formatDate(sunset)
+    return (
+        <div className="CurrentWeatherSunRiseAndSet">
+            <SunIcon
+                size={WeatherIconSize.XXS}
+                className="CurrentWeatherSunRiseIcon"
+            />
+            {sunriseDate.hour}:{sunriseDate.minute}
+            <MoonIcon
+                size={WeatherIconSize.XXS}
+                className="CurrentWeatherSunsetIcon"
+            />
+            {sunsetDate.hour}:{sunsetDate.minute}
+        </div>
+    )
+}
+
 const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart }> = ({
     current,
 }) => (
@@ -80,6 +104,10 @@ const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart }> = ({
                 <Wind
                     wind_speed={current.wind_speed}
                     wind_deg={current.wind_deg}
+                />
+                <SunRiseAndSet
+                    sunrise={current.sunrise}
+                    sunset={current.sunset}
                 />
             </div>
             <div>
