@@ -39,17 +39,17 @@ a:hover {
 
 h1 {
   font-size: 2.8em;
-  margin: 0.4em 0 0.25em 0;
+  margin: 0.3em 0 0.25em 0;
 }
 
 h2 {
   font-size: 2em;
-  margin: 0.3em 0 0.15em 0;
+  margin: 0.2em 0 0.15em 0;
 }
 
 h3 {
   font-size: 1.6em;
-  margin: 0.2em 0 0.1em 0;
+  margin: 0.1em 0 0.1em 0;
 }
 
 h4 {
@@ -103,7 +103,7 @@ summary {
 
 @media (max-width: 600px) {
   h1 {
-    font-size: 2em;
+    font-size: 1.8em;
   }
 
   h2 {
@@ -116,6 +116,10 @@ summary {
 
   h4 {
     font-size: 1.2em;
+  }
+
+  button {
+    font-size: 0.8em;
   }
 }
 

@@ -15,7 +15,7 @@ export const buildOneCallMock = () =>
         timezone: 'Europe/Paris',
         timezone_offset: 7200,
         current: {
-            dt: Date.now(),
+            dt: Date.now() / 1000,
             sunrise: 1680326943,
             sunset: 1680373189,
             temp: 14.86,

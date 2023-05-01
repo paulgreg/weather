@@ -6,8 +6,9 @@ import DailyWeather from './DailyWeather'
 import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
-import { wait } from '../utils/Date'
+import { formatDate, wait } from '../utils/Date'
 import './CityWeather.css'
+import { requestMock } from '../utils/OpenWeatherMock'
 
 type CityWeatherItemType = {
     city: CityOrPosition
@@ -19,11 +20,18 @@ type CityWeatherItemType = {
     onCityRefreshed: (success: boolean) => void
 }
 
-const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => (
-    <small className="RefreshedAt">
-        refreshed at {new Date(dt * 1000).toLocaleTimeString()}
-    </small>
-)
+const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => {
+    const d = formatDate(dt)
+    return (
+        <small className="RefreshedAt">
+            refreshed at{' '}
+            <strong>
+                {d.hour}:{d.minute}
+            </strong>{' '}
+            ({d.date}/{d.month}/{d.year})
+        </small>
+    )
+}
 const getCurrentPosition = () =>
     new Promise<GeolocationPosition>((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -107,17 +115,13 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 <div className="CityWeatherItemHeaderDetails">
                     <span>
                         <button onClick={onDeleteCity}>❌ delete</button>
-                    </span>
-                    <span>
                         <button onClick={onToggleCity}>
                             {city.opened ? '👻 hide' : '🔍 unhide'}
                         </button>
-                    </span>
-                    {onTopCity && (
-                        <span>
+                        {onTopCity && (
                             <button onClick={onTopCity}>⬆️ top</button>
-                        </span>
-                    )}
+                        )}
+                    </span>
                     {city.opened && weather && (
                         <RefreshedAt dt={weather.current.dt} />
                     )}

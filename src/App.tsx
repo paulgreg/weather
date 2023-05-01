@@ -21,10 +21,7 @@ const App = () => {
     const [cities, setCities] = useState<CityOrPosition[]>(
         getCitiesFromLocalStore()
     )
-    const [disableRefresh, setDisableRefresh] = useState<boolean>(true)
-    const [refreshKey, setRefreshKey] = useState<number>(
-        getTimeRoundedToMinute()
-    )
+    const [refreshKey] = useState<number>(getTimeRoundedToMinute())
 
     useEffect(() => {
         ;(async () => {
@@ -106,50 +103,15 @@ const App = () => {
         [cities]
     )
 
-    const onRefresh = useCallback(() => {
-        setRefreshKey(getTimeRoundedToMinute())
-        setDisableRefresh(true)
-    }, [refreshKey])
-
     const onCitiesRefreshed = useCallback((success: boolean) => {
         console.log('onCitiesRefreshed', success)
-        if (!success) setDisableRefresh(false)
     }, [])
-
-    const autoRefresh = useCallback(
-        (e: Event) => {
-            const delta = getTimeRoundedToMinute() - refreshKey
-            console.log(`autoRefresh from ${e.type} - delta: ${delta}`)
-            if (delta >= 1) {
-                setDisableRefresh(false)
-            } else if (delta >= 60) {
-                setRefreshKey(getTimeRoundedToMinute())
-            }
-        },
-        [refreshKey]
-    )
-
-    useEffect(() => {
-        document.addEventListener('visibilitychange', autoRefresh, false)
-        window.addEventListener('focus', autoRefresh, false)
-        return () => {
-            document.removeEventListener('visibilitychange', autoRefresh)
-            window.removeEventListener('focus', autoRefresh)
-        }
-    }, [autoRefresh])
 
     return (
         <div className="App">
             <header>
                 <CloudLogo className="AppLogo" />
                 <h1>Weather</h1>
-                <span>
-                    {cities.length > 0 && (
-                        <button onClick={onRefresh} disabled={disableRefresh}>
-                            🔄 refresh data
-                        </button>
-                    )}
-                </span>
             </header>
             <CitiesList
                 cities={cities}
