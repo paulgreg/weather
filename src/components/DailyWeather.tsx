@@ -57,7 +57,7 @@ const DailyWeather: React.FC<{
     itemClassName: string
 }> = ({ daily, listClassName, itemClassName }) => (
     <div>
-        <h2>Next days</h2>
+        <h2>Day by day</h2>
         <div className={`${listClassName} DailyWeatherList`}>
             {daily.map((daily, idx) => (
                 <div

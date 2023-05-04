@@ -53,7 +53,7 @@ const HourlyWeather: React.FC<{
     itemClassName: string
 }> = ({ hourly, sunrise, sunset, listClassName, itemClassName }) => (
     <div>
-        <h2>Next 24 hours</h2>
+        <h2>Hour by hour</h2>
         <div className={listClassName}>
             {hourly.map((hourly) => (
                 <div
