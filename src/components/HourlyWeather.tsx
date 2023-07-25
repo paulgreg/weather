@@ -4,6 +4,7 @@ import {
 } from '../types/OpenWeatherTypes'
 import { formatTime, getHour } from '../utils/Date'
 import { DropletIcon, StaticWeatherIcon, WeatherIconSize } from './WeatherIcon'
+import { useTranslation } from 'react-i18next'
 import './HourlyWeather.css'
 
 const Time: React.FC<{ dt: number }> = ({ dt }) => <span>{formatTime(dt)}</span>
@@ -51,28 +52,30 @@ const HourlyWeather: React.FC<{
     sunset: number
     listClassName: string
     itemClassName: string
-}> = ({ hourly, sunrise, sunset, listClassName, itemClassName }) => (
-    <div>
-        <h2>Hour by hour</h2>
-        <div className={listClassName}>
-            {hourly.map((hourly) => (
-                <div
-                    className={`${itemClassName} HourlyWeatherItem`}
-                    key={hourly.dt}
-                >
-                    <Time dt={hourly.dt} />
-                    <FeelsLike
-                        feels_like={hourly.feels_like}
-                        dt={hourly.dt}
-                        sunrise={sunrise}
-                        sunset={sunset}
-                    />
-                    <StaticWeatherIcon icon={hourly.weather[0].icon} />
-                    <Rain rain={hourly.rain} />
-                </div>
-            ))}
+}> = ({ hourly, sunrise, sunset, listClassName, itemClassName }) => {
+    const { t } = useTranslation()
+    return (
+        <div>
+            <h2>{t('hourByHour')}</h2>
+            <div className={listClassName}>
+                {hourly.map((hourly) => (
+                    <div
+                        className={`${itemClassName} HourlyWeatherItem`}
+                        key={hourly.dt}
+                    >
+                        <Time dt={hourly.dt} />
+                        <FeelsLike
+                            feels_like={hourly.feels_like}
+                            dt={hourly.dt}
+                            sunrise={sunrise}
+                            sunset={sunset}
+                        />
+                        <StaticWeatherIcon icon={hourly.weather[0].icon} />
+                        <Rain rain={hourly.rain} />
+                    </div>
+                ))}
+            </div>
         </div>
-    </div>
-)
-
+    )
+}
 export default HourlyWeather

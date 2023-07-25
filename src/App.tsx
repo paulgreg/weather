@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { ReactComponent as CloudLogo } from './assets/cloud.svg'
+import { initReactI18next, useTranslation } from 'react-i18next'
+
 import {
     getApiKeyFromLocalStore,
     getCitiesFromLocalStore,
@@ -10,18 +12,20 @@ import SearchCity from './components/SearchCity'
 import CitiesList from './components/CitiesList'
 import request from './utils/request'
 import { getTimeRoundedToMinute } from './utils/Date'
+import './i18n'
 import './App.css'
 
 type Config = {
     apiKey?: string
 }
-
 const App = () => {
     const [config, setConfig] = useState<Config>({})
     const [cities, setCities] = useState<CityOrPosition[]>(
         getCitiesFromLocalStore()
     )
     const [refreshKey] = useState<number>(getTimeRoundedToMinute())
+
+    const { t } = useTranslation()
 
     useEffect(() => {
         ;(async () => {
@@ -43,13 +47,13 @@ const App = () => {
         })()
     }, [])
 
-    const setApiKey = useCallback(() => {
-        const apiKey = prompt('Please enter OpenWeatherMap API key')
+    const apiKeyTitle = useCallback(() => {
+        const apiKey = prompt(t('apiKeyPrompt'))
         if (apiKey?.length === 32) {
             setConfig({ apiKey })
             saveApiKeyInLocalStore(apiKey)
         } else {
-            alert('API key seems not valid (must be 32 characters long)')
+            alert(t('apiKeyInvalid'))
         }
     }, [])
 
@@ -59,7 +63,7 @@ const App = () => {
                 (city) => city.label === citywithCountry.label
             )
             if (cityAlreadyInList) {
-                return alert('City is already in your list')
+                return alert(t('cityAlreadyInList'))
             }
             const newCities = cities.concat(citywithCountry)
             setCities(newCities)
@@ -70,7 +74,7 @@ const App = () => {
 
     const onDeleteCity = useCallback(
         (idx: number) => () => {
-            if (confirm(`Delete ${cities[idx].label} ?`)) {
+            if (confirm(`${t('delete')} ${cities[idx].label} ?`)) {
                 const updatedCities = [...cities]
                 updatedCities.splice(idx, 1)
                 setCities(updatedCities)
@@ -111,7 +115,7 @@ const App = () => {
         <div className="App">
             <header>
                 <CloudLogo className="AppLogo" />
-                <h1>Weather</h1>
+                <h1>{t('title')}</h1>
             </header>
             <CitiesList
                 cities={cities}
@@ -123,23 +127,22 @@ const App = () => {
                 onCitiesRefreshed={onCitiesRefreshed}
             />
             <details className="AddCity" open={cities.length === 0}>
-                <summary>Add a city</summary>
+                <summary>{t('addCity')}</summary>
                 <SearchCity onAddCity={onAddCity} />
             </details>
-            <details className="SetApiKey" open={!config.apiKey}>
-                <summary>Set API key</summary>
+            <details className="apiKeyTitle" open={!config.apiKey}>
+                <summary>{t('apiKeyTitle')}</summary>
                 <p>
                     {!config.apiKey && '⚠ ️'}
-                    An{' '}
+                    {t('apiKeyIntro')} :
                     <a href="https://openweathermap.org/" target="_blank">
                         OpenWeatherMap
-                    </a>{' '}
-                    api key is needed to request weather.
+                    </a>
+                    .
                 </p>
                 <p>
-                    {config.apiKey &&
-                        'An API key is already set but you can define another one. '}
-                    <a onClick={setApiKey}>Click here to define an API key</a>
+                    {config.apiKey && t('apiKeyMsg')}
+                    <a onClick={apiKeyTitle}>{t('apiKeySet')}</a>
                 </p>
             </details>
         </div>

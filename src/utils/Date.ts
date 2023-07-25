@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 export const MINUTE = 60_000
 export const HOUR = 60 * MINUTE
 
@@ -14,23 +16,24 @@ export const getHour = (dt: number) => {
 }
 
 const getDayName = (day: number, idx?: number) => {
-    if (idx === 0) return 'today'
-    if (idx === 1) return 'tomorrow'
+    const { t } = useTranslation()
+    if (idx === 0) return t('today')
+    if (idx === 1) return t('tomorrow')
     switch (day) {
         case 0:
-            return 'Sunday'
+            return t('sunday')
         case 1:
-            return 'Monday'
+            return t('monday')
         case 2:
-            return 'Tuesday'
+            return t('tuesday')
         case 3:
-            return 'Wednesday'
+            return t('wednesday')
         case 4:
-            return 'Thursday'
+            return t('thursday')
         case 5:
-            return 'Friday'
+            return t('friday')
         default:
-            return 'Saturday'
+            return t('saturday')
     }
 }
 

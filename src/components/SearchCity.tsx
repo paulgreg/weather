@@ -4,6 +4,7 @@ import Select, { SingleValue } from 'react-select'
 import AsyncSelect from 'react-select/async'
 
 import './SearchCity.css'
+import { useTranslation } from 'react-i18next'
 
 type SearchCityType = {
     onAddCity: (cityWithCountry: CityOrPosition) => void
@@ -31,6 +32,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
     const [cities, setCities] = useState<LightCity[]>([])
     const [country, setCountry] = useState<Country>()
     const [city, setCity] = useState<LightCity>()
+    const { t } = useTranslation()
 
     useEffect(() => {
         ;(async () => {
@@ -114,7 +116,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
             e.preventDefault()
             onAddCity({
                 myposition: true,
-                label: 'My position',
+                label: t('myPosition'),
                 opened: true,
             })
         },
@@ -126,38 +128,40 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
             <section className="SearchCity">
                 <input
                     type="submit"
-                    value="📍 add my position"
+                    value={`📍 ${t('myPositionAdd')}`}
                     onClick={onSubmitMyPosition}
                 />
-                <p>or</p>
+                <p>{t('or')}</p>
                 <form onSubmit={onSubmitCity}>
                     <label>
-                        <span>Country:</span>
+                        <span>{t('country')} :</span>
                         <Select
                             classNamePrefix="react-select"
                             className="SearchCityReactSelect"
                             isLoading={isLoadingCountries}
-                            placeholder="Select a country"
+                            placeholder={t('countrySelect')}
                             options={groupedCountriesOptions}
                             onChange={onCountryChange}
+                            noOptionsMessage={() => t('noResult')}
                         />
                     </label>
                     <label>
-                        <span>City:</span>
+                        <span>{t('city')} :</span>
                         <AsyncSelect
                             classNamePrefix="react-select"
                             className="SearchCityReactSelect"
                             isDisabled={!country}
                             isLoading={isLoadingCities}
-                            placeholder="Start typing a city"
+                            placeholder={t('citySelect')}
                             loadOptions={loadCitiesOptions}
                             onChange={onCityChange}
+                            noOptionsMessage={() => t('noResult')}
                         />
                     </label>
                     <div className="submit">
                         <input
                             type="submit"
-                            value="➕ add"
+                            value={`➕ ${t('add')}`}
                             disabled={!Boolean(city)}
                         />
                     </div>

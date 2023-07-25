@@ -13,7 +13,7 @@ type LightCity = {
 
 type MyPosition = {
     myposition: true
-    label: 'My position'
+    label: string
 }
 
 type City = LightCity & Country

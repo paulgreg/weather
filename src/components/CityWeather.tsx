@@ -7,8 +7,8 @@ import WeatherAlerts from './WeatherAlerts'
 import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
 import { formatDate, wait } from '../utils/Date'
+import { useTranslation } from 'react-i18next'
 import './CityWeather.css'
-import { requestMock } from '../utils/OpenWeatherMock'
 
 type CityWeatherItemType = {
     city: CityOrPosition
@@ -21,10 +21,11 @@ type CityWeatherItemType = {
 }
 
 const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => {
+    const { t } = useTranslation()
     const d = formatDate(dt)
     return (
         <small className="RefreshedAt">
-            refreshed at{' '}
+            {t('refreshedAt')}{' '}
             <strong>
                 {d.hour}:{d.minute}
             </strong>{' '}
@@ -51,8 +52,9 @@ const getCityOrMyPositionLatLng = async (city: CityOrPosition) => {
 }
 
 const CityTitle: React.FC<{ city: CityOrPosition }> = ({ city }) => {
+    const { t } = useTranslation()
     if ('myposition' in city) {
-        return <h1>My position</h1>
+        return <h1>{t('myPosition')}</h1>
     }
     return (
         <h1>
@@ -76,6 +78,8 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<any>()
+    const { t, i18n } = useTranslation()
+    const language = i18n.language
 
     useEffect(() => {
         ;(async () => {
@@ -87,12 +91,12 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
             try {
                 setError(undefined)
                 const { lat, lng } = await getCityOrMyPositionLatLng(city)
-                const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=en`
+                const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=${language}`
                 console.log('request url', url)
 
                 const [data] = [
                     await request<OpenWeatherResponse>(url),
-                    //await requestMock(url),
+                    // await requestMock(url),
                     await wait(500), // make request a little longer to display reloading
                 ]
 
@@ -114,17 +118,11 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                 <CityTitle city={city} />
                 <div className="CityWeatherItemHeaderDetails">
                     <span>
-                        <button onClick={onDeleteCity}>❌ delete</button>
-                        <button onClick={onToggleCity}>
-                            {city.opened ? '👻 hide' : '🔍 unhide'}
-                        </button>
-                        {onTopCity && (
-                            <button onClick={onTopCity}>⬆️ top</button>
-                        )}
+                        <button onClick={onDeleteCity}>❌ {t('delete')}</button>
+                        <button onClick={onToggleCity}>{city.opened ? '👻 hide' : '🔍 unhide'}</button>
+                        {onTopCity && <button onClick={onTopCity}>⬆️ {t('top')}</button>}
                     </span>
-                    {city.opened && weather && (
-                        <RefreshedAt dt={weather.current.dt} />
-                    )}
+                    {city.opened && weather && <RefreshedAt dt={weather.current.dt} />}
                 </div>
             </div>
             {city.opened && loading && (
@@ -152,10 +150,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
                         listClassName="CityWeatherItemList"
                         itemClassName="CityWeatherListItem"
                     />
-                    <WeatherAlerts
-                        dt={weather.current.dt}
-                        alerts={weather.alerts}
-                    />
+                    <WeatherAlerts dt={weather.current.dt} alerts={weather.alerts} />
                 </div>
             )}
         </div>

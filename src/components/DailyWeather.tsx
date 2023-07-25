@@ -1,14 +1,7 @@
-import {
-    OpenWeatherDailyPart,
-    OpenWeatherDailyTemp,
-} from '../types/OpenWeatherTypes'
+import { OpenWeatherDailyPart, OpenWeatherDailyTemp } from '../types/OpenWeatherTypes'
 import { formatDate } from '../utils/Date'
-import {
-    DropletIcon,
-    StaticWeatherIcon,
-    ThermometerIcon,
-    WeatherIconSize,
-} from './WeatherIcon'
+import { DropletIcon, StaticWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
+import { useTranslation } from 'react-i18next'
 import './DailyWeather.css'
 
 const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
@@ -40,10 +33,7 @@ const Rain: React.FC<{ rain?: number }> = ({ rain }) => {
     if (mm > 0) {
         return (
             <span>
-                <DropletIcon
-                    className="DailyWeatherRainIcon"
-                    size={WeatherIconSize.XS}
-                />
+                <DropletIcon className="DailyWeatherRainIcon" size={WeatherIconSize.XS} />
                 {mm}mm
             </span>
         )
@@ -55,23 +45,23 @@ const DailyWeather: React.FC<{
     daily: OpenWeatherDailyPart[]
     listClassName: string
     itemClassName: string
-}> = ({ daily, listClassName, itemClassName }) => (
-    <div>
-        <h2>Day by day</h2>
-        <div className={`${listClassName} DailyWeatherList`}>
-            {daily.map((daily, idx) => (
-                <div
-                    className={`${itemClassName} DailyWeatherItem`}
-                    key={daily.dt}
-                >
-                    <Day dt={daily.dt} idx={idx} />
-                    <Temp temp={daily.temp} />
-                    <StaticWeatherIcon icon={daily.weather[0].icon} />
-                    <Rain rain={daily.rain} />
-                </div>
-            ))}
+}> = ({ daily, listClassName, itemClassName }) => {
+    const { t } = useTranslation()
+    return (
+        <div>
+            <h2>{t('dayByDay')}</h2>
+            <div className={`${listClassName} DailyWeatherList`}>
+                {daily.map((daily, idx) => (
+                    <div className={`${itemClassName} DailyWeatherItem`} key={daily.dt}>
+                        <Day dt={daily.dt} idx={idx} />
+                        <Temp temp={daily.temp} />
+                        <StaticWeatherIcon icon={daily.weather[0].icon} />
+                        <Rain rain={daily.rain} />
+                    </div>
+                ))}
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 export default DailyWeather
