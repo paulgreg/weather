@@ -1,0 +1,13 @@
+.back {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+}
+
+.backButton {
+    display: flex;
+}
+
+.backButton svg {
+    margin: auto .25em;
+}

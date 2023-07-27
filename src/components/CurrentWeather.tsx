@@ -1,3 +1,4 @@
+import './CurrentWeather.css'
 import { OpenWeatherCurrentPart } from '../types/OpenWeatherTypes'
 import {
     AnimatedWeatherIcon,
@@ -11,7 +12,6 @@ import {
 } from './WeatherIcon'
 import { formatDate } from '../utils/Date'
 import { useTranslation } from 'react-i18next'
-import './CurrentWeather.css'
 
 const uvIndexToLabel = (uvi: number) => {
     const { t } = useTranslation()

@@ -18,6 +18,4 @@ type MyPosition = {
 
 type City = LightCity & Country
 
-type CityOrPosition = (City | MyPosition) & {
-    opened: boolean
-}
+type CityOrPosition = City | MyPosition

@@ -1,14 +1,11 @@
+import './SearchCity.css'
 import { useState, useCallback, useEffect } from 'react'
 import request from '../utils/request'
 import Select, { SingleValue } from 'react-select'
 import AsyncSelect from 'react-select/async'
-
-import './SearchCity.css'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-
-type SearchCityType = {
-    onAddCity: (cityWithCountry: CityOrPosition) => void
-}
+import useCities from '../utils/useCities'
 
 type CountryOption = {
     readonly label: string
@@ -25,7 +22,8 @@ type CityOption = {
     readonly value: LightCity
 }
 
-const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
+const SearchCity = () => {
+    const { onAddCity } = useCities()
     const [isLoadingCountries, setLoadingCountries] = useState<boolean>(false)
     const [countries, setCountries] = useState<Countries>({})
     const [isLoadingCities, setLoadingCities] = useState<boolean>(false)
@@ -33,14 +31,12 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
     const [country, setCountry] = useState<Country>()
     const [city, setCity] = useState<LightCity>()
     const { t } = useTranslation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         ;(async () => {
             setLoadingCountries(true)
-            const countries = await request<Countries>(
-                `/cities/countries.json`,
-                { public: true }
-            )
+            const countries = await request<Countries>(`/cities/countries.json`, { public: true })
             setCountries(countries)
             setLoadingCountries(false)
         })()
@@ -65,10 +61,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
             ;(async () => {
                 setLoadingCities(true)
                 const { label: country, value: countryCode } = newValue
-                const cities = await request<LightCity[]>(
-                    `/cities/${countryCode}.json`,
-                    { public: true }
-                )
+                const cities = await request<LightCity[]>(`/cities/${countryCode}.json`, { public: true })
                 setCities(cities)
                 setCountry({ code: countryCode, country: country })
                 setLoadingCities(false)
@@ -92,9 +85,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
             const query = inputValue.toLocaleLowerCase()
             return (cities ?? [])
                 .filter(({ label }) => label.toLowerCase().startsWith(query))
-                .map(
-                    (city) => ({ label: city.label, value: city } as CityOption)
-                )
+                .map((city) => ({ label: city.label, value: city } as CityOption))
         })
 
     const onSubmitCity = useCallback(
@@ -104,8 +95,8 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                 onAddCity({
                     ...country,
                     ...city,
-                    opened: true,
                 })
+                navigate('/')
             }
         },
         [country, city, onAddCity]
@@ -117,8 +108,8 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
             onAddCity({
                 myposition: true,
                 label: t('myPosition'),
-                opened: true,
             })
+            navigate('/')
         },
         [country, city]
     )
@@ -126,12 +117,12 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
     return (
         <>
             <section className="SearchCity">
-                <input
-                    type="submit"
-                    value={`📍 ${t('myPositionAdd')}`}
-                    onClick={onSubmitMyPosition}
-                />
-                <p>{t('or')}</p>
+                <div className="part">
+                    <p>
+                        <input type="submit" value={`📍 ${t('myPositionAdd')}`} onClick={onSubmitMyPosition} />
+                    </p>
+                    <p>{t('or')}</p>
+                </div>
                 <form onSubmit={onSubmitCity}>
                     <label>
                         <span>{t('country')} :</span>
@@ -159,11 +150,7 @@ const SearchCity: React.FC<SearchCityType> = ({ onAddCity }) => {
                         />
                     </label>
                     <div className="submit">
-                        <input
-                            type="submit"
-                            value={`➕ ${t('add')}`}
-                            disabled={!Boolean(city)}
-                        />
+                        <input type="submit" value={`➕ ${t('add')}`} disabled={!Boolean(city)} />
                     </div>
                 </form>
             </section>

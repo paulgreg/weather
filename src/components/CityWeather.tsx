@@ -1,3 +1,4 @@
+import './CityWeather.css'
 import { useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import CurrentWeather from './CurrentWeather'
@@ -8,14 +9,13 @@ import request from '../utils/request'
 import { GearIcon } from './WeatherIcon'
 import { formatDate, wait } from '../utils/Date'
 import { useTranslation } from 'react-i18next'
-import './CityWeather.css'
+import { requestMock } from '../utils/OpenWeatherMock'
 
 type CityWeatherItemType = {
     city: CityOrPosition
     apiKey?: string
     refreshKey: number
     onDeleteCity: () => void
-    onToggleCity: () => void
     onTopCity?: () => void
     onCityRefreshed: (success: boolean) => void
 }
@@ -37,6 +37,7 @@ const getCurrentPosition = () =>
     new Promise<GeolocationPosition>((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject, {
             timeout: 10_000,
+            enableHighAccuracy: true,
         })
     )
 
@@ -51,17 +52,23 @@ const getCityOrMyPositionLatLng = async (city: CityOrPosition) => {
     return Promise.resolve({ lat, lng })
 }
 
-const CityTitle: React.FC<{ city: CityOrPosition }> = ({ city }) => {
+const CityTitle: React.FC<{ city: CityOrPosition; osmUrl?: string }> = ({ city, osmUrl }) => {
     const { t } = useTranslation()
     if ('myposition' in city) {
-        return <h1>{t('myPosition')}</h1>
+        return (
+            <h1>
+                <a href={osmUrl}>{t('myPosition')}</a>
+            </h1>
+        )
     }
     return (
         <h1>
-            {city.label}{' '}
-            <small title={city.country} tabIndex={0}>
-                ({city.code})
-            </small>
+            <a href={osmUrl}>
+                {city.label}{' '}
+                <small title={city.country} tabIndex={0}>
+                    ({city.code})
+                </small>
+            </a>
         </h1>
     )
 }
@@ -72,18 +79,18 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     refreshKey,
     onCityRefreshed,
     onDeleteCity,
-    onToggleCity,
     onTopCity,
 }) => {
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [loading, setLoading] = useState<boolean>(true)
+    const [osmUrl, setOsmUrl] = useState<string>()
     const [error, setError] = useState<any>()
     const { t, i18n } = useTranslation()
     const language = i18n.language
 
     useEffect(() => {
         ;(async () => {
-            if (!apiKey || !city.opened) {
+            if (!apiKey) {
                 onCityRefreshed(true)
                 return
             }
@@ -91,12 +98,12 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
             try {
                 setError(undefined)
                 const { lat, lng } = await getCityOrMyPositionLatLng(city)
+                setOsmUrl(`http://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}&zoom=12`)
                 const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=${language}`
                 console.log('request url', url)
 
                 const [data] = [
-                    await request<OpenWeatherResponse>(url),
-                    // await requestMock(url),
+                    import.meta.env.PROD ? await request<OpenWeatherResponse>(url) : await requestMock(url),
                     await wait(500), // make request a little longer to display reloading
                 ]
 
@@ -115,27 +122,26 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
     return (
         <div className="CityWeatherItem">
             <div className="CityWeatherItemHeader">
-                <CityTitle city={city} />
+                <CityTitle city={city} osmUrl={osmUrl} />
                 <div className="CityWeatherItemHeaderDetails">
                     <span>
                         <button onClick={onDeleteCity}>❌ {t('delete')}</button>
-                        <button onClick={onToggleCity}>{city.opened ? '👻 hide' : '🔍 unhide'}</button>
                         {onTopCity && <button onClick={onTopCity}>⬆️ {t('top')}</button>}
                     </span>
-                    {city.opened && weather && <RefreshedAt dt={weather.current.dt} />}
+                    {weather && <RefreshedAt dt={weather.current.dt} />}
                 </div>
             </div>
-            {city.opened && loading && (
+            {loading && (
                 <div className="CityWeatherLoading">
                     <GearIcon className="CityWeatherGear" />
                 </div>
             )}
-            {city.opened && error && (
+            {error && (
                 <p>
                     🔥 <strong>{error.message}</strong>
                 </p>
             )}
-            {city.opened && weather && (
+            {weather && (
                 <div>
                     <CurrentWeather current={weather.current} />
                     <HourlyWeather

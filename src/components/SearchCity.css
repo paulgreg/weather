@@ -3,6 +3,12 @@
     flex-direction: column;
 }
 
+.SearchCity .part {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .SearchCity label,
 .SearchCity .submit {
     display: inline-flex;
