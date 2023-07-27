@@ -36,7 +36,7 @@ const SearchCity = () => {
     useEffect(() => {
         ;(async () => {
             setLoadingCountries(true)
-            const countries = await request<Countries>(`/cities/countries.json`, { public: true })
+            const countries = await request<Countries>(`/cities/countries.json`)
             setCountries(countries)
             setLoadingCountries(false)
         })()
@@ -61,7 +61,7 @@ const SearchCity = () => {
             ;(async () => {
                 setLoadingCities(true)
                 const { label: country, value: countryCode } = newValue
-                const cities = await request<LightCity[]>(`/cities/${countryCode}.json`, { public: true })
+                const cities = await request<LightCity[]>(`/cities/${countryCode}.json`)
                 setCities(cities)
                 setCountry({ code: countryCode, country: country })
                 setLoadingCities(false)

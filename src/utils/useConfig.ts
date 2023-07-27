@@ -11,11 +11,10 @@ const useConfig = () => {
 
     useEffect(() => {
         ;(async () => {
+            if (config.apiKey) return
             try {
-                const config = await request<Config>(`/parameters.json`, {
-                    public: true,
-                })
-                setConfig(config)
+                const configFromServer = await request<Config>(`/parameters.json`)
+                setConfig(configFromServer)
             } catch (e) {
                 console.log('error fetching configuration', e)
                 const apiKey = getApiKeyFromLocalStore()
@@ -27,7 +26,7 @@ const useConfig = () => {
                 }
             }
         })()
-    }, [])
+    }, [config])
 
     const setApiKey = useCallback(() => {
         const apiKey = prompt(t('apiKeyPrompt'))

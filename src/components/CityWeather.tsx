@@ -57,13 +57,15 @@ const CityTitle: React.FC<{ city: CityOrPosition; osmUrl?: string }> = ({ city, 
     if ('myposition' in city) {
         return (
             <h1>
-                <a href={osmUrl}>{t('myPosition')}</a>
+                <a href={osmUrl} target="_blank">
+                    {t('myPosition')}
+                </a>
             </h1>
         )
     }
     return (
         <h1>
-            <a href={osmUrl}>
+            <a href={osmUrl} target="_blank">
                 {city.label}{' '}
                 <small title={city.country} tabIndex={0}>
                     ({city.code})
@@ -98,7 +100,7 @@ const CityWeather: React.FC<CityWeatherItemType> = ({
             try {
                 setError(undefined)
                 const { lat, lng } = await getCityOrMyPositionLatLng(city)
-                setOsmUrl(`http://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}&zoom=12`)
+                setOsmUrl(`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}&zoom=12`)
                 const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=${language}`
                 console.log('request url', url)
 
