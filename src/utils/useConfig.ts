@@ -18,7 +18,7 @@ const useConfig = () => {
                 setConfig(configCache)
             } else {
                 try {
-                    const configFromServer = await request<Config>(`/parameters.json`)
+                    const configFromServer = await request<Config>(`parameters.json`)
                     configCache = configFromServer
                     setConfig(configFromServer)
                 } catch (e) {
