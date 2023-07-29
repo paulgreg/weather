@@ -1,11 +1,9 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { getCitiesFromLocalStore, saveCitiesInLocalStore } from './LocalStore'
-import { getTimeRoundedToMinute } from './Date'
 import { useTranslation } from 'react-i18next'
 
 const useCities = () => {
     const [cities, setCities] = useState<CityOrPosition[]>(getCitiesFromLocalStore())
-    const [refreshKey] = useState<number>(getTimeRoundedToMinute())
     const { t } = useTranslation()
 
     const onAddCity = useCallback(
@@ -44,11 +42,7 @@ const useCities = () => {
         [cities]
     )
 
-    const onCitiesRefreshed = useCallback((success: boolean) => {
-        console.log('onCitiesRefreshed', success)
-    }, [])
-
-    return { cities, onAddCity, onDeleteCity, onTopCity, onCitiesRefreshed, refreshKey }
+    return { cities, onAddCity, onDeleteCity, onTopCity }
 }
 
 export default useCities

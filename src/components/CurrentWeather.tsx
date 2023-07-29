@@ -12,6 +12,7 @@ import {
 } from './WeatherIcon'
 import { formatDate } from '../utils/Date'
 import { useTranslation } from 'react-i18next'
+import Humidity from './Humidify'
 
 const uvIndexToLabel = (uvi: number) => {
     const { t } = useTranslation()
@@ -47,16 +48,6 @@ const Wind: React.FC<{ wind_speed: number; wind_deg: number }> = ({ wind_speed, 
             <WindIcon className="CurrentWeatherIcon" />
             {t('wind')}: {windInKmH} km/h
             <CursorIcon rotation={wind_deg + 180} className="CurrentWeatherWindCursor" />
-        </div>
-    )
-}
-
-const Humidity: React.FC<{ humidity: number }> = ({ humidity }) => {
-    const { t } = useTranslation()
-    return (
-        <div className="CurrentWeatherHumidity">
-            <DropletIcon className="CurrentWeatherIcon" />
-            {t('humidity')}: {humidity} %
         </div>
     )
 }

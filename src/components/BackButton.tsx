@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { ReactComponent as BackSvg } from '../assets/arrow-left-short.svg'
+import { ReactComponent as BackSvg } from '../assets/arrow-left.svg'
 
 import './BackButton.css'
 

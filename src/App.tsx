@@ -3,12 +3,17 @@ import ConfigRoute from './routes/ConfigRoute'
 import AddRoute from './routes/AddRoute'
 import CitiesRoute from './routes/CitiesRoute'
 import './i18n'
+import CityRoute from './routes/CityRoute'
 
 const router = createBrowserRouter(
     [
         {
             path: '/',
             element: <CitiesRoute />,
+        },
+        {
+            path: '/city/:label',
+            element: <CityRoute />,
         },
         {
             path: '/add',

@@ -1,6 +1,9 @@
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 
-export const requestMock = async (url: string): Promise<OpenWeatherResponse> => Promise.resolve(buildOneCallMock())
+export const requestMock = async (url: string): Promise<OpenWeatherResponse> => {
+    console.log('request mock')
+    return Promise.resolve(buildOneCallMock())
+}
 
 export const buildOneCallMock = () =>
     ({

@@ -9,8 +9,10 @@ const Header = () => {
     const { t } = useTranslation()
     return (
         <header>
-            <Link to="/" className="logo">
-                <CloudSvg />
+            <Link to="/" className="title">
+                <span className="logo">
+                    <CloudSvg />
+                </span>
                 <h1>{t('title')}</h1>
             </Link>
             <div>

@@ -3,7 +3,9 @@ type options = {
 }
 const request = async <T>(url: string): Promise<T> => {
     const prefix = url.startsWith('http') ? '' : import.meta.env.PROD ? '/weather' : ''
-    const response = await fetch(`${prefix}${url}`)
+    const fullUrl = `${prefix}${url}`
+    console.log('request', fullUrl)
+    const response = await fetch(fullUrl)
     if (!response.ok) throw new Error(response.statusText)
     return response.json()
 }

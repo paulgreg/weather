@@ -14,13 +14,20 @@ header h1 {
     flex: 1;
 }
 
-.logo {
+.title {
     display: flex;
     line-height: 3em;
 }
 
-.logo svg {
+.logo {
+    display: flex;
+    align-items: center;
     margin-right: 1em;
+}
+
+.logo svg {
+    width: 64px;
+    height: 64px;
 }
 
 header a.headerIcon {
@@ -28,12 +35,16 @@ header a.headerIcon {
 }
 
 header a.headerIcon svg {
-    padding: .5em .25em;
+    padding: .8em .5em;
 }
 
 @media (max-width: 600px) {
     header {
         gap: .5em;
+    }
+
+    .logo {
+        margin-right: .5em;
     }
 
     .logo svg {
