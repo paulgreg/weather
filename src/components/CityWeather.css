@@ -1,24 +1,3 @@
-.CityWeatherLoading {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 1em auto 3em auto;
-}
-
-.CityWeatherGear {
-    animation: rotate 3s infinite;
-    animation-timing-function: cubic-bezier(1, 0, .5, 1);
-}
-
-@keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg)
-    }
-
-    to {
-        -webkit-transform: rotate(360deg)
-    }
-}
-
 .CityWeatherItem {
     margin: auto auto 1em auto;
     border-bottom: 1px dashed black;

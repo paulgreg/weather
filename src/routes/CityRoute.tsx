@@ -1,4 +1,3 @@
-import Header from '../components/Header'
 import BackButton from '../components/BackButton'
 import CityWeatherFull from '../components/CityWeatherFull'
 import { useParams } from 'react-router'
@@ -30,7 +29,6 @@ const CityRoute = () => {
 
     return (
         <>
-            <Header />
             {city && <CityWeatherFull city={city} />}
             {errorKey && <p>{t(errorKey)}</p>}
             <BackButton />

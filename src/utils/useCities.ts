@@ -20,7 +20,8 @@ const useCities = () => {
     )
 
     const onDeleteCity = useCallback(
-        (idx: number) => () => {
+        (idx: number) => (e: React.MouseEvent) => {
+            e.stopPropagation()
             if (confirm(`${t('delete')} ${cities[idx].label} ?`)) {
                 const updatedCities = [...cities]
                 updatedCities.splice(idx, 1)
@@ -32,7 +33,8 @@ const useCities = () => {
     )
 
     const onTopCity = useCallback(
-        (idx: number) => () => {
+        (idx: number) => (e: React.MouseEvent) => {
+            e.stopPropagation()
             const wipCities = [...cities]
             const cityToPutOnTop = wipCities.splice(idx, 1)
             const updatedCities = cityToPutOnTop.concat(wipCities)

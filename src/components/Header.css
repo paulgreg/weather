@@ -30,11 +30,8 @@ header h1 {
     height: 64px;
 }
 
-header a.headerIcon {
+header .headerIcon {
     border-bottom: none;
-}
-
-header a.headerIcon svg {
     padding: .8em .5em;
 }
 
@@ -51,5 +48,4 @@ header a.headerIcon svg {
         width: 48px;
         height: 48px;
     }
-
 }

@@ -1,20 +1,21 @@
 import './CityWeather.css'
 import { useCallback, useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
-import { GearIcon } from './WeatherIcon'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
+import { AnimatedWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import fetchWeather from '../utils/fetchWeather'
 import useConfig from '../utils/useConfig'
 import CityTitle from './CityTitle'
 import RefreshedAt from './RefreshedAt'
-import { useNavigate } from 'react-router'
-import { AnimatedWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import Humidity from './Humidify'
+import useRefreshKey from '../utils/useRefreshKey'
+import { CitySkeletonLight } from './CitySkeleton'
 
 type CityWeatherLightItemType = {
     city: CityOrPosition
-    onDeleteCity: () => void
-    onTopCity?: () => void
+    onDeleteCity: (e: React.MouseEvent) => void
+    onTopCity?: (e: React.MouseEvent) => void
 }
 
 const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCity, onTopCity }) => {
@@ -24,6 +25,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
     const [error, setError] = useState<any>()
     const { apiKey } = useConfig()
     const { t, i18n } = useTranslation()
+    const { refreshKey } = useRefreshKey()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -33,7 +35,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
             }
             try {
                 setError(undefined)
-                const { weatherData, weatherOsmUrl } = await fetchWeather(city, 0, apiKey, i18n.language)
+                const { weatherData, weatherOsmUrl } = await fetchWeather(city, refreshKey, apiKey, i18n.language)
                 setOsmUrl(weatherOsmUrl)
                 setWeather(weatherData)
             } catch (e: unknown) {
@@ -43,7 +45,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
                 setLoading(false)
             }
         })()
-    }, [city, apiKey])
+    }, [city, apiKey, refreshKey])
 
     const nativageToWeatherFull = useCallback(() => {
         navigate(`/city/${city.label}`)
@@ -61,16 +63,12 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
                     {weather && <RefreshedAt dt={weather.current.dt} />}
                 </div>
             </div>
-            {loading && (
-                <div className="CityWeatherLoading">
-                    <GearIcon className="CityWeatherGear" />
-                </div>
-            )}
             {error && (
                 <p>
                     🔥 <strong>{error.message}</strong>
                 </p>
             )}
+            {loading && <CitySkeletonLight />}
             {weather && (
                 <div className="CurrentWeather">
                     <div className="CurrentWeatherDesc">
@@ -88,7 +86,6 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
                         </div>
                         <div>
                             <h3>{t(weather.current.weather[0].main)}</h3>
-                            <p>{weather.current.weather[0].description}</p>
                         </div>
                     </div>
                     <AnimatedWeatherIcon icon={weather.current.weather[0].icon} size={WeatherIconSize.L} />

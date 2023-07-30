@@ -1,9 +1,6 @@
 import request from './request'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import { requestMock } from './OpenWeatherMock'
-import { getTimeRoundedToMinute } from './Date'
-import { useTranslation } from 'react-i18next'
-import useConfig from './useConfig'
 
 const weatherCache: Record<
     CityOrPosition['label'],

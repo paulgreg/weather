@@ -31,8 +31,6 @@ import Sun from '../assets/sun.svg'
 import Moon from '../assets/moon.svg'
 import Cursor from '../assets/cursor.svg'
 
-import Gear from '../assets/gear-wide.svg'
-
 export const enum WeatherIconSize {
     XXXS = '10px',
     XXS = '14px',
@@ -129,16 +127,12 @@ const WeatherIcon: React.FC<{
 export const AnimatedWeatherIcon: React.FC<{
     icon: OpenWeatherIcon
     size?: WeatherIconSize
-}> = ({ icon, size = WeatherIconSize.M }) => (
-    <WeatherIcon icon={icon} animated={true} size={size} />
-)
+}> = ({ icon, size = WeatherIconSize.M }) => <WeatherIcon icon={icon} animated={true} size={size} />
 
 export const StaticWeatherIcon: React.FC<{
     icon: OpenWeatherIcon
     size?: WeatherIconSize
-}> = ({ icon, size = WeatherIconSize.M }) => (
-    <WeatherIcon icon={icon} animated={false} size={size} />
-)
+}> = ({ icon, size = WeatherIconSize.M }) => <WeatherIcon icon={icon} animated={false} size={size} />
 
 export const ThermometerIcon: React.FC<{
     high?: boolean
@@ -174,36 +168,22 @@ const SvgIcon: React.FC<{
 export const WindIcon: React.FC<{
     size?: WeatherIconSize
     className?: string
-}> = ({ size, className }) => (
-    <SvgIcon icon={Wind} size={size} className={className} />
-)
+}> = ({ size, className }) => <SvgIcon icon={Wind} size={size} className={className} />
 
 export const DropletIcon: React.FC<{
     size?: WeatherIconSize
     className?: string
-}> = ({ size, className }) => (
-    <SvgIcon icon={Droplet} size={size} className={className} />
-)
+}> = ({ size, className }) => <SvgIcon icon={Droplet} size={size} className={className} />
 
 export const SunIcon: React.FC<{
     size?: WeatherIconSize
     className?: string
-}> = ({ size, className }) => (
-    <SvgIcon icon={Sun} size={size} className={className} />
-)
+}> = ({ size, className }) => <SvgIcon icon={Sun} size={size} className={className} />
 
 export const MoonIcon: React.FC<{
     size?: WeatherIconSize
     className?: string
-}> = ({ size, className }) => (
-    <SvgIcon icon={Moon} size={size} className={className} />
-)
-
-export const GearIcon: React.FC<{
-    className?: string
-}> = ({ className }) => (
-    <SvgIcon icon={Gear} size={WeatherIconSize.L} className={className} />
-)
+}> = ({ size, className }) => <SvgIcon icon={Moon} size={size} className={className} />
 
 export const CursorIcon: React.FC<{
     rotation?: number

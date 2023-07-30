@@ -56,6 +56,6 @@ export const wait = (time: number) =>
         setTimeout(() => resolve(resolve), time)
     })
 
-const roundToMinute = (time: number) => Math.round(time / 1000 / 60)
+const roundToHour = (time: number) => Math.round(time / 1000 / 60 / 60)
 
-export const getTimeRoundedToMinute = () => roundToMinute(Date.now())
+export const getTimeRoundedToHour = () => roundToHour(Date.now())
