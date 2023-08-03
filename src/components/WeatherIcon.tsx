@@ -37,7 +37,7 @@ export const enum WeatherIconSize {
     XS = '20px',
     S = '30px',
     M = '50px',
-    L = '200px',
+    L = '160px',
 }
 
 const getAnimatedIcon = (icon: OpenWeatherIcon) => {

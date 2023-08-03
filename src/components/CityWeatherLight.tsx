@@ -11,6 +11,10 @@ import RefreshedAt from './RefreshedAt'
 import Humidity from './Humidify'
 import useRefreshKey from '../utils/useRefreshKey'
 import { CitySkeletonLight } from './CitySkeleton'
+import { ReactComponent as ArrowUpSvg } from '../assets/arrow-up-circle-fill.svg'
+import { ReactComponent as DashSvg } from '../assets/dash-circle-fill.svg'
+import { ReactComponent as InfoSvg } from '../assets/info-circle.svg'
+import CurrentWeather from './CurrentWeather'
 
 type CityWeatherLightItemType = {
     city: CityOrPosition
@@ -51,16 +55,32 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
         navigate(`/city/${city.label}`)
     }, [])
 
+    const navigageToOsmUrl = useCallback(
+        (e: React.MouseEvent) => {
+            e.stopPropagation()
+            window.open(osmUrl)
+        },
+        [osmUrl]
+    )
+
     return (
         <div className="CityWeatherItem" onClick={nativageToWeatherFull}>
             <div className="CityWeatherItemHeader">
-                <CityTitle city={city} osmUrl={osmUrl} />
-                <div className="CityWeatherItemHeaderDetails">
-                    <span>
-                        <button onClick={onDeleteCity}>❌ {t('delete')}</button>
-                        {onTopCity && <button onClick={onTopCity}>⬆️ {t('top')}</button>}
-                    </span>
-                    {weather && <RefreshedAt dt={weather.current.dt} />}
+                <CityTitle city={city} />
+                <div>
+                    {onTopCity && (
+                        <button onClick={onTopCity} title={t('top')}>
+                            <ArrowUpSvg />
+                        </button>
+                    )}
+                    <button onClick={onDeleteCity} title={t('delete')}>
+                        <DashSvg />
+                    </button>
+                    {osmUrl && (
+                        <button onClick={navigageToOsmUrl} title={t('positionOnMap')}>
+                            <InfoSvg />
+                        </button>
+                    )}
                 </div>
             </div>
             {error && (
@@ -69,28 +89,8 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
                 </p>
             )}
             {loading && <CitySkeletonLight />}
-            {weather && (
-                <div className="CurrentWeather">
-                    <div className="CurrentWeatherDesc">
-                        <div className="CurrentWeatherTempAndFeelsLike">
-                            <div className="CurrentWeatherRealTemp">
-                                <ThermometerIcon size={WeatherIconSize.S} />
-                                {Math.round(weather.current.temp)}°
-                            </div>
-                            <span>
-                                {t('feelsLike')} {Math.round(weather.current.feels_like)}°
-                            </span>
-                        </div>
-                        <div>
-                            <Humidity humidity={weather.current.humidity} />
-                        </div>
-                        <div>
-                            <h3>{t(weather.current.weather[0].main)}</h3>
-                        </div>
-                    </div>
-                    <AnimatedWeatherIcon icon={weather.current.weather[0].icon} size={WeatherIconSize.L} />
-                </div>
-            )}
+            {weather && <CurrentWeather current={weather.current} full={false} />}
+            {weather && <RefreshedAt dt={weather.current.dt} />}
         </div>
     )
 }

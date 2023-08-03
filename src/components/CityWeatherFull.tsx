@@ -1,5 +1,5 @@
 import './CityWeather.css'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import CurrentWeather from './CurrentWeather'
 import HourlyWeather from './HourlyWeather'
@@ -12,6 +12,7 @@ import CityTitle from './CityTitle'
 import RefreshedAt from './RefreshedAt'
 import useRefreshKey from '../utils/useRefreshKey'
 import { CitySkeletonFull } from './CitySkeleton'
+import { ReactComponent as InfoSvg } from '../assets/info-circle.svg'
 
 type CityWeatherFullItemType = {
     city: CityOrPosition
@@ -45,11 +46,25 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
         })()
     }, [city, apiKey, refreshKey])
 
+    const navigageToOsmUrl = useCallback(
+        (e: React.MouseEvent) => {
+            e.stopPropagation()
+            window.open(osmUrl)
+        },
+        [osmUrl]
+    )
+
     return (
         <div className="CityWeatherItem">
             <div className="CityWeatherItemHeader">
-                <CityTitle city={city} osmUrl={osmUrl} />
-                <div className="CityWeatherItemHeaderDetails">{weather && <RefreshedAt dt={weather.current.dt} />}</div>
+                <CityTitle city={city} />
+                <div>
+                    {osmUrl && (
+                        <button onClick={navigageToOsmUrl} title={t('positionOnMap')}>
+                            <InfoSvg />
+                        </button>
+                    )}
+                </div>
             </div>
             {loading && <CitySkeletonFull />}
             {error && (
@@ -58,8 +73,8 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
                 </p>
             )}
             {weather && (
-                <div>
-                    <CurrentWeather current={weather.current} />
+                <>
+                    <CurrentWeather current={weather.current} full={true} />
                     <HourlyWeather
                         hourly={weather.hourly}
                         sunrise={weather.current.sunrise}
@@ -73,7 +88,8 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
                         itemClassName="CityWeatherListItem"
                     />
                     <WeatherAlerts dt={weather.current.dt} alerts={weather.alerts} />
-                </div>
+                    <RefreshedAt dt={weather.current.dt} />
+                </>
             )}
         </div>
     )

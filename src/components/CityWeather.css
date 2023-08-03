@@ -23,16 +23,11 @@
     gap: .25em;
 }
 
-.CityWeatherItemHeaderDetails {
-    display: flex;
-    text-align: right;
+
+.CityWeatherItemHeader button {
+    border: 0;
 }
 
-.CityWeatherItemHeader div {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
 
 .CityWeatherItemHeader h1 {
     flex: 1;

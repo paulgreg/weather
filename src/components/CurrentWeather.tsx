@@ -65,32 +65,32 @@ const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({ sunrise,
     )
 }
 
-const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart }> = ({ current }) => {
+const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart; full: boolean }> = ({ current, full }) => {
     const { t } = useTranslation()
     return (
         <div className="CurrentWeather">
-            <div className="CurrentWeatherDesc">
-                <div className="CurrentWeatherTempAndFeelsLike">
-                    <div className="CurrentWeatherRealTemp">
-                        <ThermometerIcon size={WeatherIconSize.S} />
-                        {Math.round(current.temp)}°
-                    </div>
-                    <span>
-                        {t('feelsLike')} {Math.round(current.feels_like)}°
-                    </span>
+            <div className="CurrentWeatherTempAndFeelsLike">
+                <div className="CurrentWeatherRealTemp">
+                    <ThermometerIcon size={WeatherIconSize.S} />
+                    {Math.round(current.temp)}°
                 </div>
-                <div>
-                    <Humidity humidity={current.humidity} />
-                    <UVIndex uvi={current.uvi} />
-                    <Wind wind_speed={current.wind_speed} wind_deg={current.wind_deg} />
-                    <SunRiseAndSet sunrise={current.sunrise} sunset={current.sunset} />
-                </div>
-                <div>
-                    <h3>{t(current.weather[0].main)}</h3>
-                    <p>{current.weather[0].description}</p>
-                </div>
+                <span>
+                    {t('feelsLike')} {Math.round(current.feels_like)}°
+                </span>
             </div>
-            <AnimatedWeatherIcon icon={current.weather[0].icon} size={WeatherIconSize.L} />
+            <div>
+                {full && <UVIndex uvi={current.uvi} />}
+                <Humidity humidity={current.humidity} />
+                <Wind wind_speed={current.wind_speed} wind_deg={current.wind_deg} />
+                <SunRiseAndSet sunrise={current.sunrise} sunset={current.sunset} />
+            </div>
+            <div className="CurrentWeatherTitle">
+                <h3>{t(current.weather[0].main)}</h3>
+                {full && <p>{current.weather[0].description}</p>}
+            </div>
+            <div className="CurrentWeatherAnimatedIcon ">
+                <AnimatedWeatherIcon icon={current.weather[0].icon} size={WeatherIconSize.L} />
+            </div>
         </div>
     )
 }
