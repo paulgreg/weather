@@ -3,17 +3,16 @@ import { useCallback, useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-import { AnimatedWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import fetchWeather from '../utils/fetchWeather'
 import useConfig from '../utils/useConfig'
 import CityTitle from './CityTitle'
 import RefreshedAt from './RefreshedAt'
-import Humidity from './Humidify'
 import useRefreshKey from '../utils/useRefreshKey'
 import { CitySkeletonLight } from './CitySkeleton'
 import { ReactComponent as ArrowUpSvg } from '../assets/arrow-up-circle-fill.svg'
 import { ReactComponent as DashSvg } from '../assets/dash-circle-fill.svg'
 import { ReactComponent as InfoSvg } from '../assets/info-circle.svg'
+import { ReactComponent as RefreshSvg } from '../assets/arrow-clockwise.svg'
 import CurrentWeather from './CurrentWeather'
 
 type CityWeatherLightItemType = {
@@ -29,7 +28,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
     const [error, setError] = useState<any>()
     const { apiKey } = useConfig()
     const { t, i18n } = useTranslation()
-    const { refreshKey } = useRefreshKey()
+    const { refreshKey, updateRefreshKey } = useRefreshKey()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -81,6 +80,9 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
                             <InfoSvg />
                         </button>
                     )}
+                    <button onClick={updateRefreshKey} title={t('refresh')}>
+                        <RefreshSvg />
+                    </button>
                 </div>
             </div>
             {error && (

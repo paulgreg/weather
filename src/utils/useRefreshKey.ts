@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { getTimeRoundedToHour } from './Date'
 
 const useRefreshKey = () => {
-    const [refreshKey] = useState<number>(getTimeRoundedToHour())
+    const [refreshKey, setRefreshKey] = useState<number>(getTimeRoundedToHour())
 
-    return { refreshKey }
+    const updateRefreshKey = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation()
+        setRefreshKey(getTimeRoundedToHour())
+    }, [])
+
+    return { refreshKey, updateRefreshKey }
 }
 
 export default useRefreshKey

@@ -13,6 +13,7 @@ import RefreshedAt from './RefreshedAt'
 import useRefreshKey from '../utils/useRefreshKey'
 import { CitySkeletonFull } from './CitySkeleton'
 import { ReactComponent as InfoSvg } from '../assets/info-circle.svg'
+import { ReactComponent as RefreshSvg } from '../assets/arrow-clockwise.svg'
 
 type CityWeatherFullItemType = {
     city: CityOrPosition
@@ -23,7 +24,7 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [osmUrl, setOsmUrl] = useState<string>()
     const [error, setError] = useState<any>()
-    const { refreshKey } = useRefreshKey()
+    const { refreshKey, updateRefreshKey } = useRefreshKey()
     const { apiKey } = useConfig()
     const { t, i18n } = useTranslation()
 
@@ -64,6 +65,9 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
                             <InfoSvg />
                         </button>
                     )}
+                    <button onClick={updateRefreshKey} title={t('refresh')}>
+                        <RefreshSvg />
+                    </button>
                 </div>
             </div>
             {loading && <CitySkeletonFull />}

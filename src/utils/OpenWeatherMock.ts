@@ -3,7 +3,7 @@ import { wait } from './Date'
 
 export const requestMock = async (url: string): Promise<OpenWeatherResponse> => {
     console.log('request mock')
-    return wait(4_000).then(() => Promise.resolve(buildOneCallMock()))
+    return wait(1_000).then(() => Promise.resolve(buildOneCallMock()))
 }
 
 export const buildOneCallMock = () =>

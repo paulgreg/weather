@@ -107,10 +107,6 @@ summary {
   font-size: 1.2em;
 }
 
-[title] {
-  border-bottom: 1px dashed var(--main-fg-color);
-}
-
 @media (max-width: 600px) {
   h1 {
     font-size: 1.8em;
@@ -167,29 +163,5 @@ summary {
   .button:hover {
     color: var(--main-bg-color);
     border-color: var(--main-bg-color);
-  }
-
-  [title] {
-    border-color: var(--main-bg-color);
-  }
-}
-
-@media (pointer: coarse),
-(hover: none) {
-  [title] {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
-  }
-
-  [title]:focus::after {
-    content: attr(title);
-    position: absolute;
-    top: 90%;
-    color: var(--main-fg-color);
-    background-color: var(--main-bg-color);
-    border: 1px solid;
-    width: fit-content;
-    padding: 3px;
   }
 }
