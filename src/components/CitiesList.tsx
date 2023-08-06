@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useReducer, useState } from 'react'
 import CityWeatherLight from './CityWeatherLight'
 import useCities from '../utils/useCities'
-import useConfig from '../utils/useConfig'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 

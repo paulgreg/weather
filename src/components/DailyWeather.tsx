@@ -1,8 +1,8 @@
-import { OpenWeatherDailyPart, OpenWeatherDailyTemp } from '../types/OpenWeatherTypes'
-import { formatDate } from '../utils/Date'
-import { DropletIcon, StaticWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
-import { useTranslation } from 'react-i18next'
 import './DailyWeather.css'
+import { OpenWeatherDailyPart, OpenWeatherDailyTemp } from '../types/OpenWeatherTypes'
+import { DropletIcon, StaticWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
+import { formatDate } from '../utils/Date'
+import { useTranslation } from 'react-i18next'
 
 const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
     const { day, date, month } = formatDate(dt, idx)

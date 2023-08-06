@@ -30,6 +30,14 @@ import Droplet from '../assets/droplet.svg'
 import Sun from '../assets/sun.svg'
 import Moon from '../assets/moon.svg'
 import Cursor from '../assets/cursor.svg'
+import Back from '../assets/arrow-left.svg'
+import Info from '../assets/info-circle.svg'
+import Refresh from '../assets/arrow-clockwise.svg'
+import ArrowUp from '../assets/arrow-up-circle-fill.svg'
+import Dash from '../assets/dash-circle-fill.svg'
+import Cloud from '../assets/cloud.svg'
+import Plus from '../assets/plus-circle-fill.svg'
+import Wrench from '../assets/wrench-adjustable-circle-fill.svg'
 
 export const enum WeatherIconSize {
     XXXS = '10px',
@@ -198,3 +206,43 @@ export const CursorIcon: React.FC<{
         }}
     />
 )
+
+export const BackIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size, className }) => <SvgIcon icon={Back} size={size} className={className} />
+
+export const InfoIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.XS, className }) => <SvgIcon icon={Info} size={size} className={className} />
+
+export const RefreshIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.XS, className }) => <SvgIcon icon={Refresh} size={size} className={className} />
+
+export const ArrowUpIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.XS, className }) => <SvgIcon icon={ArrowUp} size={size} className={className} />
+
+export const DashIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.XS, className }) => <SvgIcon icon={Dash} size={size} className={className} />
+
+export const CloudIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.S, className }) => <SvgIcon icon={Cloud} size={size} className={className} />
+
+export const PlusIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.S, className }) => <SvgIcon icon={Plus} size={size} className={className} />
+
+export const WrenchIcon: React.FC<{
+    size?: WeatherIconSize
+    className?: string
+}> = ({ size = WeatherIconSize.S, className }) => <SvgIcon icon={Wrench} size={size} className={className} />

@@ -1,6 +1,6 @@
+import './RefreshedAt.css'
 import { useTranslation } from 'react-i18next'
 import { formatDate } from '../utils/Date'
-import './RefreshedAt.css'
 
 const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => {
     const { t } = useTranslation()

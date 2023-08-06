@@ -12,8 +12,7 @@ import CityTitle from './CityTitle'
 import RefreshedAt from './RefreshedAt'
 import useRefreshKey from '../utils/useRefreshKey'
 import { CitySkeletonFull } from './CitySkeleton'
-import { ReactComponent as InfoSvg } from '../assets/info-circle.svg'
-import { ReactComponent as RefreshSvg } from '../assets/arrow-clockwise.svg'
+import { InfoIcon, RefreshIcon } from './WeatherIcon'
 
 type CityWeatherFullItemType = {
     city: CityOrPosition
@@ -62,11 +61,11 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
                 <div>
                     {osmUrl && (
                         <button onClick={navigageToOsmUrl} title={t('positionOnMap')}>
-                            <InfoSvg />
+                            <InfoIcon />
                         </button>
                     )}
                     <button onClick={updateRefreshKey} title={t('refresh')}>
-                        <RefreshSvg />
+                        <RefreshIcon />
                     </button>
                 </div>
             </div>

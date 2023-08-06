@@ -7,13 +7,10 @@ import fetchWeather from '../utils/fetchWeather'
 import useConfig from '../utils/useConfig'
 import CityTitle from './CityTitle'
 import RefreshedAt from './RefreshedAt'
+import CurrentWeather from './CurrentWeather'
 import useRefreshKey from '../utils/useRefreshKey'
 import { CitySkeletonLight } from './CitySkeleton'
-import { ReactComponent as ArrowUpSvg } from '../assets/arrow-up-circle-fill.svg'
-import { ReactComponent as DashSvg } from '../assets/dash-circle-fill.svg'
-import { ReactComponent as InfoSvg } from '../assets/info-circle.svg'
-import { ReactComponent as RefreshSvg } from '../assets/arrow-clockwise.svg'
-import CurrentWeather from './CurrentWeather'
+import { ArrowUpIcon, DashIcon, InfoIcon, RefreshIcon } from './WeatherIcon'
 
 type CityWeatherLightItemType = {
     city: CityOrPosition
@@ -69,19 +66,19 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
                 <div>
                     {onTopCity && (
                         <button onClick={onTopCity} title={t('top')}>
-                            <ArrowUpSvg />
+                            <ArrowUpIcon />
                         </button>
                     )}
                     <button onClick={onDeleteCity} title={t('delete')}>
-                        <DashSvg />
+                        <DashIcon />
                     </button>
                     {osmUrl && (
                         <button onClick={navigageToOsmUrl} title={t('positionOnMap')}>
-                            <InfoSvg />
+                            <InfoIcon />
                         </button>
                     )}
                     <button onClick={updateRefreshKey} title={t('refresh')}>
-                        <RefreshSvg />
+                        <RefreshIcon />
                     </button>
                 </div>
             </div>
