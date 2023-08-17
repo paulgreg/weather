@@ -8,19 +8,19 @@
     "description": "A simple weather app",
     "icons": [
         {
+            "src": "./cloud-64x.png",
+            "sizes": "48x48 64x64",
+            "type": "image/png"
+        },
+        {
             "src": "./cloud-192x.png",
-            "sizes": "192x192",
+            "sizes": "72x72 96x96 128x128",
             "type": "image/png"
         },
         {
             "src": "./cloud-512x.png",
-            "sizes": "512x512",
+            "sizes": "256x256 512x512",
             "type": "image/png"
-        },
-        {
-            "src": "./cloud.svg",
-            "sizes": "any",
-            "type": "image/svg"
         }
     ]
 }
