@@ -60,7 +60,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
     )
 
     return (
-        <div className="CityWeatherItem" onClick={nativageToWeatherFull}>
+        <div className="CityWeatherItem CityWeatherClick" onClick={nativageToWeatherFull} title={t('cityDetails')}>
             <div className="CityWeatherItemHeader">
                 <CityTitle city={city} />
                 <div>

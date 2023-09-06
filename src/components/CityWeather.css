@@ -2,7 +2,11 @@
     margin: auto auto 1em auto;
     border-bottom: 1px dashed black;
     background: var(--main-bg-color);
-    padding: .25em 1em;
+    padding: 0.25em 1em;
+}
+
+.CityWeatherClick {
+    cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,21 +17,19 @@
 
 @media (max-width: 600px) {
     .CityWeatherItem {
-        padding: .25em;
+        padding: 0.25em;
     }
 }
 
 .CityWeatherItemHeader {
     display: flex;
     align-items: center;
-    gap: .25em;
+    gap: 0.25em;
 }
-
 
 .CityWeatherItemHeader button {
     border: 0;
 }
-
 
 .CityWeatherItemHeader h1 {
     flex: 1;
@@ -44,13 +46,12 @@
     overflow-x: auto;
 }
 
-
 .CityWeatherListItem {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 .5em;
+    padding: 0 0.5em;
     margin-bottom: 10px;
 }
 
