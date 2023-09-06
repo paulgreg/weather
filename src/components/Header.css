@@ -1,6 +1,6 @@
 a h1,
 a:hover h1 {
-    color: white;
+    color: var(--main-fg-color);
 }
 
 header {
@@ -31,16 +31,23 @@ header h1 {
 }
 
 header .headerIcon {
-    padding: .8em .5em;
+    padding: 0.8em 0.5em;
+}
+
+@media (prefers-color-scheme: dark) {
+    a h1,
+    a:hover h1 {
+        color: var(--main-bg-color);
+    }
 }
 
 @media (max-width: 600px) {
     header {
-        gap: .5em;
+        gap: 0.5em;
     }
 
     .logo {
-        margin-right: .5em;
+        margin-right: 0.5em;
     }
 
     .logo svg {
