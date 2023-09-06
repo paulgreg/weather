@@ -4,7 +4,6 @@ import ConfigRoute from './routes/ConfigRoute'
 import AddRoute from './routes/AddRoute'
 import CitiesRoute from './routes/CitiesRoute'
 import CityRoute from './routes/CityRoute'
-import Header from './components/Header'
 import RootRoute from './routes/RootRoute'
 
 const router = createBrowserRouter(
