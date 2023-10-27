@@ -6,6 +6,7 @@ import AsyncSelect from 'react-select/async'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import useCities from '../utils/useCities'
+import { clean, cleanMemo } from '../utils/String'
 
 type CountryOption = {
     readonly label: string
@@ -82,9 +83,9 @@ const SearchCity = () => {
     const loadCitiesOptions = (inputValue: string) =>
         Promise.resolve().then(() => {
             if (inputValue?.length < 2) return []
-            const query = inputValue.toLocaleLowerCase()
+            const query = clean(inputValue)
             return (cities ?? [])
-                .filter(({ label }) => label.toLowerCase().startsWith(query))
+                .filter(({ label }) => cleanMemo(label).startsWith(query))
                 .map((city) => ({ label: city.label, value: city } as CityOption))
         })
 
