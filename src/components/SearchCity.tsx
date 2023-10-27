@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import useCities from '../utils/useCities'
 import { clean, cleanMemo } from '../utils/String'
+import { getCountryFromLocalStore, saveCountryInLocalStore } from '../utils/LocalStore'
 
 type CountryOption = {
     readonly label: string
@@ -24,12 +25,15 @@ type CityOption = {
 }
 
 const SearchCity = () => {
+    const savedCountry = getCountryFromLocalStore()
+    const defaultCountryValue = savedCountry ? { label: savedCountry.country, value: savedCountry.code } : undefined
+
     const { onAddCity } = useCities()
     const [isLoadingCountries, setLoadingCountries] = useState<boolean>(false)
     const [countries, setCountries] = useState<Countries>({})
     const [isLoadingCities, setLoadingCities] = useState<boolean>(false)
     const [cities, setCities] = useState<LightCity[]>([])
-    const [country, setCountry] = useState<Country>()
+    const [country, setCountry] = useState<Country | undefined>(savedCountry)
     const [city, setCity] = useState<LightCity>()
     const { t } = useTranslation()
     const navigate = useNavigate()
@@ -43,30 +47,23 @@ const SearchCity = () => {
         })()
     }, [])
 
-    const groupedCountriesOptions = Object.keys(countries).map(
-        (continent) =>
-            ({
-                label: continent,
-                options: Object.keys(countries[continent]).map(
-                    (countryCode) =>
-                        ({
-                            label: countries[continent][countryCode],
-                            value: countryCode,
-                        } as CountryOption)
-                ),
-            } as GroupCountryOption)
-    )
+    const loadCities = useCallback(async (countryCode: string) => {
+        setLoadingCities(true)
+        const cities = await request<LightCity[]>(`cities/${countryCode}.json`)
+        setCities(cities)
+        setLoadingCities(false)
+    }, [])
+
+    useEffect(() => {
+        if (country) loadCities(country.code)
+    }, [country])
 
     const onCountryChange = useCallback((newValue: SingleValue<any>) => {
         if (newValue) {
-            ;(async () => {
-                setLoadingCities(true)
-                const { label: country, value: countryCode } = newValue
-                const cities = await request<LightCity[]>(`cities/${countryCode}.json`)
-                setCities(cities)
-                setCountry({ code: countryCode, country: country })
-                setLoadingCities(false)
-            })()
+            const { label: countryName, value: countryCode } = newValue
+            const country: Country = { code: countryCode, country: countryName }
+            setCountry(country)
+            saveCountryInLocalStore(country)
         }
     }, [])
 
@@ -80,14 +77,17 @@ const SearchCity = () => {
         [cities]
     )
 
-    const loadCitiesOptions = (inputValue: string) =>
-        Promise.resolve().then(() => {
-            if (inputValue?.length < 2) return []
-            const query = clean(inputValue)
-            return (cities ?? [])
-                .filter(({ label }) => cleanMemo(label).startsWith(query))
-                .map((city) => ({ label: city.label, value: city } as CityOption))
-        })
+    const filterCities = useCallback(
+        (inputValue: string) =>
+            Promise.resolve().then(() => {
+                if (inputValue?.length < 2) return []
+                const query = clean(inputValue)
+                return (cities ?? [])
+                    .filter(({ label }) => cleanMemo(label).startsWith(query))
+                    .map((city) => ({ label: city.label, value: city } as CityOption))
+            }),
+        [cities]
+    )
 
     const onSubmitCity = useCallback(
         (e: React.FormEvent) => {
@@ -115,6 +115,19 @@ const SearchCity = () => {
         [country, city]
     )
 
+    const groupedCountriesOptions = Object.keys(countries).map(
+        (continent) =>
+            ({
+                label: continent,
+                options: Object.keys(countries[continent]).map(
+                    (countryCode) =>
+                        ({
+                            label: countries[continent][countryCode],
+                            value: countryCode,
+                        } as CountryOption)
+                ),
+            } as GroupCountryOption)
+    )
     return (
         <>
             <section className="SearchCity">
@@ -135,6 +148,7 @@ const SearchCity = () => {
                             options={groupedCountriesOptions}
                             onChange={onCountryChange}
                             noOptionsMessage={() => t('noResult')}
+                            defaultValue={defaultCountryValue}
                         />
                     </label>
                     <label>
@@ -145,7 +159,7 @@ const SearchCity = () => {
                             isDisabled={!country}
                             isLoading={isLoadingCities}
                             placeholder={t('citySelect')}
-                            loadOptions={loadCitiesOptions}
+                            loadOptions={filterCities}
                             onChange={onCityChange}
                             noOptionsMessage={() => t('noResult')}
                         />
