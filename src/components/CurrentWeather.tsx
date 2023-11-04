@@ -1,18 +1,10 @@
 import './CurrentWeather.css'
 import { OpenWeatherCurrentPart } from '../types/OpenWeatherTypes'
-import {
-    AnimatedWeatherIcon,
-    CursorIcon,
-    DropletIcon,
-    MoonIcon,
-    SunIcon,
-    ThermometerIcon,
-    WeatherIconSize,
-    WindIcon,
-} from './WeatherIcon'
+import { AnimatedWeatherIcon, MoonIcon, SunIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import { formatDate } from '../utils/Date'
 import { useTranslation } from 'react-i18next'
 import Humidity from './Humidify'
+import Wind from './Wind'
 
 const uvIndexToLabel = (uvi: number) => {
     const { t } = useTranslation()
@@ -38,19 +30,6 @@ const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => (
         UV: <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(uvi)}</span>
     </div>
 )
-
-const Wind: React.FC<{ wind_speed: number; wind_deg: number }> = ({ wind_speed, wind_deg }) => {
-    const { t } = useTranslation()
-    const windInKmH = Math.round(wind_speed * (3600 / 1000))
-    if (windInKmH === 0) return <></>
-    return (
-        <div className="CurrentWeatherWind">
-            <WindIcon className="CurrentWeatherIcon" />
-            {t('wind')}: {windInKmH} km/h
-            <CursorIcon rotation={wind_deg + 180} className="CurrentWeatherWindCursor" />
-        </div>
-    )
-}
 
 const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({ sunrise, sunset }) => {
     const sunriseDate = formatDate(sunrise)
@@ -81,7 +60,7 @@ const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart; full: boolean 
             <div>
                 {full && <UVIndex uvi={current.uvi} />}
                 <Humidity humidity={current.humidity} />
-                <Wind wind_speed={current.wind_speed} wind_deg={current.wind_deg} />
+                <Wind wind_speed={current.wind_speed} wind_deg={current.wind_deg} expanded directionIcon />
                 <SunRiseAndSet sunrise={current.sunrise} sunset={current.sunset} />
             </div>
             <div className="CurrentWeatherTitle">

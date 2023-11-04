@@ -3,6 +3,7 @@ import { OpenWeatherDailyPart, OpenWeatherDailyTemp } from '../types/OpenWeather
 import { DropletIcon, StaticWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import { formatDate } from '../utils/Date'
 import { useTranslation } from 'react-i18next'
+import Wind from './Wind'
 
 const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
     const { day, date, month } = formatDate(dt, idx)
@@ -55,6 +56,7 @@ const DailyWeather: React.FC<{
                     <div className={`${itemClassName} DailyWeatherItem`} key={daily.dt}>
                         <Day dt={daily.dt} idx={idx} />
                         <Temp temp={daily.temp} />
+                        <Wind wind_speed={daily.wind_speed} wind_deg={daily.wind_deg} />
                         <StaticWeatherIcon icon={daily.weather[0].icon} />
                         <Rain rain={daily.rain} />
                     </div>
