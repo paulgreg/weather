@@ -52,9 +52,9 @@ export const buildOneCallMock = () =>
                 weather: [
                     {
                         id: 500,
-                        main: 'Rain',
+                        main: 'Snow',
                         description: 'light rain',
-                        icon: '10d',
+                        icon: '13n',
                     },
                 ],
                 pop: 0.9,
