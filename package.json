@@ -24,6 +24,6 @@
     "cities.json": "^1.1.25",
     "country-code-lookup": "^0.1.0",
     "typescript": "^5.2.2",
-    "vite": "^4.4.11"
+    "vite": "^4.4.12"
   }
 }
