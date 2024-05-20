@@ -44,7 +44,7 @@ export const formatDate = (dt: number, idx?: number) => {
     return {
         day: getDayName(d.getDay(), idx),
         date: pad(d.getDate()),
-        month: pad(d.getMonth()),
+        month: pad(d.getMonth() + 1),
         year: d.getFullYear().toString().substring(2),
         hour: pad(d.getHours()),
         minute: pad(d.getMinutes()),
