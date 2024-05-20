@@ -8,8 +8,8 @@ const WeatherAlerts: React.FC<{ dt: number; alerts: alert[] }> = ({ dt, alerts }
     return (
         <details>
             <summary>⚠️ {t('alerts')}</summary>
-            {filteredAlerts.map((alert) => (
-                <div key={alert.event}>
+            {filteredAlerts.map((alert, idx) => (
+                <div key={`${alert.event}-${idx}`}>
                     <div className="WeatherAlertsItemHeader">
                         <h3>{alert.event}</h3>
                         <small>{alert.sender_name}</small>
