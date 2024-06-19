@@ -25,3 +25,5 @@ dist-ssr
 
 public/cities
 public/parameters.json
+
+.vite
