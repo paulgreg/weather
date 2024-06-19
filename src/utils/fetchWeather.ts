@@ -32,7 +32,7 @@ const getCityOrMyPositionLatLng = async (city: CityOrPosition) => {
 const fetchWeather = async (city: CityOrPosition, refreshKey: number, apiKey: string, language: string) => {
     if (!weatherCache[city.label] || weatherCache[city.label].refreshKey < refreshKey) {
         const { lat, lng } = await getCityOrMyPositionLatLng(city)
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=${language}`
+        const weatherUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=${language}`
 
         const weatherData = import.meta.env.PROD
             ? await request<OpenWeatherResponse>(weatherUrl)
