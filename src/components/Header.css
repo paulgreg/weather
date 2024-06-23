@@ -30,8 +30,20 @@ header h1 {
     height: 64px;
 }
 
+header .headerIcons {
+    display: flex;
+    align-items: center;
+}
+
 header .headerIcon {
-    padding: 0.8em 0.5em;
+    padding: 0 0.5em;
+}
+
+header .headerRefreshIcon {
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 50%;
+    padding: 10px 4px 0 4px;
 }
 
 @media (prefers-color-scheme: dark) {
