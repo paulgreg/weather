@@ -10,7 +10,7 @@ const Wind: React.FC<{
 }> = ({ wind_speed, wind_deg, icon = true, directionIcon = false, expanded = false }) => {
     const { t } = useTranslation()
     const windInKmH = Math.round(wind_speed * (3600 / 1000))
-    if (windInKmH === 0) return <></>
+    if (windInKmH === 0) return <div className="CurrentWeatherWind">&nbsp;</div>
     return (
         <div className="CurrentWeatherWind">
             {icon && <WindIcon className="CurrentWeatherIcon" />}
