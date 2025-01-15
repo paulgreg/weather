@@ -61,7 +61,7 @@ i18next
                     addCity: 'Ajouter une ville',
                     alerts: 'Alertes',
                     apiKeyIntro: 'Une clé d’API est requise pour requêter le service',
-                    apiKeyLink: 'Renseignez là dans la page de configuration.',
+                    apiKeyLink: 'Renseignez la dans la page de configuration.',
                     apiKeyMsg: 'Une clé d’API est déjà définie mais vous pouvez en définir une autre.',
                     apiKeyPrompt: 'Entrez la clé d’API d’OpenWeatherMap',
                     apiKeySet: 'Définir une nouvelle clé d’API',
