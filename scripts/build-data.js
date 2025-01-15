@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import cities from 'cities.json' assert { type: 'json' }
+import cities from 'cities.json' with { type: 'json' }
 import lookupCountries from 'country-code-lookup'
 
 const dataPath = path.resolve(`./public/cities/`)
