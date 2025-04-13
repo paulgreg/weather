@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/cloud.svg" />
+        <link rel="shortcut icon" href="/cloud-192x.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="./cloud-180x.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="manifest" href="./manifest.json" />
+        <title>Weather</title>
+    </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/cloud.svg" />
-  <link rel="shortcut icon" href="/cloud-192x.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./cloud-180x.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="manifest" href="./manifest.json" />
-  <title>Weather</title>
-</head>
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    if (event.data && event.data.type === 'unauthorized') {
+                        const shouldReload = confirm('Your session has expired. Do you want to reload the page ?')
+                        if (shouldReload) location.reload()
+                    }
+                })
+            }
+        </script>
+    </body>
 </html>
