@@ -6,6 +6,12 @@ const request = async <T>(url: string): Promise<T> => {
     const fullUrl = `${prefix}${url}`
     console.log('request', fullUrl)
     const response = await fetch(fullUrl)
+
+    if (response.redirected && response.url.includes('/vouch/login')) {
+        const shouldRefresh = confirm('Your session has expired. Would you like to refresh the page ?')
+        if (shouldRefresh) window.location.reload()
+    }
+
     if (!response.ok) throw new Error(response.statusText)
     return response.json()
 }
