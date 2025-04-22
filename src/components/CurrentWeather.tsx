@@ -36,10 +36,14 @@ const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({ sunrise,
     const sunsetDate = formatDate(sunset)
     return (
         <div className="CurrentWeatherSunRiseAndSet">
-            <SunIcon size={WeatherIconSize.XXS} className="CurrentWeatherSunRiseIcon" />
-            {sunriseDate.hour}:{sunriseDate.minute}
-            <MoonIcon size={WeatherIconSize.XXS} className="CurrentWeatherSunsetIcon" />
-            {sunsetDate.hour}:{sunsetDate.minute}
+            <span>
+                <SunIcon size={WeatherIconSize.XXS} className="CurrentWeatherSunRiseIcon" />
+                {sunriseDate.hour}:{sunriseDate.minute}
+            </span>
+            <span>
+                <MoonIcon size={WeatherIconSize.XXS} className="CurrentWeatherSunsetIcon" />
+                {sunsetDate.hour}:{sunsetDate.minute}
+            </span>
         </div>
     )
 }
