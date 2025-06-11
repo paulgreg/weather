@@ -103,7 +103,7 @@ i18next
                     sunday: 'dimanche',
                     monday: 'lundi',
                     tuesday: 'mardi',
-                    wednesday: 'mercred',
+                    wednesday: 'mercredi',
                     thursday: 'jeudi',
                     friday: 'vendredi',
                     saturday: 'samedi',
