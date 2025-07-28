@@ -21,11 +21,6 @@
             "src": "./cloud-512x.png",
             "sizes": "512x512",
             "type": "image/png"
-        },
-        {
-            "src": "./cloud.svg",
-            "sizes": "any",
-            "type": "image/svg"
         }
     ]
 }
