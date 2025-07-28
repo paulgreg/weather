@@ -3,8 +3,8 @@
     "short_name": "Weather",
     "start_url": "./",
     "display": "standalone",
-    "background_color": "#fff",
-    "theme_color": "#fff",
+    "background_color": "#282c34",
+    "theme_color": "#050345",
     "description": "A simple weather app",
     "icons": [
         {
