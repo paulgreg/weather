@@ -1,4 +1,4 @@
-const request = async <T>(url: string, errorMsg: string): Promise<T> => {
+const request = async <T>(url: string, errorMsg?: string): Promise<T> => {
     try {
         const prefix = url.startsWith('http') || url.startsWith('//') ? '' : import.meta.env.BASE_URL
         const fullUrl = `${prefix}${url}`
@@ -9,8 +9,10 @@ const request = async <T>(url: string, errorMsg: string): Promise<T> => {
     } catch (error) {
         const e = error as Error
         console.error(e)
-        alert(errorMsg)
-        location.reload()
+        if (errorMsg) {
+            alert(errorMsg)
+            location.reload()
+        }
         throw e
     }
 }
