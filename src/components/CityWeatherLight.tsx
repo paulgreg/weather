@@ -22,7 +22,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
     const [weather, setWeather] = useState<OpenWeatherResponse>()
     const [loading, setLoading] = useState<boolean>(true)
     const [osmUrl, setOsmUrl] = useState<string>()
-    const [error, setError] = useState<any>()
+    const [error, setError] = useState<Error>()
     const { apiKey } = useConfig()
     const { t, i18n } = useTranslation()
     const { refreshKey, updateRefreshKey } = useRefreshKey()
@@ -35,21 +35,28 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
             }
             try {
                 setError(undefined)
-                const { weatherData, weatherOsmUrl } = await fetchWeather(city, refreshKey, apiKey, i18n.language)
+                const { weatherData, weatherOsmUrl } = await fetchWeather(
+                    city,
+                    refreshKey,
+                    apiKey,
+                    i18n.language,
+                    t('error')
+                )
                 setOsmUrl(weatherOsmUrl)
                 setWeather(weatherData)
-            } catch (e: unknown) {
+            } catch (error: unknown) {
+                const e = error as Error
                 console.error(e)
                 setError(e)
             } finally {
                 setLoading(false)
             }
         })()
-    }, [city, apiKey, refreshKey])
+    }, [city, apiKey, refreshKey, i18n.language, t])
 
     const nativageToWeatherFull = useCallback(() => {
         navigate(`/city/${city.label}`)
-    }, [])
+    }, [city.label, navigate])
 
     const navigageToOsmUrl = useCallback(
         (e: React.MouseEvent) => {

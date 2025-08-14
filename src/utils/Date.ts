@@ -15,7 +15,7 @@ export const getHour = (dt: number) => {
     return d.getHours()
 }
 
-const getDayName = (day: number, idx?: number) => {
+const DayName = (day: number, idx?: number) => {
     const { t } = useTranslation()
     if (idx === 0) return t('today')
     if (idx === 1) return t('tomorrow')
@@ -42,7 +42,7 @@ const pad = (n: number) => n.toString().padStart(2, '0')
 export const formatDate = (dt: number, idx?: number) => {
     const d = new Date(dt * 1000)
     return {
-        day: getDayName(d.getDay(), idx),
+        day: DayName(d.getDay(), idx),
         date: pad(d.getDate()),
         month: pad(d.getMonth() + 1),
         year: d.getFullYear().toString().substring(2),

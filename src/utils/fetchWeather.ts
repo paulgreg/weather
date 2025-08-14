@@ -29,14 +29,20 @@ const getCityOrMyPositionLatLng = async (city: CityOrPosition) => {
     return Promise.resolve({ lat, lng })
 }
 
-const fetchWeather = async (city: CityOrPosition, refreshKey: number, apiKey: string, language: string) => {
+const fetchWeather = async (
+    city: CityOrPosition,
+    refreshKey: number,
+    apiKey: string,
+    language: string,
+    errorMsg: string
+) => {
     if (!weatherCache[city.label] || weatherCache[city.label].refreshKey < refreshKey) {
         const { lat, lng } = await getCityOrMyPositionLatLng(city)
         const weatherUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely&appid=${apiKey}&units=metric&lang=${language}`
 
         const weatherData = import.meta.env.PROD
-            ? await request<OpenWeatherResponse>(weatherUrl)
-            : await requestMock(weatherUrl)
+            ? await request<OpenWeatherResponse>(weatherUrl, errorMsg)
+            : await requestMock()
 
         const weatherOsmUrl = `https://www.openstreetmap.org/?mlat=${weatherData.lat}&mlon=${weatherData.lon}&zoom=12`
         weatherCache[city.label] = {

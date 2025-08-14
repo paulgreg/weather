@@ -3,11 +3,12 @@ import { getApiKeyFromLocalStore, saveApiKeyInLocalStore } from './LocalStore'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import request from './request'
+import type { ConfigType } from '../types/ConfigTypes'
 
-let configCache: Config
+let configCache: ConfigType
 
 const useConfig = () => {
-    const [config, setConfig] = useState<Config>({})
+    const [config, setConfig] = useState<ConfigType>({})
     const { t } = useTranslation()
     const navigate = useNavigate()
 
@@ -18,7 +19,7 @@ const useConfig = () => {
                 setConfig(configCache)
             } else {
                 try {
-                    const configFromServer = await request<Config>(`parameters.json`)
+                    const configFromServer = await request<ConfigType>(`parameters.json`, t('error'))
                     configCache = configFromServer
                     setConfig(configFromServer)
                 } catch (e) {
@@ -33,7 +34,7 @@ const useConfig = () => {
                 }
             }
         })()
-    }, [config])
+    }, [config, t])
 
     const setApiKey = useCallback(() => {
         const apiKey = prompt(t('apiKeyPrompt'))
@@ -44,7 +45,7 @@ const useConfig = () => {
         } else {
             alert(t('apiKeyInvalid'))
         }
-    }, [])
+    }, [navigate, t])
 
     return {
         apiKey: config?.apiKey,

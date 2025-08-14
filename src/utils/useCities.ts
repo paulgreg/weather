@@ -16,7 +16,7 @@ const useCities = () => {
             setCities(newCities)
             saveCitiesInLocalStore(newCities)
         },
-        [cities]
+        [cities, t]
     )
 
     const onDeleteCity = useCallback(
@@ -29,7 +29,7 @@ const useCities = () => {
                 saveCitiesInLocalStore(updatedCities)
             }
         },
-        [cities]
+        [cities, t]
     )
 
     const onTopCity = useCallback(

@@ -3,7 +3,7 @@ import useCities from '../utils/useCities'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-const CitiesList = ({}) => {
+const CitiesList = () => {
     const { cities, onDeleteCity, onTopCity } = useCities()
     const { t } = useTranslation()
 

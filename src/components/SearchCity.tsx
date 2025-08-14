@@ -29,9 +29,9 @@ const SearchCity = () => {
     const defaultCountryValue = savedCountry ? { label: savedCountry.country, value: savedCountry.code } : undefined
 
     const { onAddCity } = useCities()
-    const [isLoadingCountries, setLoadingCountries] = useState<boolean>(false)
+    const [isLoadingCountries, setIsLoadingCountries] = useState<boolean>(false)
     const [countries, setCountries] = useState<Countries>({})
-    const [isLoadingCities, setLoadingCities] = useState<boolean>(false)
+    const [isLoadingCities, setIsLoadingCities] = useState<boolean>(false)
     const [cities, setCities] = useState<LightCity[]>([])
     const [country, setCountry] = useState<Country | undefined>(savedCountry)
     const [city, setCity] = useState<LightCity>()
@@ -40,25 +40,28 @@ const SearchCity = () => {
 
     useEffect(() => {
         ;(async () => {
-            setLoadingCountries(true)
-            const countries = await request<Countries>(`cities/countries.json`)
+            setIsLoadingCountries(true)
+            const countries = await request<Countries>(`cities/countries.json`, t('error'))
             setCountries(countries)
-            setLoadingCountries(false)
+            setIsLoadingCountries(false)
         })()
-    }, [])
+    }, [t])
 
-    const loadCities = useCallback(async (countryCode: string) => {
-        setLoadingCities(true)
-        const cities = await request<LightCity[]>(`cities/${countryCode}.json`)
-        setCities(cities)
-        setLoadingCities(false)
-    }, [])
+    const loadCities = useCallback(
+        async (countryCode: string) => {
+            setIsLoadingCities(true)
+            const cities = await request<LightCity[]>(`cities/${countryCode}.json`, t('error'))
+            setCities(cities)
+            setIsLoadingCities(false)
+        },
+        [t]
+    )
 
     useEffect(() => {
         if (country) loadCities(country.code)
-    }, [country])
+    }, [country, loadCities])
 
-    const onCountryChange = useCallback((newValue: SingleValue<any>) => {
+    const onCountryChange = useCallback((newValue: SingleValue<CountryOption>) => {
         if (newValue) {
             const { label: countryName, value: countryCode } = newValue
             const country: Country = { code: countryCode, country: countryName }
@@ -67,15 +70,12 @@ const SearchCity = () => {
         }
     }, [])
 
-    const onCityChange = useCallback(
-        (newValue: SingleValue<any>) => {
-            const { value } = newValue
-            if (value) {
-                setCity(value)
-            }
-        },
-        [cities]
-    )
+    const onCityChange = useCallback((newValue: SingleValue<CityOption>) => {
+        if (newValue) {
+            const { value: city } = newValue
+            setCity(city)
+        }
+    }, [])
 
     const filterCities = useCallback(
         (inputValue: string) =>
@@ -100,7 +100,7 @@ const SearchCity = () => {
                 navigate('/')
             }
         },
-        [country, city, onAddCity]
+        [country, city, onAddCity, navigate]
     )
 
     const onSubmitMyPosition = useCallback(
@@ -112,7 +112,7 @@ const SearchCity = () => {
             })
             navigate('/')
         },
-        [country, city]
+        [onAddCity, t, navigate]
     )
 
     const groupedCountriesOptions = Object.keys(countries).map(
@@ -129,47 +129,45 @@ const SearchCity = () => {
             } as GroupCountryOption)
     )
     return (
-        <>
-            <section className="SearchCity">
-                <div className="part">
-                    <p>
-                        <input type="submit" value={`📍 ${t('myPositionAdd')}`} onClick={onSubmitMyPosition} />
-                    </p>
-                    <p>{t('or')}</p>
+        <section className="SearchCity">
+            <div className="part">
+                <p>
+                    <input type="submit" value={`📍 ${t('myPositionAdd')}`} onClick={onSubmitMyPosition} />
+                </p>
+                <p>{t('or')}</p>
+            </div>
+            <form onSubmit={onSubmitCity}>
+                <label>
+                    <span>{t('country')} :</span>
+                    <Select
+                        classNamePrefix="react-select"
+                        className="SearchCityReactSelect"
+                        isLoading={isLoadingCountries}
+                        placeholder={t('countrySelect')}
+                        options={groupedCountriesOptions}
+                        onChange={onCountryChange}
+                        noOptionsMessage={() => t('noResult')}
+                        defaultValue={defaultCountryValue}
+                    />
+                </label>
+                <label>
+                    <span>{t('city')} :</span>
+                    <AsyncSelect
+                        classNamePrefix="react-select"
+                        className="SearchCityReactSelect"
+                        isDisabled={!country}
+                        isLoading={isLoadingCities}
+                        placeholder={t('citySelect')}
+                        loadOptions={filterCities}
+                        onChange={onCityChange}
+                        noOptionsMessage={() => t('noResult')}
+                    />
+                </label>
+                <div className="submit">
+                    <input type="submit" value={`➕ ${t('add')}`} disabled={!city} />
                 </div>
-                <form onSubmit={onSubmitCity}>
-                    <label>
-                        <span>{t('country')} :</span>
-                        <Select
-                            classNamePrefix="react-select"
-                            className="SearchCityReactSelect"
-                            isLoading={isLoadingCountries}
-                            placeholder={t('countrySelect')}
-                            options={groupedCountriesOptions}
-                            onChange={onCountryChange}
-                            noOptionsMessage={() => t('noResult')}
-                            defaultValue={defaultCountryValue}
-                        />
-                    </label>
-                    <label>
-                        <span>{t('city')} :</span>
-                        <AsyncSelect
-                            classNamePrefix="react-select"
-                            className="SearchCityReactSelect"
-                            isDisabled={!country}
-                            isLoading={isLoadingCities}
-                            placeholder={t('citySelect')}
-                            loadOptions={filterCities}
-                            onChange={onCityChange}
-                            noOptionsMessage={() => t('noResult')}
-                        />
-                    </label>
-                    <div className="submit">
-                        <input type="submit" value={`➕ ${t('add')}`} disabled={!Boolean(city)} />
-                    </div>
-                </form>
-            </section>
-        </>
+            </form>
+        </section>
     )
 }
 

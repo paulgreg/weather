@@ -6,11 +6,14 @@ import { useCallback } from 'react'
 
 const Header = () => {
     const { t } = useTranslation()
-    const onRefreshClick = useCallback((e: React.MouseEvent) => {
-        e.stopPropagation()
-        e.preventDefault()
-        if (confirm(t('refreshAll'))) window.location.reload()
-    }, [])
+    const onRefreshClick = useCallback(
+        (e: React.MouseEvent) => {
+            e.stopPropagation()
+            e.preventDefault()
+            if (confirm(t('refreshAll'))) window.location.reload()
+        },
+        [t]
+    )
 
     return (
         <header>

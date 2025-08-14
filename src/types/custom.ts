@@ -1,3 +1,1 @@
-declare module '*.svg' {
-    import React = require('react')
-}
+declare module '*.svg' {}

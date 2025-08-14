@@ -1,3 +1,3 @@
-type Config = {
+export type ConfigType = {
     apiKey?: string
 }

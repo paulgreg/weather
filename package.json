@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build-data": "mkdir -p ./public/cities && node scripts/build-data.js",
-    "build": "npm run build-data && tsc && vite build --base=/weather/"
+    "build": "npm run build-data && tsc && vite build",
+    "lint": "tsc && eslint"
   },
   "dependencies": {
     "i18next": "^25.3.4",
@@ -24,7 +25,11 @@
     "@vitejs/plugin-react": "^5.0.0",
     "cities.json": "^1.1.50",
     "country-code-lookup": "^0.1.3",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"
   }
 }

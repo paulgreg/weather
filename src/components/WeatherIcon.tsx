@@ -39,6 +39,7 @@ import Cloud from '../assets/cloud.svg'
 import Plus from '../assets/plus-circle-fill.svg'
 import Wrench from '../assets/wrench-adjustable-circle-fill.svg'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const enum WeatherIconSize {
     XXXS = '10px',
     XXS = '14px',
@@ -123,6 +124,7 @@ const WeatherIcon: React.FC<{
 }> = ({ icon, animated, size = WeatherIconSize.M }) => (
     <img
         src={animated ? getAnimatedIcon(icon) : getStaticdIcon(icon)}
+        alt={icon}
         style={{
             width: size,
             height: size,
@@ -148,6 +150,7 @@ export const ThermometerIcon: React.FC<{
 }> = ({ high = false, size = WeatherIconSize.XS }) => (
     <img
         src={high ? ThermometerHigh : ThermometerHalf}
+        alt="thermometer"
         style={{
             width: size,
             height: size,
@@ -164,6 +167,7 @@ const SvgIcon: React.FC<{
 }> = ({ icon, className = '', size = WeatherIconSize.XS, style = {} }) => (
     <img
         src={icon}
+        alt={icon}
         style={{
             width: size,
             height: size,

@@ -25,7 +25,7 @@ const CityRoute = () => {
                 setErrorKey('cityBadUrl')
             }
         }
-    }, [])
+    }, [cities, label])
 
     return (
         <>

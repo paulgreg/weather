@@ -12,8 +12,7 @@ const ApiKeyConfig = () => {
                 {' : '}
                 <a href="https://openweathermap.org/" target="_blank">
                     OpenWeatherMap
-                </a>
-                .
+                </a>.
             </p>
             <p>
                 {apiKey && t('apiKeyMsg')} <button onClick={setApiKey}>{t('apiKeySet')}</button>

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import Humidity from './Humidify'
 import Wind from './Wind'
 
-const uvIndexToLabel = (uvi: number) => {
+const UvIndexToLabel = (uvi: number) => {
     const { t } = useTranslation()
     if (uvi <= 2) return t('low')
     if (uvi <= 5) return t('moderate')
@@ -27,7 +27,7 @@ const uvIndexToClassName = (uvi: number) => {
 const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => (
     <div className="CurrentWeatherUV">
         <SunIcon className="CurrentWeatherIcon" />
-        UV: <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(uvi)}</span>
+        UV: <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>{UvIndexToLabel(uvi)}</span>
     </div>
 )
 
