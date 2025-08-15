@@ -53,7 +53,7 @@ i18next
                     veryHigh: 'very high',
                     extreme: 'extreme',
                     wind: 'wind',
-                    error: 'An error occured. You maybe be disconnected. App will reload.',
+                    errorReload: 'An error occured. You maybe be disconnected. App will reload.',
                 },
             },
             fr: {
@@ -124,7 +124,8 @@ i18next
                     Ash: 'Cendres',
                     Squall: 'Rafales',
                     Tornado: 'Tornade',
-                    error: "Une erreur s’est produite. Vous êtes peut-être déconnecté. L'application va se recharger.",
+                    errorReload:
+                        "Une erreur s’est produite. Vous êtes peut-être déconnecté. L'application va se recharger.",
                 },
             },
         },

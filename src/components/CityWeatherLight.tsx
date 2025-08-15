@@ -35,13 +35,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
             }
             try {
                 setError(undefined)
-                const { weatherData, weatherOsmUrl } = await fetchWeather(
-                    city,
-                    refreshKey,
-                    apiKey,
-                    i18n.language,
-                    t('error')
-                )
+                const { weatherData, weatherOsmUrl } = await fetchWeather(city, refreshKey, apiKey, i18n.language)
                 setOsmUrl(weatherOsmUrl)
                 setWeather(weatherData)
             } catch (error: unknown) {

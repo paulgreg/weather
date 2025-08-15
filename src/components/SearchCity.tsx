@@ -41,7 +41,7 @@ const SearchCity = () => {
     useEffect(() => {
         ;(async () => {
             setIsLoadingCountries(true)
-            const countries = await request<Countries>(`cities/countries.json`, t('error'))
+            const countries = await request<Countries>(`cities/countries.json`, t('errorReload'))
             setCountries(countries)
             setIsLoadingCountries(false)
         })()
@@ -50,7 +50,7 @@ const SearchCity = () => {
     const loadCities = useCallback(
         async (countryCode: string) => {
             setIsLoadingCities(true)
-            const cities = await request<LightCity[]>(`cities/${countryCode}.json`, t('error'))
+            const cities = await request<LightCity[]>(`cities/${countryCode}.json`, t('errorReload'))
             setCities(cities)
             setIsLoadingCities(false)
         },
