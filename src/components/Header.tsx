@@ -10,7 +10,7 @@ const Header = () => {
         (e: React.MouseEvent) => {
             e.stopPropagation()
             e.preventDefault()
-            if (confirm(t('refreshAll'))) window.location.reload()
+            if (confirm(t('refreshAll'))) globalThis.location.reload()
         },
         [t]
     )

@@ -1,3 +1,4 @@
+import { TFunction, TFunctionNonStrict } from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 export const MINUTE = 60_000
@@ -15,8 +16,7 @@ export const getHour = (dt: number) => {
     return d.getHours()
 }
 
-const DayName = (day: number, idx?: number) => {
-    const { t } = useTranslation()
+const DayName = (t: TFunction<'translation'>, day: number, idx?: number) => {
     if (idx === 0) return t('today')
     if (idx === 1) return t('tomorrow')
     switch (day) {
@@ -39,10 +39,10 @@ const DayName = (day: number, idx?: number) => {
 
 const pad = (n: number) => n.toString().padStart(2, '0')
 
-export const formatDate = (dt: number, idx?: number) => {
+export const formatDate = (t: TFunction<'translation'>, dt: number, idx?: number) => {
     const d = new Date(dt * 1000)
     return {
-        day: DayName(d.getDay(), idx),
+        day: DayName(t, d.getDay(), idx),
         date: pad(d.getDate()),
         month: pad(d.getMonth() + 1),
         year: d.getFullYear().toString().substring(2),

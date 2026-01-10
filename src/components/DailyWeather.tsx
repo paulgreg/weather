@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next'
 import Wind from './Wind'
 
 const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
-    const { day, date, month } = formatDate(dt, idx)
+    const { t } = useTranslation()
+    const { day, date, month } = formatDate(t, dt, idx)
     return (
         <div className="DailyWeathertItemDay">
             <div>{day}</div>

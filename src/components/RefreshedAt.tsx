@@ -4,7 +4,7 @@ import { formatDate } from '../utils/Date'
 
 const RefreshedAt: React.FC<{ dt: number }> = ({ dt }) => {
     const { t } = useTranslation()
-    const d = formatDate(dt)
+    const d = formatDate(t, dt)
     return (
         <div className="RefreshedAt">
             {t('refreshedAt')}{' '}

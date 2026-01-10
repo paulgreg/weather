@@ -5,9 +5,9 @@ import { formatDate } from '../utils/Date'
 import { useTranslation } from 'react-i18next'
 import Humidity from './Humidify'
 import Wind from './Wind'
+import { TFunction } from 'i18next'
 
-const UvIndexToLabel = (uvi: number) => {
-    const { t } = useTranslation()
+const uvIndexToLabel = (t: TFunction<'translation'>, uvi: number) => {
     if (uvi <= 2) return t('low')
     if (uvi <= 5) return t('moderate')
     if (uvi <= 7) return t('high')
@@ -24,16 +24,20 @@ const uvIndexToClassName = (uvi: number) => {
     return `${prefix}extreme`
 }
 
-const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => (
-    <div className="CurrentWeatherUV">
-        <SunIcon className="CurrentWeatherIcon" />
-        UV: <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>{UvIndexToLabel(uvi)}</span>
-    </div>
-)
+const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => {
+    const { t } = useTranslation()
+    return (
+        <div className="CurrentWeatherUV">
+            <SunIcon className="CurrentWeatherIcon" />
+            UV: <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(t, uvi)}</span>A
+        </div>
+    )
+}
 
 const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({ sunrise, sunset }) => {
-    const sunriseDate = formatDate(sunrise)
-    const sunsetDate = formatDate(sunset)
+    const { t } = useTranslation()
+    const sunriseDate = formatDate(t, sunrise)
+    const sunsetDate = formatDate(t, sunset)
     return (
         <div className="CurrentWeatherSunRiseAndSet">
             <span>
