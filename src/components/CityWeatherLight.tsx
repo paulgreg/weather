@@ -1,4 +1,4 @@
-import './CityWeather.css'
+import s from './CityWeather.module.css'
 import { useCallback, useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import { useTranslation } from 'react-i18next'
@@ -61,8 +61,12 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
     )
 
     return (
-        <div className="CityWeatherItem CityWeatherClick" onClick={nativageToWeatherFull} title={t('cityDetails')}>
-            <div className="CityWeatherItemHeader">
+        <div
+            className={`${s.CityWeatherItem} ${s.CityWeatherClick}`}
+            onClick={nativageToWeatherFull}
+            title={t('cityDetails')}
+        >
+            <div className={s.CityWeatherItemHeader}>
                 <CityTitle city={city} />
                 <div>
                     {onTopCity && (

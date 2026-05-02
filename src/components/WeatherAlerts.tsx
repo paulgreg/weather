@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { alert } from '../types/OpenWeatherTypes'
+import s from './WeatherAlerts.module.css'
 
 const WeatherAlerts: React.FC<{ dt: number; alerts: alert[] }> = ({ dt, alerts }) => {
     const { t } = useTranslation()
@@ -10,7 +11,7 @@ const WeatherAlerts: React.FC<{ dt: number; alerts: alert[] }> = ({ dt, alerts }
             <summary>⚠️ {t('alerts')}</summary>
             {filteredAlerts.map((alert, idx) => (
                 <div key={`${alert.event}-${idx}`}>
-                    <div className="WeatherAlertsItemHeader">
+                    <div className={s.WeatherAlertsItemHeader}>
                         <h3>{alert.event}</h3>
                         <small>{alert.sender_name}</small>
                     </div>

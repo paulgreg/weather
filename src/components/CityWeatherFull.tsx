@@ -1,4 +1,4 @@
-import './CityWeather.css'
+import s from './CityWeather.module.css'
 import { useCallback, useEffect, useState } from 'react'
 import { OpenWeatherResponse } from '../types/OpenWeatherTypes'
 import CurrentWeather from './CurrentWeather'
@@ -56,8 +56,8 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
     )
 
     return (
-        <div className="CityWeatherItem">
-            <div className="CityWeatherItemHeader">
+        <div className={s.CityWeatherItem}>
+            <div className={s.CityWeatherItemHeader}>
                 <CityTitle city={city} />
                 <div>
                     {osmUrl && (
@@ -83,13 +83,13 @@ const CityWeatherFull: React.FC<CityWeatherFullItemType> = ({ city }) => {
                         hourly={weather.hourly}
                         sunrise={weather.current.sunrise}
                         sunset={weather.current.sunset}
-                        listClassName="CityWeatherItemList"
-                        itemClassName="CityWeatherListItem"
+                        listClassName={s.CityWeatherItemList}
+                        itemClassName={s.CityWeatherListItem}
                     />
                     <DailyWeather
                         daily={weather.daily}
-                        listClassName="CityWeatherItemList"
-                        itemClassName="CityWeatherListItem"
+                        listClassName={s.CityWeatherItemList}
+                        itemClassName={s.CityWeatherListItem}
                     />
                     <WeatherAlerts dt={weather.current.dt} alerts={weather.alerts} />
                     <RefreshedAt dt={weather.current.dt} />

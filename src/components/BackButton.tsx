@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import './BackButton.css'
+import s from './BackButton.module.css'
 import { BackIcon } from './WeatherIcon'
 
 const BackButton = () => {
     const { t } = useTranslation()
     return (
-        <div className="back">
-            <Link to="/" className="backButton button">
-                <BackIcon className="backButtonIcon" />
+        <div className={s.back}>
+            <Link to="/" className={`${s.backButton} button`}>
+                <BackIcon className={s.backButtonIcon} />
                 {t('back')}
             </Link>
         </div>

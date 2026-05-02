@@ -57,25 +57,25 @@
     margin-left: 0.2em;
 }
 
-.CurrentWeatherUV-low {
+.CurrentWeatherUVLow {
     color: green;
 }
 
-.CurrentWeatherUV-moderate {
+.CurrentWeatherUVModerate {
     color: brown;
 }
 
-.CurrentWeatherUV-high {
+.CurrentWeatherUVHigh {
     color: darkorange;
     font-weight: bold;
 }
 
-.CurrentWeatherUV-very-high {
+.CurrentWeatherUVVeryHigh {
     color: red;
     font-weight: bold;
 }
 
-.CurrentWeatherUV-extreme {
+.CurrentWeatherUVExtreme {
     color: purple;
     font-weight: bold;
 }
@@ -94,15 +94,15 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .CurrentWeatherUV-low {
+    .CurrentWeatherUVLow {
         color: lightgreen;
     }
 
-    .CurrentWeatherUV-moderate {
+    .CurrentWeatherUVModerate {
         color: orange;
     }
 
-    .CurrentWeatherUV-extreme {
+    .CurrentWeatherUVExtreme {
         color: deeppink;
     }
 }

@@ -1,4 +1,4 @@
-import './SearchCity.css'
+import s from './SearchCity.module.css'
 import { useState, useCallback, useEffect } from 'react'
 import request from '../utils/request'
 import Select, { SingleValue } from 'react-select'
@@ -129,8 +129,8 @@ const SearchCity = () => {
             } as GroupCountryOption)
     )
     return (
-        <section className="SearchCity">
-            <div className="part">
+        <section className={s.SearchCity}>
+            <div className={s.part}>
                 <p>
                     <input type="submit" value={`📍 ${t('myPositionAdd')}`} onClick={onSubmitMyPosition} />
                 </p>
@@ -141,7 +141,7 @@ const SearchCity = () => {
                     <span>{t('country')} :</span>
                     <Select
                         classNamePrefix="react-select"
-                        className="SearchCityReactSelect"
+                        className={s.SearchCityReactSelect}
                         isLoading={isLoadingCountries}
                         placeholder={t('countrySelect')}
                         options={groupedCountriesOptions}
@@ -154,7 +154,7 @@ const SearchCity = () => {
                     <span>{t('city')} :</span>
                     <AsyncSelect
                         classNamePrefix="react-select"
-                        className="SearchCityReactSelect"
+                        className={s.SearchCityReactSelect}
                         isDisabled={!country}
                         isLoading={isLoadingCities}
                         placeholder={t('citySelect')}
@@ -163,7 +163,7 @@ const SearchCity = () => {
                         noOptionsMessage={() => t('noResult')}
                     />
                 </label>
-                <div className="submit">
+                <div className={s.submit}>
                     <input type="submit" value={`➕ ${t('add')}`} disabled={!city} />
                 </div>
             </form>

@@ -2,7 +2,7 @@ import { OpenWeatherHourlyPart, OpenWeatherRain } from '../types/OpenWeatherType
 import { formatTime, getHour } from '../utils/Date'
 import { DropletIcon, StaticWeatherIcon, WeatherIconSize } from './WeatherIcon'
 import { useTranslation } from 'react-i18next'
-import './HourlyWeather.css'
+import s from './HourlyWeather.module.css'
 import Wind from './Wind'
 
 const Time: React.FC<{ dt: number }> = ({ dt }) => <span>{formatTime(dt)}</span>
@@ -17,15 +17,15 @@ const FeelsLike: React.FC<{
     const sunriseHour = getHour(sunrise)
     const currentTime = getHour(dt)
     const isDay = currentTime > sunriseHour && currentTime < sunsetTime
-    return <span className={isDay ? 'HourlyWeatherTempDay' : 'HourlyWeatherTempNight'}>{Math.round(feels_like)}°</span>
+    return <span className={isDay ? s.HourlyWeatherTempDay : s.HourlyWeatherTempNight}>{Math.round(feels_like)}°</span>
 }
 
 const Rain: React.FC<{ rain?: OpenWeatherRain }> = ({ rain }) => {
     const mm = (rain && Math.round(rain?.['1h'])) ?? 0
     if (mm > 0) {
         return (
-            <span className="HourlyWeatherRain">
-                <DropletIcon className="HourlyWeatherRainIcon" size={WeatherIconSize.XXXS} />
+            <span className={s.HourlyWeatherRain}>
+                <DropletIcon className={s.HourlyWeatherRainIcon} size={WeatherIconSize.XXXS} />
                 {mm}mm
             </span>
         )
@@ -46,7 +46,7 @@ const HourlyWeather: React.FC<{
             <h2>{t('hourByHour')}</h2>
             <div className={listClassName}>
                 {hourly.map((hourly) => (
-                    <div className={`${itemClassName} HourlyWeatherItem`} key={hourly.dt}>
+                    <div className={`${itemClassName} ${s.HourlyWeatherItem}`} key={hourly.dt}>
                         <Time dt={hourly.dt} />
                         <FeelsLike feels_like={hourly.feels_like} dt={hourly.dt} sunrise={sunrise} sunset={sunset} />
                         <Wind wind_speed={hourly.wind_speed} wind_deg={hourly.wind_deg} icon={false} />

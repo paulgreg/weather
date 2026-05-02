@@ -1,4 +1,4 @@
-import './CurrentWeather.css'
+import s from './CurrentWeather.module.css'
 import { OpenWeatherCurrentPart } from '../types/OpenWeatherTypes'
 import { AnimatedWeatherIcon, MoonIcon, SunIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import { formatDate } from '../utils/Date'
@@ -16,20 +16,20 @@ const uvIndexToLabel = (t: TFunction<'translation'>, uvi: number) => {
 }
 
 const uvIndexToClassName = (uvi: number) => {
-    const prefix = 'CurrentWeatherUV-'
-    if (uvi <= 2) return `${prefix}low`
-    if (uvi <= 5) return `${prefix}moderate`
-    if (uvi <= 7) return `${prefix}high`
-    if (uvi <= 10) return `${prefix}very-high`
-    return `${prefix}extreme`
+    if (uvi <= 2) return s.CurrentWeatherUVLow
+    if (uvi <= 5) return s.CurrentWeatherUVModerate
+    if (uvi <= 7) return s.CurrentWeatherUVHigh
+    if (uvi <= 10) return s.CurrentWeatherUVVeryHigh
+    return s.CurrentWeatherUVExtreme
 }
 
 const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => {
     const { t } = useTranslation()
     return (
-        <div className="CurrentWeatherUV">
-            <SunIcon className="CurrentWeatherIcon" />
-            UV: <span className={`CurrentWeatherUVValue ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(t, uvi)}</span>A
+        <div className={s.CurrentWeatherUV}>
+            <SunIcon className={s.CurrentWeatherIcon} />
+            UV:{' '}
+            <span className={`${s.CurrentWeatherUVValue} ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(t, uvi)}</span>A
         </div>
     )
 }
@@ -39,13 +39,13 @@ const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({ sunrise,
     const sunriseDate = formatDate(t, sunrise)
     const sunsetDate = formatDate(t, sunset)
     return (
-        <div className="CurrentWeatherSunRiseAndSet">
+        <div className={s.CurrentWeatherSunRiseAndSet}>
             <span>
-                <SunIcon size={WeatherIconSize.XXS} className="CurrentWeatherSunRiseIcon" />
+                <SunIcon size={WeatherIconSize.XXS} className={s.CurrentWeatherSunRiseIcon} />
                 {sunriseDate.hour}:{sunriseDate.minute}
             </span>
             <span>
-                <MoonIcon size={WeatherIconSize.XXS} className="CurrentWeatherSunsetIcon" />
+                <MoonIcon size={WeatherIconSize.XXS} className={s.CurrentWeatherSunsetIcon} />
                 {sunsetDate.hour}:{sunsetDate.minute}
             </span>
         </div>
@@ -55,9 +55,9 @@ const SunRiseAndSet: React.FC<{ sunrise: number; sunset: number }> = ({ sunrise,
 const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart; full: boolean }> = ({ current, full }) => {
     const { t } = useTranslation()
     return (
-        <div className="CurrentWeather">
-            <div className="CurrentWeatherTempAndFeelsLike">
-                <div className="CurrentWeatherRealTemp">
+        <div className={s.CurrentWeather}>
+            <div className={s.CurrentWeatherTempAndFeelsLike}>
+                <div className={s.CurrentWeatherRealTemp}>
                     <ThermometerIcon size={WeatherIconSize.S} />
                     {Math.round(current.temp)}°
                 </div>
@@ -71,11 +71,11 @@ const CurrentWeather: React.FC<{ current: OpenWeatherCurrentPart; full: boolean 
                 <Wind wind_speed={current.wind_speed} wind_deg={current.wind_deg} expanded directionIcon />
                 <SunRiseAndSet sunrise={current.sunrise} sunset={current.sunset} />
             </div>
-            <div className="CurrentWeatherTitle">
+            <div className={s.CurrentWeatherTitle}>
                 <h3>{t(current.weather[0].main)}</h3>
                 {full && <p>{current.weather[0].description}</p>}
             </div>
-            <div className="CurrentWeatherAnimatedIcon ">
+            <div className={s.CurrentWeatherAnimatedIcon}>
                 <AnimatedWeatherIcon icon={current.weather[0].icon} size={WeatherIconSize.L} />
             </div>
         </div>

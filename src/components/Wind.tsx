@@ -1,5 +1,6 @@
 import { CursorIcon, WindIcon } from './WeatherIcon'
 import { useTranslation } from 'react-i18next'
+import s from './CurrentWeather.module.css'
 
 const Wind: React.FC<{
     wind_speed: number
@@ -10,13 +11,13 @@ const Wind: React.FC<{
 }> = ({ wind_speed, wind_deg, icon = true, directionIcon = false, expanded = false }) => {
     const { t } = useTranslation()
     const windInKmH = Math.round(wind_speed * (3600 / 1000))
-    if (windInKmH === 0) return <div className="CurrentWeatherWind">&nbsp;</div>
+    if (windInKmH === 0) return <div className={s.CurrentWeatherWind}>&nbsp;</div>
     return (
-        <div className="CurrentWeatherWind">
-            {icon && <WindIcon className="CurrentWeatherIcon" />}
+        <div className={s.CurrentWeatherWind}>
+            {icon && <WindIcon className={s.CurrentWeatherIcon} />}
             {expanded && <>{t('wind')} :</>}
             {windInKmH} km/h
-            {directionIcon && <CursorIcon rotation={wind_deg + 180} className="CurrentWeatherWindCursor" />}
+            {directionIcon && <CursorIcon rotation={wind_deg + 180} className={s.CurrentWeatherWindCursor} />}
         </div>
     )
 }

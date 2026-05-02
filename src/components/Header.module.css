@@ -1,16 +1,16 @@
-a h1,
-a:hover h1 {
+.title h1,
+.title:hover h1 {
     color: var(--main-fg-color);
 }
 
-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1em;
 }
 
-header h1 {
+.header h1 {
     flex: 1;
 }
 
@@ -30,16 +30,16 @@ header h1 {
     height: 64px;
 }
 
-header .headerIcons {
+.headerIcons {
     display: flex;
     align-items: center;
 }
 
-header .headerIcon {
+.headerIcon {
     padding: 0 0.5em;
 }
 
-header .headerRefreshIcon {
+.headerRefreshIcon {
     cursor: pointer;
     border: 1px solid white;
     border-radius: 50%;
@@ -47,14 +47,14 @@ header .headerRefreshIcon {
 }
 
 @media (prefers-color-scheme: dark) {
-    a h1,
-    a:hover h1 {
+    .title h1,
+    .title:hover h1 {
         color: var(--main-bg-color);
     }
 }
 
 @media (max-width: 600px) {
-    header {
+    .header {
         gap: 0.5em;
     }
 

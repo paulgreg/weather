@@ -1,4 +1,4 @@
-import './DailyWeather.css'
+import s from './DailyWeather.module.css'
 import { OpenWeatherDailyPart, OpenWeatherDailyTemp } from '../types/OpenWeatherTypes'
 import { DropletIcon, StaticWeatherIcon, ThermometerIcon, WeatherIconSize } from './WeatherIcon'
 import { formatDate } from '../utils/Date'
@@ -9,7 +9,7 @@ const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
     const { t } = useTranslation()
     const { day, date, month } = formatDate(t, dt, idx)
     return (
-        <div className="DailyWeathertItemDay">
+        <div className={s.DailyWeathertItemDay}>
             <div>{day}</div>
             <div>
                 {date}/{month}
@@ -19,11 +19,11 @@ const Day: React.FC<{ dt: number; idx: number }> = ({ dt, idx }) => {
 }
 const Temp: React.FC<{ temp: OpenWeatherDailyTemp }> = ({ temp }) => (
     <>
-        <span className="DailyWeatherTemp DailyWeatherTempNight">
+        <span className={`${s.DailyWeatherTemp} ${s.DailyWeatherTempNight}`}>
             <ThermometerIcon />
             {Math.round(temp.night)}°
         </span>
-        <span className="DailyWeatherTemp DailyWeatherTempDay">
+        <span className={`${s.DailyWeatherTemp} ${s.DailyWeatherTempDay}`}>
             <ThermometerIcon high />
             {Math.round(temp.day)}°
         </span>
@@ -35,7 +35,7 @@ const Rain: React.FC<{ rain?: number }> = ({ rain }) => {
     if (mm > 0) {
         return (
             <span>
-                <DropletIcon className="DailyWeatherRainIcon" size={WeatherIconSize.XS} />
+                <DropletIcon className={s.DailyWeatherRainIcon} size={WeatherIconSize.XS} />
                 {mm}mm
             </span>
         )
@@ -52,9 +52,9 @@ const DailyWeather: React.FC<{
     return (
         <div>
             <h2>{t('dayByDay')}</h2>
-            <div className={`${listClassName} DailyWeatherList`}>
+            <div className={`${listClassName} ${s.DailyWeatherList}`}>
                 {daily.map((daily, idx) => (
-                    <div className={`${itemClassName} DailyWeatherItem`} key={daily.dt}>
+                    <div className={`${itemClassName} ${s.DailyWeatherItem}`} key={daily.dt}>
                         <Day dt={daily.dt} idx={idx} />
                         <Temp temp={daily.temp} />
                         <Wind wind_speed={daily.wind_speed} wind_deg={daily.wind_deg} />
