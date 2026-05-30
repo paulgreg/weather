@@ -29,7 +29,7 @@ const UVIndex: React.FC<{ uvi: number }> = ({ uvi }) => {
         <div className={s.CurrentWeatherUV}>
             <SunIcon className={s.CurrentWeatherIcon} />
             UV:{' '}
-            <span className={`${s.CurrentWeatherUVValue} ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(t, uvi)}</span>A
+            <span className={`${s.CurrentWeatherUVValue} ${uvIndexToClassName(uvi)}`}>{uvIndexToLabel(t, uvi)}</span>
         </div>
     )
 }
