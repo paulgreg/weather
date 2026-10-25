@@ -94,7 +94,7 @@ const SearchCity = () => {
                     ...country,
                     ...city,
                 })
-                navigate('/')
+                navigate('/', { viewTransition: true })
             }
         },
         [country, city, onAddCity, navigate]
@@ -107,7 +107,7 @@ const SearchCity = () => {
                 myposition: true,
                 label: t('myPosition'),
             })
-            navigate('/')
+            navigate('/', { viewTransition: true })
         },
         [onAddCity, t, navigate]
     )

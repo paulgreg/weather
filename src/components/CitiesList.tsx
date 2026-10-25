@@ -14,7 +14,7 @@ const CitiesList = () => {
         <section>
             {cities.length === 0 && (
                 <div className="instructions">
-                    <Link to="/add" className="button">
+                    <Link to="/add" viewTransition className="button">
                         {t('addCity')}
                     </Link>
                 </div>

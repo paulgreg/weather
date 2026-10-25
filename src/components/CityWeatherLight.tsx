@@ -49,7 +49,7 @@ const CityWeatherLight: React.FC<CityWeatherLightItemType> = ({ city, onDeleteCi
     }, [city, apiKey, refreshKey, i18n.language, t])
 
     const nativageToWeatherFull = useCallback(() => {
-        navigate(`/city/${city.label}`)
+        navigate(`/city/${city.label}`, { viewTransition: true })
     }, [city.label, navigate])
 
     const navigageToOsmUrl = useCallback(

@@ -14,7 +14,7 @@ const CitiesRoute = () => {
                     <p>{t('apiKeyIntro')}</p>
                     <p>
                         {' '}
-                        <Link to="/config" className="button">
+                        <Link to="/config" viewTransition className="button">
                             {t('apiKeyLink')}
                         </Link>
                     </p>

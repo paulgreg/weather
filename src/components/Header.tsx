@@ -17,17 +17,17 @@ const Header = () => {
 
     return (
         <header className={s.header}>
-            <Link to="/" className={s.title}>
+            <Link to="/" viewTransition className={s.title}>
                 <span className={s.logo}>
                     <CloudIcon />
                 </span>
                 <h1>{t('title')}</h1>
             </Link>
             <div className={s.headerIcons}>
-                <Link to="/config" title={t('config')} className={s.headerIcon}>
+                <Link to="/config" viewTransition title={t('config')} className={s.headerIcon}>
                     <WrenchIcon />
                 </Link>
-                <Link to="/add" title={t('addCity')} className={s.headerIcon}>
+                <Link to="/add" viewTransition title={t('addCity')} className={s.headerIcon}>
                     <PlusIcon />
                 </Link>
                 <span onClick={onRefreshClick} className={s.headerIcon} style={{ marginTop: '2px' }}>

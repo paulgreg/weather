@@ -8,7 +8,7 @@ const BackButton = () => {
     const { t } = useTranslation()
     return (
         <div className={s.back}>
-            <Link to="/" className={`${s.backButton} button`}>
+            <Link to="/" viewTransition className={`${s.backButton} button`}>
                 <BackIcon className={s.backButtonIcon} />
                 {t('back')}
             </Link>
