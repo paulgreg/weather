@@ -47,19 +47,16 @@ const SearchCity = () => {
         })()
     }, [t])
 
-    const loadCities = useCallback(
-        async (countryCode: string) => {
-            setIsLoadingCities(true)
-            const cities = await request<LightCity[]>(`cities/${countryCode}.json`, t('errorReload'))
-            setCities(cities)
-            setIsLoadingCities(false)
-        },
-        [t]
-    )
-
     useEffect(() => {
-        if (country) loadCities(country.code)
-    }, [country, loadCities])
+        if (country) {
+            ;(async () => {
+                setIsLoadingCities(true)
+                const cities = await request<LightCity[]>(`cities/${country.code}.json`, t('errorReload'))
+                setCities(cities)
+                setIsLoadingCities(false)
+            })()
+        }
+    }, [country, t])
 
     const onCountryChange = useCallback((newValue: SingleValue<CountryOption>) => {
         if (newValue) {
